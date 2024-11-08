@@ -1,0 +1,29 @@
+:root {
+  --aether-nexus-c-dark: #191813;
+  --aether-nexus-c-faint: #c9c7b8;
+  --aether-nexus-c-beige: #b5b3a4;
+  --aether-nexus-c-tan: #444444;
+  --aether-nexus-c-white: #ffffff;
+  --aether-nexus-c-black: #000000;
+  --aether-nexus-c-groove: #eeede0;
+}
+
+.theme-dark {
+  --aether-nexus-c-dark: #c9c7b8;
+  --aether-nexus-c-faint: #191813;
+  --aether-nexus-c-beige: #444444;
+  --aether-nexus-c-tan: #b5b3a4;
+  --aether-nexus-c-white: #000000;
+  --aether-nexus-c-black: #ffffff;
+  --aether-nexus-c-groove: #11121f;
+}
+
+$c-white: var(--aether-nexus-c-white);
+$c-black: var(--aether-nexus-c-black);
+
+$c-dark: var(--aether-nexus-c-dark);
+$c-faint: var(--aether-nexus-c-faint);
+$c-beige: var(--aether-nexus-c-beige);
+$c-tan: var(--aether-nexus-c-tan);
+
+$c-groove: var(--aether-nexus-c-groove);

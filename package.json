@@ -1,0 +1,18 @@
+{
+  "name": "aether-nexus",
+  "version": "3.0.0",
+  "description": "CSS compiler for the AetherNexus system",
+  "scripts": {
+    "build": "sass src/scss/aether-nexus.scss css/aether-nexus.css --style=expanded --no-source-map",
+    "watch": "sass src/scss/aether-nexus.scss css/aether-nexus.css --style=expanded --source-map --watch"
+  },
+  "browserslist": [
+    "last 3 versions"
+  ],
+  "author": "Asacolips",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "sass": "^1.53.0"
+  }
+}
