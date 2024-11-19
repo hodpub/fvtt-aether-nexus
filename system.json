@@ -2,19 +2,12 @@
   "id": "aether-nexus",
   "title": "Aether Nexus",
   "description": "The Aether Nexus system for FoundryVTT!",
+  "version": "1.0.0",
   "authors": [
     {
-      "name": "Asacolips",
-      "discord": "asacolips"
-    },
-    {
-      "name": "Lee Talman",
-      "discord": ".pizzaWizard"
-    },
-    {
-      "name": "Joseph M.",
-      "url": "https://joseph-meehan.carrd.co/",
-      "discord": "chaosos"
+      "name": "Cussa Mitre",
+      "url": "https://hodpub.com",
+      "discord": "CussaMitre"
     }
   ],
   "documentTypes": {
@@ -56,7 +49,6 @@
       "thumbnail": "systems/aether-nexus/assets/anvil-impact.png"
     }
   ],
-  "version": "3.0.0",
   "compatibility": {
     "minimum": "12.328",
     "verified": "12.328"

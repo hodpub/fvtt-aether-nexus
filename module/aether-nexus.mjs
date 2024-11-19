@@ -15,7 +15,7 @@ import * as models from './data/_module.mjs';
 
 // Add key classes to the global scope so they can be more easily used
 // by downstream developers
-globalThis.aether-nexus = {
+globalThis.aethersNexus = {
   documents: {
     AetherNexusActor,
     AetherNexusItem,

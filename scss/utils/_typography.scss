@@ -1,0 +1,32 @@
+@font-face {
+  font-family: "Bebas";
+  src: url(../fonts/BebasNeue-Regular.otf);
+}
+
+@font-face {
+  font-family: "Bebas";
+  src: url(../fonts/BebasNeue-Thin.otf);
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: "Bebas";
+  src: url(../fonts/BebasNeue-Bold.otf);
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url(../fonts/Montserrat-VariableFont_wght.ttf);
+  font-weight: 100 900;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url(../fonts/Montserrat-Italic-VariableFont_wght.ttf);
+  font-style: italic;
+  font-weight: 100 900;
+}
+
+$font-primary: 'Montserrat', sans-serif;
+$font-secondary: 'Bebas', sans-serif;
