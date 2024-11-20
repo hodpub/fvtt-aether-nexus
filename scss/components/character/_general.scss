@@ -1,0 +1,64 @@
+%energyInput {
+  color: black;
+  background: $inputBackground;
+  position: absolute;
+  font-size: x-large;
+  font-family: 'Bebas';
+  font-weight: bold;
+  text-align: center;
+  width: 60px;
+  height: 50px;
+}
+
+input[name="system.energy.value"] {
+  @extend %diceInput;
+  top: 172px;
+  left: 463px;
+  rotate: 0deg;
+}
+
+input[name="system.energy.max"] {
+  @extend %diceInput;
+  top: 172px;
+  left: 539px;
+  rotate: 0deg;
+}
+
+%bottomInput {
+  color: black;
+  background: $inputBackground;
+  position: absolute;
+  font-family: 'Bebas';
+  font-weight: bold;
+  width: 120px;
+}
+
+%bottomInputRight {
+  @extend %bottomInput;
+  width: 80px;
+}
+
+input[name="name"] {
+  @extend %bottomInput;
+  top: 674px;
+  left: 462px;
+}
+
+input[name="system.pronouns"] {
+  @extend %bottomInputRight;
+  top: 674px;
+  left: 630px;
+}
+
+input[name="system.banner"] {
+  @extend %bottomInput;
+  top: 717px;
+  left: 615px;
+}
+
+
+input[name="system.moniker"] {
+  @extend %bottomInput;
+  top: 717px;
+  left: 462px;
+}

@@ -16,10 +16,10 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
 
   /** @override */
   static DEFAULT_OPTIONS = {
-    classes: ['aether-nexus', 'actor'],
+    classes: ['aether-nexus', 'actor', 'character'],
     position: {
-      width: 600,
-      height: 600,
+      width: 1056,
+      height: 816,
     },
     actions: {
       onEditImage: this._onEditImage,
@@ -51,6 +51,15 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     biography: {
       template: 'systems/aether-nexus/templates/actor/biography.hbs',
     },
+    aspects: {
+      template: 'systems/aether-nexus/templates/actor/aspects.hbs',
+    },
+    dice: {
+      template: 'systems/aether-nexus/templates/actor/dice.hbs',
+    },
+    general: {
+      template: 'systems/aether-nexus/templates/actor/general.hbs',
+    },
     gear: {
       template: 'systems/aether-nexus/templates/actor/gear.hbs',
     },
@@ -66,9 +75,10 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     // Not all parts always render
-    options.parts = ['header', 'tabs', 'biography'];
+    options.parts = ['biography', 'aspects', 'dice','general'];//['header', 'tabs', 'biography'];
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
+    return;
     // Control which parts show based on document subtype
     switch (this.document.type) {
       case 'character':

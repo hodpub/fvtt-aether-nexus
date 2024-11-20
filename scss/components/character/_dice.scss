@@ -1,0 +1,55 @@
+%diceInput {
+  color: black;
+  background: $inputBackground;
+  position: absolute;
+  font-size: x-large;
+  font-family: 'Bebas';
+  font-weight: bold;
+  text-align: center;
+  width: 60px;
+  height: 50px;
+}
+
+
+input[name="system.dice.damage.value"] {
+  @extend %diceInput;
+  top: 253px;
+  left: 343px;
+  rotate: -47deg;
+}
+
+input[name="system.dice.damage.max"] {
+  @extend %diceInput;
+  top: 215px;
+  left: 397px;
+  rotate: -25deg;
+}
+
+input[name="system.dice.nexus.value"] {
+  @extend %diceInput;
+  top: 240px;
+  left: 478px;
+  rotate: 0deg;
+}
+
+input[name="system.dice.nexus.max"] {
+  @extend %diceInput;
+  top: 264px;
+  left: 518px;
+  rotate: 0deg;
+}
+
+
+input[name="system.dice.armor.value"] {
+  @extend %diceInput;
+  top: 213px;
+  left: 606px;
+  rotate: 37deg;
+}
+
+input[name="system.dice.armor.max"] {
+  @extend %diceInput;
+  top: 255px;
+  left: 655px;
+  rotate: 48deg;
+}
