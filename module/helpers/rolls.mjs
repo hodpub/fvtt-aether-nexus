@@ -1,12 +1,56 @@
 const RollTemplate = "systems/aether-nexus/templates/chat/roll.hbs";
 
 export async function rollAspect(actor, dataset) {
-  let mod = 0;
-  let roll = await new Roll(`1d20 + ${mod}`).evaluate();
+
+  function _getRollInfo(html, rollType) {
+    return [rollType, html[0].querySelector("#modifier").value];
+  }
+
+  let [rollType, modifier] = await Dialog.wait({
+    title: "Rolls",
+    content: `
+    <form><div class="form-group">
+      <label>Modifier</label>
+      <div class="form-fields">
+        <input id="modifier" type="number" value="0"></input>
+      </div>
+    </div></form>`,
+    buttons: {
+      hindrance: {
+        icon: `<i class="fas fa-poo-storm"></i>`,
+        label: "Hindrance",
+        callback: async (html) => _getRollInfo(html, -1)
+      },
+      normal: {
+        icon: `<i class="fas fa-poo-storm"></i>`,
+        label: "Normal",
+        callback: async (html) => _getRollInfo(html, 0)
+      },
+      favor: {
+        icon: `<i class="fas fa-poo-storm"></i>`,
+        label: "Favor",
+        callback: async (html) => _getRollInfo(html, 1)
+      },
+    },
+    default: "normal",
+    render: (html) => html[0].querySelector("#modifier").focus()
+  }, { width: 400 });
+
+  let mod = parseInt(modifier);
+  let rollTypeText = "";
+  let formula = "1d20";
+  if (rollType == -1) {
+    formula = "2d20kh";
+    rollTypeText = "Hidrance ";
+  }
+  else if (rollType == 1) {
+    formula = "2d20kl"
+    rollTypeText = "Favor ";
+  }
+  let roll = await new Roll(`${formula} + ${mod}`).evaluate();
   let target = actor.system.aspects[dataset.aspect];
 
   let success = roll.total < target;
-
 
   let chatData = {
     user: game.user.id,
@@ -37,7 +81,7 @@ export async function rollAspect(actor, dataset) {
 
   const templateData = {
     // type: CONST.CHAT_MESSAGE_STYLES.ROLL,
-    flavor: `D20${modString} / ${target} ${dataset.aspect}`,
+    flavor: `${rollTypeText}D20${modString} / ${target} ${dataset.aspect}`,
     user: chatData.user,
     tooltip: await roll.getTooltip(),
     total: roll.total,// isPrivate ? "?" : Math.round(roll.total * 100) / 100,
