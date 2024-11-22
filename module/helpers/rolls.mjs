@@ -1,7 +1,7 @@
 const RollTemplate = "systems/aether-nexus/templates/chat/roll.hbs";
 
 export async function rollAspect(actor, dataset) {
-  let mod = -2;
+  let mod = 0;
   let roll = await new Roll(`1d20 + ${mod}`).evaluate();
   let target = actor.system.aspects[dataset.aspect];
 
@@ -23,13 +23,25 @@ export async function rollAspect(actor, dataset) {
   else if (mod && mod < 0)
     modString = ` - ${Math.abs(mod)}`;
 
+  let rollResult = success ? "success" : "failure";
+  const diceRolled = roll.terms[0].values[0];
+  const criticalSuccessValue = 1; // Get from actor because of weapons that change that
+  const criticalFailureValue = 20; // Get from actor
+
+  if (diceRolled <= criticalSuccessValue) {
+    rollResult = "Critical Success";
+  }
+  else if (diceRolled >= criticalFailureValue) {
+    rollResult = "Critical Failure";
+  }
+
   const templateData = {
     // type: CONST.CHAT_MESSAGE_STYLES.ROLL,
     flavor: `D20${modString} / ${target} ${dataset.aspect}`,
     user: chatData.user,
     tooltip: await roll.getTooltip(),
     total: roll.total,// isPrivate ? "?" : Math.round(roll.total * 100) / 100,
-    rollResult: success ? "success" : "failure",// isPrivate ? "?" : rollResult.textKey,
+    rollResult: rollResult,// isPrivate ? "?" : rollResult.textKey,
     cssClass: success ? "success" : "failure",// rollResult.cssClass,
     // damageKey: isPrivate ? "?" : rollResult.resultKey,
     // damage: isPrivate ? null : rollResult.resultValue,
