@@ -27,7 +27,7 @@ input[name="system.dice.damage.max"] {
 
 input[name="system.dice.nexus.value"] {
   @extend %diceInput;
-  top: 240px;
+  top: 244px;
   left: 478px;
   rotate: 0deg;
 }
@@ -35,7 +35,7 @@ input[name="system.dice.nexus.value"] {
 input[name="system.dice.nexus.max"] {
   @extend %diceInput;
   top: 264px;
-  left: 518px;
+  left: 521px;
   rotate: 0deg;
 }
 
