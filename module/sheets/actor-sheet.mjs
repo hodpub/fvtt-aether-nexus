@@ -1,4 +1,5 @@
 import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
+import { rollAspect } from '../helpers/rolls.mjs';
 
 const { api, sheets } = foundry.applications;
 
@@ -401,6 +402,8 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       case 'item':
         const item = this._getEmbeddedDocument(target);
         if (item) return item.roll();
+      case 'aspects':
+        return rollAspect(this.actor, dataset);
     }
 
     // Handle rolls that supply the formula directly.

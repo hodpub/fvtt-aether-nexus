@@ -1,0 +1,27 @@
+<div class="aether-nexus">
+  <div class="dice-roll">
+    {{#if flavor}}
+    <div class="dice-flavor">{{{flavor}}}</div>
+    {{/if}}
+    <div class="dice-result">
+      {{{tooltip}}}
+      <h4 class="dice-total {{cssClass}}">
+        {{!-- {{#if roll.countSuccess}} --}}
+        {{localize rollResult}}: {{total}}
+        {{!-- {{/if}} --}}
+        {{#if damage}}
+        <label>{{localize damageKey}}: {{damage}}</label>
+        {{/if}}
+        {{#if (and data.special damage)}}
+        <br>
+        <label>{{data.special}}</label>
+        {{/if}}
+        {{#if (eq rollStyle -1)}}
+        <br>
+        <label class="failure">{{localize "TRUED6.DiceRoll.DiscardedByDisadvantage"}}</label>
+        {{/if}}
+        <label class="advantage success" style="display: none;">{{localize "TRUED6.DiceRoll.DiscardedByAdvantage"}}</label>
+      </h4>
+    </div>
+  </div>
+</div>

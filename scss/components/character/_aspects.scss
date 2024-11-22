@@ -1,0 +1,77 @@
+%inputAspect {
+  color: black;
+  background: $inputBackground;
+  position: absolute;
+  font-size: xx-large;
+  font-family: 'Bebas';
+  font-weight: bold;
+  text-align: center;
+  width: 60px;
+  height: 50px;
+}
+
+input[name="system.aspects.flux"] {
+  @extend %inputAspect;
+  top: 519px;
+  left: 433px;
+  rotate: 26deg;
+}
+
+input[name="system.aspects.stone"] {
+  @extend %inputAspect;
+  top: 422px;
+  left: 348px;
+  rotate: 71deg;
+}
+
+input[name="system.aspects.aether"] {
+  @extend %inputAspect;
+  top: 522px;
+  left: 567px;
+  rotate: -26deg;
+}
+
+input[name="system.aspects.hearth"] {
+  @extend %inputAspect;
+  top: 422px;
+  left: 653px;
+  rotate: -72deg;
+}
+
+// ROLL SPANS
+
+%spanAspect {
+  background: $inputBackground;
+  display: block;
+  width: 60px;
+  height: 30px;
+  position: absolute;
+}
+
+span[name="roll.aspects.stone"] {
+  @extend %spanAspect;
+  top: 445px;
+  left: 311px;
+  rotate: 71deg;
+}
+
+span[name="roll.aspects.flux"] {
+  @extend %spanAspect;
+  top: 565px;
+  left: 416px;
+  rotate: 26deg;
+}
+
+span[name="roll.aspects.aether"] {
+  @extend %spanAspect;
+  top: 568px;
+  left: 584px;
+  rotate: -26deg;
+}
+
+span[name="roll.aspects.hearth"] {
+  @extend %spanAspect;
+  top: 444px;
+  left: 691px;
+  rotate: -72deg;
+}
