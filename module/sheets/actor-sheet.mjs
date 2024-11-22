@@ -396,6 +396,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
   static async _onRoll(event, target) {
     event.preventDefault();
     const dataset = target.dataset;
+    console.log(event.shiftKey);
 
     // Handle item rolls.
     switch (dataset.rollType) {
@@ -403,7 +404,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
         const item = this._getEmbeddedDocument(target);
         if (item) return item.roll();
       case 'aspects':
-        return rollAspect(this.actor, dataset);
+        return rollAspect(this.actor, dataset, !event.shiftKey);
     }
 
     // Handle rolls that supply the formula directly.

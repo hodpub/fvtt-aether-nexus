@@ -1,40 +1,42 @@
 const RollTemplate = "systems/aether-nexus/templates/chat/roll.hbs";
 
-export async function rollAspect(actor, dataset) {
+export async function rollAspect(actor, dataset, showDialog) {
 
   function _getRollInfo(html, rollType) {
     return [rollType, html[0].querySelector("#modifier").value];
   }
 
-  let [rollType, modifier] = await Dialog.wait({
-    title: "Rolls",
-    content: `
+  let [rollType, modifier] = [0, 0];
+  if (showDialog)
+    [rollType, modifier] = await Dialog.wait({
+      title: "Rolls",
+      content: `
     <form><div class="form-group">
       <label>Modifier</label>
       <div class="form-fields">
         <input id="modifier" type="number" value="0"></input>
       </div>
     </div></form>`,
-    buttons: {
-      hindrance: {
-        icon: `<i class="fas fa-poo-storm"></i>`,
-        label: "Hindrance",
-        callback: async (html) => _getRollInfo(html, -1)
+      buttons: {
+        hindrance: {
+          icon: `<i class="fas fa-poo-storm"></i>`,
+          label: "Hindrance",
+          callback: async (html) => _getRollInfo(html, -1)
+        },
+        normal: {
+          icon: `<i class="fas fa-poo-storm"></i>`,
+          label: "Normal",
+          callback: async (html) => _getRollInfo(html, 0)
+        },
+        favor: {
+          icon: `<i class="fas fa-poo-storm"></i>`,
+          label: "Favor",
+          callback: async (html) => _getRollInfo(html, 1)
+        },
       },
-      normal: {
-        icon: `<i class="fas fa-poo-storm"></i>`,
-        label: "Normal",
-        callback: async (html) => _getRollInfo(html, 0)
-      },
-      favor: {
-        icon: `<i class="fas fa-poo-storm"></i>`,
-        label: "Favor",
-        callback: async (html) => _getRollInfo(html, 1)
-      },
-    },
-    default: "normal",
-    render: (html) => html[0].querySelector("#modifier").focus()
-  }, { width: 400 });
+      default: "normal",
+      render: (html) => html[0].querySelector("#modifier").focus()
+    }, { width: 400 });
 
   let mod = parseInt(modifier);
   let rollTypeText = "";
