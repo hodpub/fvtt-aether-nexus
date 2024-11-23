@@ -130,10 +130,11 @@ function getResourceModifier(actor, dataset) {
 
 function getResourceAdditional(actor, dataset) {
 
-  if (dataset.dice == "nexus")
-    //TODO: copy the Nexus Surge to additional
-    return `<h4 class="dice-total">Nexus Surge Activated</h4><div class="additional-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu lorem tincidunt, ultrices metus at, malesuada libero. Mauris a justo mi. </div>`;
+  if (dataset.dice == "nexus") {
+    const nexusSurge = actor.items.filter(it => it.type == "kin")[0];
+    return `<h4 class="dice-total">Nexus Surge Activated<br>${nexusSurge.system.nexusSurgeName}</h4><div class="additional-description">${nexusSurge.system.nexusSurge}</div>`;
 
+  }
   if (dataset.dice == "armor")
     return `<h4 class="dice-total">Parry Activated</h4><div class="additional-description">Gain a free melee attack or ranged attack to be used immediately.</div>`;
 

@@ -1,10 +1,7 @@
 %energyInput {
-  color: black;
-  background: $inputBackground;
+  @extend %inputEmphasis;
   position: absolute;
   font-size: x-large;
-  font-family: 'Bebas';
-  font-weight: bold;
   text-align: center;
   width: 60px;
   height: 50px;
@@ -25,11 +22,8 @@ input[name="system.energy.max"] {
 }
 
 %bottomInput {
-  color: black;
-  background: $inputBackground;
+  @extend %inputEmphasis;
   position: absolute;
-  font-family: 'Bebas';
-  font-weight: bold;
   width: 120px;
 }
 
@@ -56,9 +50,31 @@ input[name="system.banner"] {
   left: 615px;
 }
 
-
 input[name="system.moniker"] {
   @extend %bottomInput;
   top: 717px;
   left: 462px;
+}
+
+input[name="kin.name"] {
+  @extend %bottomInput;
+  top: 697px;
+  left: 462px;
+}
+
+div[name="kin.nexusSurge"] {
+  @extend %divInfo;
+  top: 86px;
+  left: 686px;
+  width: 330px;
+  height: 49px;
+  overflow: auto;
+}
+
+input[name="kin.nexusSurgeName"] {
+  @extend %bottomInput;
+  font-size: large;
+  top: 63px;
+  left: 761px;
+  width: 200px;
 }

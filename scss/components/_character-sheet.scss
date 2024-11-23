@@ -3,7 +3,25 @@
   background-size: cover;
 
   $inputBackground: rgba(121, 112, 126, 0.5);
-  // $inputBackground: unset;
+  $inputBackground: unset;
+
+  %divInfo {
+    background: $inputBackground;
+    position: absolute;
+
+    p {
+      color: black;
+      margin: 0;
+    }
+  }
+
+  %inputEmphasis {
+    color: black;
+    background: $inputBackground;
+    font-family: 'Bebas';
+    font-weight: bold;
+    border: 0;
+  }
 
   .window-content {
     backdrop-filter: unset;
@@ -21,4 +39,5 @@
   @import 'character/aspects';
   @import 'character/dice';
   @import 'character/general';
+  @import 'character/traits';
 }

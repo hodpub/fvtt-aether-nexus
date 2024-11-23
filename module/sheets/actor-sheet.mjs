@@ -61,6 +61,9 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     general: {
       template: 'systems/aether-nexus/templates/actor/general.hbs',
     },
+    traits:{
+      template: 'systems/aether-nexus/templates/actor/traits.hbs',
+    },
     gear: {
       template: 'systems/aether-nexus/templates/actor/gear.hbs',
     },
@@ -76,7 +79,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     // Not all parts always render
-    options.parts = ['biography', 'aspects', 'dice', 'general'];//['header', 'tabs', 'biography'];
+    options.parts = ['biography', 'aspects', 'dice', 'general', 'traits'];//['header', 'tabs', 'biography'];
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
     return;
@@ -126,6 +129,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       case 'features':
       case 'spells':
       case 'gear':
+      case 'traits':
         context.tab = context.tabs[partId];
         break;
       case 'biography':
@@ -234,6 +238,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       8: [],
       9: [],
     };
+    const traits = [];
 
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
@@ -251,6 +256,9 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
           spells[i.system.spellLevel].push(i);
         }
       }
+      else if (i.type == "kin") {
+        context.kin = i;
+      }
     }
 
     for (const s of Object.values(spells)) {
@@ -261,6 +269,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     context.gear = gear.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.spells = spells;
+    context.traits = traits;
   }
 
   /**
@@ -660,6 +669,23 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
    */
   async _onDropItemCreate(itemData, event) {
     itemData = itemData instanceof Array ? itemData : [itemData];
+    if (itemData.length == 1 && itemData[0].type == "kin")
+      return this._onDropKinCreate(itemData, event);
+    return this.actor.createEmbeddedDocuments('Item', itemData);
+  }
+
+  async _onDropKinCreate(itemData, event) {
+    let currentKin = this.actor.items.filter(it => it.type == "kin")[0];
+    if (currentKin != undefined) {
+      let confirmation = await Dialog.confirm({
+        title: 'Replace Kin',
+        content: `<p>This actor already has a kin. Do you want to replace it?</p>`,
+      });
+      if (!confirmation)
+        return;
+
+      await currentKin.delete();
+    }
     return this.actor.createEmbeddedDocuments('Item', itemData);
   }
 

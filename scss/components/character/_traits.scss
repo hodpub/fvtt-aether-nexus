@@ -1,0 +1,27 @@
+div[name="traits"] {
+  @extend %divInfo;
+  left: 41px;
+  top: 170px;
+  width: 256px;
+  height: 291px;
+  overflow: auto;
+
+  div.trait {
+    &:not(:last-child) {
+      padding-bottom: 5px;
+      border-bottom: 1px solid black;
+      margin-bottom: 5px;
+    }
+  }
+
+  input {
+    @extend %inputEmphasis;
+    font-size: large;
+    margin-bottom: -10px;
+  }
+
+  p {
+    padding: 0 10px;
+    text-align: justify;
+  }
+}
