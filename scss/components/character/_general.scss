@@ -56,6 +56,7 @@ input[name="system.moniker"] {
   left: 462px;
 }
 
+// KIN
 input[name="kin.name"] {
   @extend %bottomInput;
   top: 697px;
@@ -79,7 +80,7 @@ input[name="kin.nexusSurgeName"] {
   width: 200px;
 }
 
-
+// FRAME
 input[name="frame.name"] {
   @extend %bottomInput;
   top: 697px;
@@ -99,4 +100,12 @@ label[name="frame.ability2"] {
   font-size: large;
   top: 229px;
   left: 815px;
+}
+
+//AP
+input[name="system.ap"] {
+  @extend %energyInput;
+  text-align: left;
+  top: 131px;
+  left: 335px;
 }

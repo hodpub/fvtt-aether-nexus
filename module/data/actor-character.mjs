@@ -16,6 +16,7 @@ export default class AetherNexusCharacter extends AetherNexusActorBase {
     schema.pronouns = new fields.StringField();
     schema.banner = new fields.StringField();
     schema.moniker = new fields.StringField();
+    schema.ap = new fields.NumberField({ required: true, nullable: false, integer: true, initial: 0 })
 
     return schema;
   }
