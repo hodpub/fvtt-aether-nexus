@@ -10,7 +10,9 @@ export default class AetherNexusKin extends AetherNexusItemBase {
     const fields = foundry.data.fields;
     const schema = super.defineSchema();
 
+    schema.uniqueTraitName = new fields.StringField({ required: true });
     schema.uniqueTrait = new fields.HTMLField();
+    schema.nexusSurgeName = new fields.StringField({ required: true });
     schema.nexusSurge = new fields.HTMLField();
 
     return schema;
