@@ -1,3 +1,4 @@
+import { sendToChat } from '../helpers/chat.mjs';
 import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import { rollAspect, rollResource } from '../helpers/rolls.mjs';
 
@@ -61,7 +62,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     general: {
       template: 'systems/aether-nexus/templates/actor/general.hbs',
     },
-    traits:{
+    traits: {
       template: 'systems/aether-nexus/templates/actor/traits.hbs',
     },
     gear: {
@@ -259,6 +260,9 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       else if (i.type == "kin") {
         context.kin = i;
       }
+      else if (i.type == "frame") {
+        context.frame = i;
+      }
     }
 
     for (const s of Object.values(spells)) {
@@ -415,7 +419,8 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
         return rollAspect(this.actor, dataset, !event.shiftKey);
       case 'dice':
         return rollResource(this.actor, dataset);
-
+      case 'label-chat':
+        return sendToChat(this.actor, target);
     }
 
     // Handle rolls that supply the formula directly.
@@ -671,6 +676,8 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     itemData = itemData instanceof Array ? itemData : [itemData];
     if (itemData.length == 1 && itemData[0].type == "kin")
       return this._onDropKinCreate(itemData, event);
+    else if (itemData.length == 1 && itemData[0].type == "frame")
+      return this._onDropFrameCreate(itemData, event);
     return this.actor.createEmbeddedDocuments('Item', itemData);
   }
 
@@ -687,6 +694,50 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       await currentKin.delete();
     }
     return this.actor.createEmbeddedDocuments('Item', itemData);
+  }
+
+  async _onDropFrameCreate(itemData, event) {
+    let currentFrame = this.actor.items.filter(it => it.type == "frame")[0];
+    let aspects = {
+      stone: this.actor.system.aspects.stone,
+      flux: this.actor.system.aspects.flux,
+      aether: this.actor.system.aspects.aether,
+      hearth: this.actor.system.aspects.hearth
+    };
+    if (currentFrame != undefined) {
+      let confirmation = await Dialog.confirm({
+        title: 'Replace Frame',
+        content: `<p>This actor already has a Frame. Do you want to replace it?</p>`,
+      });
+      if (!confirmation)
+        return;
+
+      aspects.stone -= currentFrame.system.aspects.stone;
+      aspects.flux -= currentFrame.system.aspects.flux;
+      aspects.aether -= currentFrame.system.aspects.aether;
+      aspects.hearth -= currentFrame.system.aspects.hearth;
+
+      await currentFrame.delete();
+    }
+    const framesCreated = await this.actor.createEmbeddedDocuments('Item', itemData);
+    const frameCreated = framesCreated[0];
+    console.log(frameCreated);
+
+    await this.actor.update({
+      "system.aspects.stone": aspects.stone + frameCreated.system.aspects.stone,
+      "system.aspects.flux": aspects.flux + frameCreated.system.aspects.flux,
+      "system.aspects.aether": aspects.aether + frameCreated.system.aspects.aether,
+      "system.aspects.hearth": aspects.hearth + frameCreated.system.aspects.hearth,
+      "system.energy.value": frameCreated.system.energy.max,
+      "system.energy.max": frameCreated.system.energy.max,
+      "system.dice.damage.value": frameCreated.system.dice.damage.max,
+      "system.dice.damage.max": frameCreated.system.dice.damage.max,
+      "system.dice.nexus.value": frameCreated.system.dice.nexus.max,
+      "system.dice.nexus.max": frameCreated.system.dice.nexus.max,
+      "system.dice.armor.value": frameCreated.system.dice.armor.max,
+      "system.dice.armor.max": frameCreated.system.dice.armor.max,
+    });
+    return frameCreated
   }
 
   /**

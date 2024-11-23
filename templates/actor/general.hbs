@@ -3,6 +3,7 @@
   <input type='text' name="kin.name" disabled value="{{kin.name}}" data-tooltip="{{kin.name}}" />
   <input type='text' name="system.moniker" value="{{system.moniker}}" data-tooltip="{{system.moniker}}" />
   <input type='text' name="system.pronouns" value="{{system.pronouns}}" data-tooltip="{{system.pronouns}}" />
+  <input type='text' name="frame.name" value="{{frame.name}}" disabled />
   <input type='text' name="system.banner" value="{{system.banner}}" data-tooltip="{{system.banner}}" />
 
   <input type='number' name='system.energy.value' value='{{system.energy.value}}' data-dtype='Number' />
@@ -12,4 +13,8 @@
   <div name="kin.nexusSurge">
     {{{kin.system.nexusSurge}}}
   </div>
+  <label type='text' class="rollable" data-action="roll" data-roll-type='label-chat' name="frame.ability1"
+    data-tooltip="{{frame.system.frameAbility1Description}}">{{frame.system.frameAbility1Name}}</label>
+  <label type='text' class="rollable" data-action="roll" data-roll-type='label-chat' name="frame.ability2"
+    data-tooltip="{{frame.system.frameAbility2Description}}">{{frame.system.frameAbility2Name}}</label>
 </div>
