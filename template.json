@@ -9,7 +9,8 @@
     "types": [
       "gear",
       "feature",
-      "spell"
+      "spell",
+      "kin"
     ]
   }
 }

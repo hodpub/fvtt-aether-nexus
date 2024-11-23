@@ -1,12 +1,30 @@
 {
   "AETHER_NEXUS": {
     "Ability": {
-      "Str": { "long": "Strength", "abbr": "str" },
-      "Con": { "long": "Constitution", "abbr": "con" },
-      "Dex": { "long": "Dexterity", "abbr": "dex" },
-      "Int": { "long": "Intelligence", "abbr": "int" },
-      "Wis": { "long": "Wisdom", "abbr": "wis" },
-      "Cha": { "long": "Charisma", "abbr": "cha" }
+      "Str": {
+        "long": "Strength",
+        "abbr": "str"
+      },
+      "Con": {
+        "long": "Constitution",
+        "abbr": "con"
+      },
+      "Dex": {
+        "long": "Dexterity",
+        "abbr": "dex"
+      },
+      "Int": {
+        "long": "Intelligence",
+        "abbr": "int"
+      },
+      "Wis": {
+        "long": "Wisdom",
+        "abbr": "wis"
+      },
+      "Cha": {
+        "long": "Charisma",
+        "abbr": "cha"
+      }
     },
     "SheetLabels": {
       "Actor": "AetherNexus Actor Sheet",
@@ -22,27 +40,43 @@
       },
       "base": {
         "FIELDS": {
-          "biography": {"label": "Biography"},
+          "biography": {
+            "label": "Biography"
+          },
           "health": {
-            "value": {"label": "Health"},
-            "max": {"label": "Maximum Health"}
+            "value": {
+              "label": "Health"
+            },
+            "max": {
+              "label": "Maximum Health"
+            }
           },
           "power": {
-            "value": {"label": "Power"},
-            "max": {"label": "Maximum Power"}
+            "value": {
+              "label": "Power"
+            },
+            "max": {
+              "label": "Maximum Power"
+            }
           }
         }
       },
       "Character": {
         "FIELDS": {
-          "attributes.level.value": {"label": "Level"}
+          "attributes.level.value": {
+            "label": "Level"
+          }
         }
       },
       "NPC": {
         "FIELDS": {
-          "cr": {"label": "CR"}
+          "cr": {
+            "label": "CR"
+          }
         },
-        "xp": {"label": "XP"}
+        "xp": {
+          "label": "XP"
+        }
       }
     },
     "Item": {
@@ -53,20 +87,44 @@
       },
       "Gear": {
         "FIELDS": {
-          "rollFormula": {"label": "Roll Formula"},
-          "numDice": {"label": "Number of Dice"},
-          "dieSize": {"label": "Die Size"},
-          "rollMod": {"label": "Roll Modifier"},
-          "quantity": {"label": "Quantity"},
-          "weight": {"label": "Weight"}
+          "rollFormula": {
+            "label": "Roll Formula"
+          },
+          "numDice": {
+            "label": "Number of Dice"
+          },
+          "dieSize": {
+            "label": "Die Size"
+          },
+          "rollMod": {
+            "label": "Roll Modifier"
+          },
+          "quantity": {
+            "label": "Quantity"
+          },
+          "weight": {
+            "label": "Weight"
+          }
         }
       },
       "Spell": {
         "FIELDS": {
-          "level": {"label": "Spell Level"}
+          "level": {
+            "label": "Spell Level"
+          }
         },
         "SpellLVL": "Level {level} Spells",
         "AddLVL": "Add LVL {level}"
+      },
+      "Kin": {
+        "FIELDS": {
+          "uniqueTrait": {
+            "label": "Unique Trait"
+          },
+          "nexusSurge": {
+            "label": "Nexus Surge"
+          }
+        }
       }
     },
     "Effect": {
@@ -85,7 +143,8 @@
     "Item": {
       "gear": "Gear",
       "feature": "Feature",
-      "spell": "Spell"
+      "spell": "Spell",
+      "kin": "Kin"
     }
   }
 }

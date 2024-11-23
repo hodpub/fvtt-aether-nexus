@@ -55,6 +55,10 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
     attributesSpell: {
       template: 'systems/aether-nexus/templates/item/attribute-parts/spell.hbs',
     },
+    attributesKin: {
+      template:
+        'systems/aether-nexus/templates/item/attribute-parts/kin.hbs',
+    },
     effects: {
       template: 'systems/aether-nexus/templates/item/effects.hbs',
     },
@@ -77,6 +81,9 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'spell':
         options.parts.push('attributesSpell');
+        break;
+      case 'kin':
+        options.parts.push('attributesKin');
         break;
     }
   }
@@ -116,6 +123,31 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
         break;
+      case 'attributesKin':
+        context.tab = context.tabs[partId];
+        context.enrichedUniqueTrait = await TextEditor.enrichHTML(
+          this.item.system.uniqueTrait,
+          {
+            // Whether to show secret blocks in the finished html
+            secrets: this.document.isOwner,
+            // Data to fill in for inline rolls
+            rollData: this.item.getRollData(),
+            // Relative UUID resolution
+            relativeTo: this.item,
+          }
+        );
+        context.enrichedNexusSurge = await TextEditor.enrichHTML(
+          this.item.system.nexusSurge,
+          {
+            // Whether to show secret blocks in the finished html
+            secrets: this.document.isOwner,
+            // Data to fill in for inline rolls
+            rollData: this.item.getRollData(),
+            // Relative UUID resolution
+            relativeTo: this.item,
+          }
+        );
+        break
       case 'description':
         context.tab = context.tabs[partId];
         // Enrich description info for display
@@ -174,6 +206,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesFeature':
         case 'attributesGear':
         case 'attributesSpell':
+        case 'attributesKin':
           tab.id = 'attributes';
           tab.label += 'Attributes';
           break;
@@ -378,7 +411,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
    * @param {DragEvent} event       The originating DragEvent
    * @protected
    */
-  _onDragOver(event) {}
+  _onDragOver(event) { }
 
   /**
    * Callback actions which occur when a dragged element is dropped on a target.
