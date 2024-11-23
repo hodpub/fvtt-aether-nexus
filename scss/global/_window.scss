@@ -14,3 +14,18 @@ button,
     cursor: pointer;
   }
 }
+
+.dialog .window-content {
+  background: white;
+
+  .fa-dice-d20 {
+
+    &.red::before {
+      color: red;
+    }
+
+    &.green::before {
+      color: green;
+    }
+  }
+}

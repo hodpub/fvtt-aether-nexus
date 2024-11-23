@@ -11,7 +11,7 @@ export async function rollAspect(actor, dataset, showDialog) {
     [rollType, modifier] = await Dialog.wait({
       title: "Rolls",
       content: `
-    <form><div class="form-group">
+    <form class="aether-nexus"><div class="form-group">
       <label>Modifier</label>
       <div class="form-fields">
         <input id="modifier" type="number" value="0"></input>
@@ -19,17 +19,17 @@ export async function rollAspect(actor, dataset, showDialog) {
     </div></form>`,
       buttons: {
         hindrance: {
-          icon: `<i class="fas fa-poo-storm"></i>`,
+          icon: `<i class="fas fa-dice-d20 red"></i>`,
           label: "Hindrance",
           callback: async (html) => _getRollInfo(html, -1)
         },
         normal: {
-          icon: `<i class="fas fa-poo-storm"></i>`,
+          icon: `<i class="fas fa-dice-d20"></i>`,
           label: "Normal",
           callback: async (html) => _getRollInfo(html, 0)
         },
         favor: {
-          icon: `<i class="fas fa-poo-storm"></i>`,
+          icon: `<i class="fas fa-dice-d20 green"></i>`,
           label: "Favor",
           callback: async (html) => _getRollInfo(html, 1)
         },
