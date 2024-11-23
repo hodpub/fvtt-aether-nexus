@@ -81,11 +81,16 @@ export async function rollAspect(actor, dataset, showDialog) {
     rollResult = "Critical Failure";
   }
 
+  let tooltip = await roll.getTooltip();
+  tooltip = tooltip.replace("d20 min", "d20 minTemp");
+  tooltip = tooltip.replace("d20 max", "d20 min");
+  tooltip = tooltip.replace("d20 minTemp", "d20 max");
+
   const templateData = {
     // type: CONST.CHAT_MESSAGE_STYLES.ROLL,
     flavor: `${rollTypeText}D20${modString} / ${target} ${dataset.aspect}`,
     user: chatData.user,
-    tooltip: await roll.getTooltip(),
+    tooltip: tooltip,
     total: roll.total,// isPrivate ? "?" : Math.round(roll.total * 100) / 100,
     rollResult: rollResult,// isPrivate ? "?" : rollResult.textKey,
     cssClass: success ? "success" : "failure",// rollResult.cssClass,
