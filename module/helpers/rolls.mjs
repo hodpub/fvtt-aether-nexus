@@ -1,5 +1,37 @@
 const RollTemplate = "systems/aether-nexus/templates/chat/roll.hbs";
 
+async function _createRollMessage(actor, data, roll) {
+  let tooltip = await roll.getTooltip();
+  tooltip = tooltip.replace("d20 min", "d20 minTemp");
+  tooltip = tooltip.replace("d20 max", "d20 min");
+  tooltip = tooltip.replace("d20 minTemp", "d20 max");
+
+  let templateData = {
+    ...data,
+    user: game.user.id,
+    rolls: [roll],
+    actorId: actor.id,
+    tooltip: tooltip,
+    total: roll.total
+  };
+
+  console.log(templateData);
+  let content = await renderTemplate(RollTemplate, templateData);
+
+  let chatData = {
+    user: game.user.id,
+    speaker: {
+      actor: actor.id,
+      token: actor.token,
+      alias: actor.name
+    },
+    content
+  };
+
+  await game.dice3d?.showForRoll(roll, game.user, true);
+  await ChatMessage.create(chatData);
+}
+
 export async function rollAspect(actor, dataset, showDialog) {
 
   function _getRollInfo(html, rollType) {
@@ -54,15 +86,6 @@ export async function rollAspect(actor, dataset, showDialog) {
 
   let success = roll.total < target;
 
-  let chatData = {
-    user: game.user.id,
-    speaker: {
-      actor: actor.id,
-      token: actor.token,
-      alias: actor.name
-    }
-  };
-
   let modString = "";
   if (mod && mod > 0)
     modString = ` + ${mod}`;
@@ -81,32 +104,78 @@ export async function rollAspect(actor, dataset, showDialog) {
     rollResult = "Critical Failure";
   }
 
-  let tooltip = await roll.getTooltip();
-  tooltip = tooltip.replace("d20 min", "d20 minTemp");
-  tooltip = tooltip.replace("d20 max", "d20 min");
-  tooltip = tooltip.replace("d20 minTemp", "d20 max");
-
   const templateData = {
-    // type: CONST.CHAT_MESSAGE_STYLES.ROLL,
     flavor: `${rollTypeText}D20${modString} / ${target} ${dataset.aspect}`,
-    user: chatData.user,
-    tooltip: tooltip,
-    total: roll.total,// isPrivate ? "?" : Math.round(roll.total * 100) / 100,
-    rollResult: rollResult,// isPrivate ? "?" : rollResult.textKey,
-    cssClass: success ? "success" : "failure",// rollResult.cssClass,
-    // damageKey: isPrivate ? "?" : rollResult.resultKey,
-    // damage: isPrivate ? null : rollResult.resultValue,
-    // rollStyle: isPrivate ? null : rollResult.rollStyle,
-    rolls: [roll],
-    data: dataset,
-    actorId: actor.id
+    rollResult: rollResult,
+    cssClass: success ? "success" : "failure",
   };
-  let content = await renderTemplate(RollTemplate, templateData);
-  chatData.content = content;
+  await _createRollMessage(actor, templateData, roll);
 
-  console.log(roll, actor, success, chatData, templateData, content);
-  await game.dice3d?.showForRoll(roll, game.user, true);
-  await ChatMessage.create(chatData);
+  return roll;
+}
 
+async function downgradeDie(actor, maxValue, property) {
+  let newDie = `d${maxValue - 2}`;
+  if (newDie == "d2")
+    newDie = "0";
+
+
+  return newDie;
+}
+
+function getResourceModifier(actor, dataset) {
+  //TODO: armor can have modifier (shield)
+  return 0;
+}
+
+function getResourceAdditional(actor, dataset) {
+
+  if (dataset.dice == "nexus")
+    //TODO: copy the Nexus Surge to additional
+    return `<h4 class="dice-total">Nexus Surge Activated</h4><div class="additional-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu lorem tincidunt, ultrices metus at, malesuada libero. Mauris a justo mi. </div>`;
+
+  if (dataset.dice == "armor")
+    return `<h4 class="dice-total">Parry Activated</h4><div class="additional-description">Gain a free melee attack or ranged attack to be used immediately.</div>`;
+
+  return "";
+}
+
+function getDoesResourceDowngrade(dataset) {
+  return dataset.dice != "damage";
+}
+
+export async function rollResource(actor, dataset) {
+  const die = actor.system.dice[dataset.dice].value;
+  if (die == "0")
+    return;
+
+  const maxValue = parseInt(die.substring(1));
+  const modifier = getResourceModifier(actor, dataset);
+  let roll = await new Roll(`1${die}+ ${modifier}`).evaluate();
+  const diceRolled = roll.terms[0].values[0];
+  let cssClass = "";
+  let additional = "";
+  let newDie = die;
+
+  if (getDoesResourceDowngrade(dataset) && (diceRolled == 1 || diceRolled == maxValue)) {
+    newDie = await downgradeDie(actor, maxValue, dataset.dice);
+    additional = `<h4 class="dice-total">Downgrading to ${newDie}</h4>`;
+  }
+
+  if (diceRolled == 1) {
+    cssClass = "failure";
+  }
+  else if (diceRolled == maxValue) {
+    cssClass = "success";
+    additional += getResourceAdditional(actor, dataset);
+  }
+  const templateData = {
+    flavor: `${die} / ${dataset.dice} Die`,
+    cssClass,
+    additional
+  };
+  await _createRollMessage(actor, templateData, roll);
+  if (newDie != die)
+    await actor.update({ [`system.dice.${dataset.dice}.value`]: newDie });
   return roll;
 }

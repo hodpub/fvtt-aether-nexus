@@ -53,3 +53,39 @@ input[name="system.dice.armor.max"] {
   left: 655px;
   rotate: 48deg;
 }
+
+// Rolls
+
+%spanDice {
+  background: $inputBackground;
+  display: block;
+  width: 60px;
+  height: 30px;
+  position: absolute;
+}
+
+span[name="roll.dice.damage"] {
+  @extend %spanDice;
+  top: 280px;
+  left: 400px;
+  height: 51px;
+  width: 77px;
+  rotate: -45deg;
+}
+
+span[name="roll.dice.nexus"] {
+  @extend %spanDice;
+  top: 222px;
+  left: 494px;
+  height: 25px;
+  width: 77px;
+}
+
+span[name="roll.dice.armor"] {
+  @extend %spanDice;
+  top: 279px;
+  left: 587px;
+  height: 55px;
+  width: 77px;
+  rotate: 42deg;
+}

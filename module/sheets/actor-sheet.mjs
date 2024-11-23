@@ -1,5 +1,5 @@
 import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
-import { rollAspect } from '../helpers/rolls.mjs';
+import { rollAspect, rollResource } from '../helpers/rolls.mjs';
 
 const { api, sheets } = foundry.applications;
 
@@ -76,7 +76,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     // Not all parts always render
-    options.parts = ['biography', 'aspects', 'dice','general'];//['header', 'tabs', 'biography'];
+    options.parts = ['biography', 'aspects', 'dice', 'general'];//['header', 'tabs', 'biography'];
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
     return;
@@ -396,7 +396,6 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
   static async _onRoll(event, target) {
     event.preventDefault();
     const dataset = target.dataset;
-    console.log(event.shiftKey);
 
     // Handle item rolls.
     switch (dataset.rollType) {
@@ -405,6 +404,9 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
         if (item) return item.roll();
       case 'aspects':
         return rollAspect(this.actor, dataset, !event.shiftKey);
+      case 'dice':
+        return rollResource(this.actor, dataset);
+
     }
 
     // Handle rolls that supply the formula directly.
@@ -492,7 +494,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
    * @param {DragEvent} event       The originating DragEvent
    * @protected
    */
-  _onDragOver(event) {}
+  _onDragOver(event) { }
 
   /**
    * Callback actions which occur when a dragged element is dropped on a target.
