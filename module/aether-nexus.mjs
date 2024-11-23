@@ -59,6 +59,7 @@ Hooks.once('init', function () {
     feature: models.AetherNexusFeature,
     spell: models.AetherNexusSpell,
     kin: models.AetherNexusKin,
+    frame: models.AetherNexusFrame,
   };
 
   // Active Effects are never copied to the Actor,

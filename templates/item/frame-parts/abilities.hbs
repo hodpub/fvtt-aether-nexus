@@ -1,0 +1,26 @@
+{{! Attributes Tab }}
+<section class='tab abilities {{tab.cssClass}}' data-group='primary' data-tab='abilities'>
+  {{! As you add new fields, add them in here! }}
+  <div class='resource'>
+    <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Frame.FIELDS.frameAbility.label'}} 1</label>
+    <input type='text' name='system.frameAbility1Name' value='{{system.frameAbility1Name}}' />
+    {{#if editable}}
+    <prose-mirror name="system.frameAbility1Description" data-document-u-u-i-d="{{item.uuid}}" value="{{system.frameAbility1Description}}"
+      collaborate="true" toggled="true">
+      {{{enrichedFrameAbility1Description}}}
+    </prose-mirror>
+    {{else}} {{{enrichedFrameAbility1Description}}}
+    {{/if}}
+  </div>
+  <div class='resource'>
+    <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Frame.FIELDS.frameAbility.label'}} 2</label>
+    <input type='text' name='system.frameAbility2Name' value='{{system.frameAbility2Name}}' />
+    {{#if editable}}
+    <prose-mirror name="system.frameAbility2Description" data-document-u-u-i-d="{{item.uuid}}" value="{{system.frameAbility2Description}}"
+      collaborate="true" toggled="true">
+      {{{enrichedFrameAbility2Description}}}
+    </prose-mirror>
+    {{else}} {{{enrichedFrameAbility2Description}}}
+    {{/if}}
+  </div>
+</section>

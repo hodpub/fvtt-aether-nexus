@@ -82,6 +82,7 @@
     "Item": {
       "Tabs": {
         "Attributes": "Attributes",
+        "Abilities": "Abilities",
         "Description": "Description",
         "Effects": "Effects"
       },
@@ -125,6 +126,40 @@
             "label": "Nexus Surge"
           }
         }
+      },
+      "Frame": {
+        "FIELDS": {
+          "frameTitle": {
+            "label": "Frame Title"
+          },
+          "stone": {
+            "label": "Stone"
+          },
+          "flux": {
+            "label": "Flux"
+          },
+          "aether": {
+            "label": "Aether"
+          },
+          "hearth": {
+            "label": "Hearth"
+          },
+          "energy": {
+            "label": "Energy"
+          },
+          "armorDie": {
+            "label": "Armor Die"
+          },
+          "damageDie": {
+            "label": "Damage Die"
+          },
+          "nexusDie": {
+            "label": "Nexus Die"
+          },
+          "frameAbility": {
+            "label": "Frame Ability"
+          }
+        }
       }
     },
     "Effect": {
@@ -144,7 +179,8 @@
       "gear": "Gear",
       "feature": "Feature",
       "spell": "Spell",
-      "kin": "Kin"
+      "kin": "Kin",
+      "frame": "Frame"
     }
   }
 }

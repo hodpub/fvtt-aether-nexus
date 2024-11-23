@@ -1,0 +1,40 @@
+{{! Attributes Tab }}
+<section class='tab attributes {{tab.cssClass}}' data-group='primary' data-tab='attributes'>
+  {{! As you add new fields, add them in here! }}
+
+  <div class='grid grid-4col'>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Frame.FIELDS.stone.label'}}</label>
+      <input type='number' name='system.aspects.stone' value='{{system.aspects.stone}}' data-dtype='Number' />
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Frame.FIELDS.flux.label'}}</label>
+      <input type='number' name='system.aspects.flux' value='{{system.aspects.flux}}' data-dtype='Number' />
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Frame.FIELDS.aether.label'}}</label>
+      <input type='number' name='system.aspects.aether' value='{{system.aspects.aether}}' data-dtype='Number' />
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Frame.FIELDS.hearth.label'}}</label>
+      <input type='number' name='system.aspects.hearth' value='{{system.aspects.hearth}}' data-dtype='Number' />
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Frame.FIELDS.energy.label'}}</label>
+      <input type='number' name='system.energy.max' value='{{system.energy.max}}' data-dtype='Number' />
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Frame.FIELDS.armorDie.label'}}</label>
+      <input type='text' name='system.dice.armor.max' value='{{system.dice.armor.max}}' />
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Frame.FIELDS.damageDie.label'}}</label>
+      <input type='text' name='system.dice.damage.max' value='{{system.dice.damage.max}}' />
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Frame.FIELDS.nexusDie.label'}}</label>
+      <input type='text' name='system.dice.nexus.max' value='{{system.dice.nexus.max}}' />
+    </div>
+  </div>
+
+</section>

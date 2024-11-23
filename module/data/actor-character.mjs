@@ -1,4 +1,5 @@
 import AetherNexusActorBase from './base-actor.mjs';
+import { addResourceDice } from './common.mjs';
 
 export default class AetherNexusCharacter extends AetherNexusActorBase {
   static LOCALIZATION_PREFIXES = [
@@ -8,24 +9,9 @@ export default class AetherNexusCharacter extends AetherNexusActorBase {
 
   static defineSchema() {
     const fields = foundry.data.fields;
-    const requiredInteger = { required: true, nullable: false, integer: true };
     const schema = super.defineSchema();
 
-    const diceFieldConfig = { required: true, nullable: false, initial: "0", choices: ["0", "d4", "d6", "d8", "d10", "d12"] };
-    schema.dice = new fields.SchemaField({
-      armor: new fields.SchemaField({
-        value: new fields.StringField({ ...diceFieldConfig }),
-        max: new fields.StringField({ ...diceFieldConfig }),
-      }),
-      nexus: new fields.SchemaField({
-        value: new fields.StringField({ ...diceFieldConfig }),
-        max: new fields.StringField({ ...diceFieldConfig }),
-      }),
-      damage: new fields.SchemaField({
-        value: new fields.StringField({ ...diceFieldConfig }),
-        max: new fields.StringField({ ...diceFieldConfig }),
-      }),
-    });
+    addResourceDice(schema, fields);
 
     schema.pronouns = new fields.StringField();
     schema.banner = new fields.StringField();

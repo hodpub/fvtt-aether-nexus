@@ -46,8 +46,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
       template: 'systems/aether-nexus/templates/item/description.hbs',
     },
     attributesFeature: {
-      template:
-        'systems/aether-nexus/templates/item/attribute-parts/feature.hbs',
+      template: 'systems/aether-nexus/templates/item/attribute-parts/feature.hbs',
     },
     attributesGear: {
       template: 'systems/aether-nexus/templates/item/attribute-parts/gear.hbs',
@@ -56,8 +55,13 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
       template: 'systems/aether-nexus/templates/item/attribute-parts/spell.hbs',
     },
     attributesKin: {
-      template:
-        'systems/aether-nexus/templates/item/attribute-parts/kin.hbs',
+      template: 'systems/aether-nexus/templates/item/attribute-parts/kin.hbs',
+    },
+    attributesFrame: {
+      template: 'systems/aether-nexus/templates/item/frame-parts/attributes.hbs',
+    },
+    abilitiesFrame: {
+      template: 'systems/aether-nexus/templates/item/frame-parts/abilities.hbs',
     },
     effects: {
       template: 'systems/aether-nexus/templates/item/effects.hbs',
@@ -84,6 +88,9 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'kin':
         options.parts.push('attributesKin');
+        break;
+      case 'frame':
+        options.parts.push('attributesFrame', 'abilitiesFrame');
         break;
     }
   }
@@ -120,6 +127,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
       case 'attributesFeature':
       case 'attributesGear':
       case 'attributesSpell':
+      case 'attributesFrame':
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
         break;
@@ -147,7 +155,32 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
             relativeTo: this.item,
           }
         );
-        break
+        break;
+      case 'abilitiesFrame':
+        context.tab = context.tabs[partId];
+        context.enrichedFrameAbility1Description = await TextEditor.enrichHTML(
+          this.item.system.frameAbility1Description,
+          {
+            // Whether to show secret blocks in the finished html
+            secrets: this.document.isOwner,
+            // Data to fill in for inline rolls
+            rollData: this.item.getRollData(),
+            // Relative UUID resolution
+            relativeTo: this.item,
+          }
+        );
+        context.enrichedFrameAbility2Description = await TextEditor.enrichHTML(
+          this.item.system.frameAbility2Description,
+          {
+            // Whether to show secret blocks in the finished html
+            secrets: this.document.isOwner,
+            // Data to fill in for inline rolls
+            rollData: this.item.getRollData(),
+            // Relative UUID resolution
+            relativeTo: this.item,
+          }
+        );
+        break;
       case 'description':
         context.tab = context.tabs[partId];
         // Enrich description info for display
@@ -207,8 +240,13 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesGear':
         case 'attributesSpell':
         case 'attributesKin':
+        case 'attributesFrame':
           tab.id = 'attributes';
           tab.label += 'Attributes';
+          break;
+        case 'abilitiesFrame':
+          tab.id = 'abilities';
+          tab.label += 'Abilities';
           break;
         case 'effects':
           tab.id = 'effects';
