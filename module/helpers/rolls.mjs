@@ -98,10 +98,10 @@ export async function rollAspect(actor, dataset, showDialog) {
   const criticalFailureValue = 20; // Get from actor
 
   if (diceRolled <= criticalSuccessValue) {
-    rollResult = "Critical Success";
+    rollResult = "Triumph";
   }
   else if (diceRolled >= criticalFailureValue) {
-    rollResult = "Critical Failure";
+    rollResult = "Despair";
   }
 
   const templateData = {
