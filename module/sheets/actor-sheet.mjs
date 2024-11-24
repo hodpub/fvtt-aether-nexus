@@ -263,6 +263,9 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       else if (i.type == "frame") {
         context.frame = i;
       }
+      else if (i.type == "boon"){
+        traits.push(i);
+      }
     }
 
     for (const s of Object.values(spells)) {
@@ -273,7 +276,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     context.gear = gear.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.spells = spells;
-    context.traits = traits;
+    context.traits = traits.sort((a, b) => (a.sort || 0) - (b.sort || 0));
   }
 
   /**

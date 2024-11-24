@@ -5,7 +5,7 @@
   </div>
   {{#each traits as |trait|}}
   <div class="trait">
-    <input type='text' value="{{trait.system.name}}" disabled />
+    <label type='text' class="rollable" data-action="roll" data-roll-type='label-chat' data-additional="{{trait.system.description}}">{{trait.name}}</label>
     {{{trait.system.description}}}
   </div>
   {{/each}}
