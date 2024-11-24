@@ -180,7 +180,8 @@
       "feature": "Feature",
       "spell": "Spell",
       "kin": "Kin",
-      "frame": "Frame"
+      "frame": "Frame",
+      "boon": "Boon"
     }
   }
 }
