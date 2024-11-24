@@ -418,7 +418,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       case 'aspects':
         return rollAspect(this.actor, dataset, !event.shiftKey);
       case 'dice':
-        return rollResource(this.actor, dataset);
+        return rollResource(this.actor, dataset, !event.shiftKey);
       case 'label-chat':
         return sendToChat(this.actor, target);
     }

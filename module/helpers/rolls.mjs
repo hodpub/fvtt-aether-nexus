@@ -12,7 +12,7 @@ async function _createRollMessage(actor, data, roll) {
     rolls: [roll],
     actorId: actor.id,
     tooltip: tooltip,
-    total: roll.total
+    total: Math.max(Math.min(roll.total, 20), 1)
   };
 
   console.log(templateData);
@@ -32,45 +32,65 @@ async function _createRollMessage(actor, data, roll) {
   await ChatMessage.create(chatData);
 }
 
-export async function rollAspect(actor, dataset, showDialog) {
+function _getRollInfo(html, rollType) {
+  return [rollType, parseInt(html[0].querySelector("#modifier").value)];
+}
 
-  function _getRollInfo(html, rollType) {
-    return [rollType, html[0].querySelector("#modifier").value];
+async function _getModifierAndRollType(showDialog, showHindranceFavorButtons = true, modifier = 0) {
+  if (!showDialog)
+    return [0, modifier];
+
+  let buttons = {
+    hindrance: {
+      icon: `<i class="fas fa-dice-d20 red"></i>`,
+      label: "Hindrance",
+      callback: async (html) => _getRollInfo(html, -1)
+    },
+    normal: {
+      icon: `<i class="fas fa-dice-d20"></i>`,
+      label: "Normal",
+      callback: async (html) => _getRollInfo(html, 0)
+    },
+    favor: {
+      icon: `<i class="fas fa-dice-d20 green"></i>`,
+      label: "Favor",
+      callback: async (html) => _getRollInfo(html, 1)
+    }
+  };
+  if (!showHindranceFavorButtons) {
+    delete buttons.hindrance;
+    delete buttons.favor;
   }
+  return await Dialog.wait({
+    title: "Roll",
+    content: `
+<form class="aether-nexus"><div class="form-group">
+  <label>Modifier</label>
+  <div class="form-fields">
+    <input id="modifier" type="number" onfocus="this.select()" value="${modifier}"></input>
+  </div>
+</div></form>`,
+    buttons: buttons,
+    default: "normal",
+    // render: (html) => html[0].querySelector("#modifier").focus()
+  }, { width: 400 });
+}
 
-  let [rollType, modifier] = [0, 0];
-  if (showDialog)
-    [rollType, modifier] = await Dialog.wait({
-      title: "Rolls",
-      content: `
-    <form class="aether-nexus"><div class="form-group">
-      <label>Modifier</label>
-      <div class="form-fields">
-        <input id="modifier" type="number" value="0"></input>
-      </div>
-    </div></form>`,
-      buttons: {
-        hindrance: {
-          icon: `<i class="fas fa-dice-d20 red"></i>`,
-          label: "Hindrance",
-          callback: async (html) => _getRollInfo(html, -1)
-        },
-        normal: {
-          icon: `<i class="fas fa-dice-d20"></i>`,
-          label: "Normal",
-          callback: async (html) => _getRollInfo(html, 0)
-        },
-        favor: {
-          icon: `<i class="fas fa-dice-d20 green"></i>`,
-          label: "Favor",
-          callback: async (html) => _getRollInfo(html, 1)
-        },
-      },
-      default: "normal",
-      render: (html) => html[0].querySelector("#modifier").focus()
-    }, { width: 400 });
+function _getModifierString(modifier) {
+  if (!modifier)
+    return "";
 
-  let mod = parseInt(modifier);
+  if (modifier > 0)
+    return ` + ${modifier}`;
+  else if (modifier < 0)
+    return ` - ${Math.abs(modifier)}`;
+  
+  return "";
+}
+
+export async function rollAspect(actor, dataset, showDialog) {
+  let [rollType, modifier] = await _getModifierAndRollType(showDialog);
+
   let rollTypeText = "";
   let formula = "1d20";
   if (rollType == -1) {
@@ -81,17 +101,13 @@ export async function rollAspect(actor, dataset, showDialog) {
     formula = "2d20kl"
     rollTypeText = "Favor ";
   }
-  let roll = await new Roll(`${formula} + ${mod}`).evaluate();
+  let roll = await new Roll(`${formula} + ${modifier}`).evaluate();
   let target = actor.system.aspects[dataset.aspect];
 
   let success = roll.total < target;
 
-  let modString = "";
-  if (mod && mod > 0)
-    modString = ` + ${mod}`;
-  else if (mod && mod < 0)
-    modString = ` - ${Math.abs(mod)}`;
 
+  const modString = _getModifierString(modifier);
   let rollResult = success ? "success" : "failure";
   const diceRolled = roll.terms[0].values[0];
   const criticalSuccessValue = 1; // Get from actor because of weapons that change that
@@ -145,13 +161,16 @@ function getDoesResourceDowngrade(dataset) {
   return dataset.dice != "damage";
 }
 
-export async function rollResource(actor, dataset) {
+export async function rollResource(actor, dataset, showDialog) {
   const die = actor.system.dice[dataset.dice].value;
   if (die == "0")
     return;
 
+  const defaultModifier = getResourceModifier(actor, dataset);
+  let [_, modifier] = await _getModifierAndRollType(showDialog, false, defaultModifier);
+
   const maxValue = parseInt(die.substring(1));
-  const modifier = getResourceModifier(actor, dataset);
+  const modString = _getModifierString(modifier);
   let roll = await new Roll(`1${die}+ ${modifier}`).evaluate();
   const diceRolled = roll.terms[0].values[0];
   let cssClass = "";
@@ -171,7 +190,7 @@ export async function rollResource(actor, dataset) {
     additional += getResourceAdditional(actor, dataset);
   }
   const templateData = {
-    flavor: `${die} / ${dataset.dice} Die`,
+    flavor: `${die}${modString} / ${dataset.dice} Die`,
     cssClass,
     additional
   };
