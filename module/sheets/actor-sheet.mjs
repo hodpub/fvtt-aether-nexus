@@ -31,12 +31,27 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       toggleEffect: this._toggleEffect,
       roll: this._onRoll,
       sendToChat: this._sendToChat,
+      respite: this._respite,
     },
     // Custom property that's merged into `this.options`
     dragDrop: [{ dragSelector: '[data-drag]', dropSelector: null }],
     form: {
       submitOnChange: true,
     },
+    window: {
+      controls: [
+        {
+          icon: "fa-solid fa-bed",
+          label: "Respite",
+          action: "respite"
+        },
+        {
+          icon: "control-icon fa-fw fa-solid fa-user-circle",
+          label: "Prototype Token",
+          action: "configurePrototypeToken"
+        }
+      ]
+    }
   };
 
   /** @override */
@@ -452,10 +467,20 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       return roll;
     }
   }
-  
+
   static async _sendToChat(event, target) {
     event.preventDefault();
     await sendToChat(this.actor, target);
+  }
+
+  static async _respite(event) {
+    event.preventDefault();
+    await this.actor.update({
+      "system.dice.damage.value": this.actor.system.dice.damage.max,
+      "system.dice.nexus.value": this.actor.system.dice.nexus.max,
+      "system.dice.armor.value": this.actor.system.dice.armor.max,
+      "system.energy.value": this.actor.system.energy.max,
+    });
   }
 
   /** Helper Functions */
