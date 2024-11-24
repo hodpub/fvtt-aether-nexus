@@ -11,13 +11,13 @@
 
   <input type='number' name='system.ap' value='{{system.ap}}' data-dtype='Number' />
 
-  <label name="kin.nexusSurgeName" class="rollable" data-action="roll" data-roll-type='label-chat'
+  <label name="kin.nexusSurgeName" class="rollable" data-action="sendToChat"
     data-additional="{{kin.system.nexusSurge}}">{{kin.system.nexusSurgeName}}</label>
   <div name="kin.nexusSurge">
     {{{kin.system.nexusSurge}}}
   </div>
-  <label type='text' class="rollable" data-action="roll" data-roll-type='label-chat' name="frame.ability1"
+  <label type='text' class="rollable" data-action="sendToChat" name="frame.ability1"
     data-tooltip="{{frame.system.frameAbility1Description}}">{{frame.system.frameAbility1Name}}</label>
-  <label type='text' class="rollable" data-action="roll" data-roll-type='label-chat' name="frame.ability2"
+  <label type='text' class="rollable" data-action="sendToChat" name="frame.ability2"
     data-tooltip="{{frame.system.frameAbility2Description}}">{{frame.system.frameAbility2Name}}</label>
 </div>

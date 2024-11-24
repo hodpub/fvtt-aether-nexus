@@ -1,11 +1,11 @@
 <div name="traits">
   <div class="trait">
-    <label type='text' class="rollable" data-action="roll" data-roll-type='label-chat' data-additional="{{kin.system.uniqueTrait}}">{{kin.system.uniqueTraitName}}</label>
+    <label type='text' class="rollable" data-action="sendToChat" data-additional="{{kin.system.uniqueTrait}}">{{kin.system.uniqueTraitName}}</label>
     {{{kin.system.uniqueTrait}}}
   </div>
   {{#each traits as |trait|}}
   <div class="trait">
-    <label type='text' class="rollable" data-action="roll" data-roll-type='label-chat' data-additional="{{trait.system.description}}">{{trait.name}}</label>
+    <label type='text' class="rollable" data-action="sendToChat" data-additional="{{trait.system.description}}">{{trait.name}}</label>
     {{{trait.system.description}}}
   </div>
   {{/each}}

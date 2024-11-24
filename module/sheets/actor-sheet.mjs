@@ -30,6 +30,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       deleteDoc: this._deleteDoc,
       toggleEffect: this._toggleEffect,
       roll: this._onRoll,
+      sendToChat: this._sendToChat,
     },
     // Custom property that's merged into `this.options`
     dragDrop: [{ dragSelector: '[data-drag]', dropSelector: null }],
@@ -65,6 +66,9 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     traits: {
       template: 'systems/aether-nexus/templates/actor/traits.hbs',
     },
+    augments: {
+      template: 'systems/aether-nexus/templates/actor/augments.hbs',
+    },
     gear: {
       template: 'systems/aether-nexus/templates/actor/gear.hbs',
     },
@@ -80,7 +84,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     // Not all parts always render
-    options.parts = ['biography', 'aspects', 'dice', 'general', 'traits'];//['header', 'tabs', 'biography'];
+    options.parts = ['biography', 'aspects', 'dice', 'general', 'traits', 'augments'];//['header', 'tabs', 'biography'];
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
     return;
@@ -240,31 +244,42 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       9: [],
     };
     const traits = [];
+    const augments = [];
 
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
       // Append to gear.
       if (i.type === 'gear') {
         gear.push(i);
+        continue;
       }
       // Append to features.
       else if (i.type === 'feature') {
         features.push(i);
+        continue;
       }
       // Append to spells.
       else if (i.type === 'spell') {
         if (i.system.spellLevel != undefined) {
           spells[i.system.spellLevel].push(i);
         }
+        continue;
       }
       else if (i.type == "kin") {
         context.kin = i;
+        continue;
       }
       else if (i.type == "frame") {
         context.frame = i;
+        continue;
       }
-      else if (i.type == "boon"){
+      else if (i.type == "boon") {
         traits.push(i);
+        continue;
+      }
+      else if (i.type == "augment"){
+        augments.push(i);
+        continue;
       }
     }
 
@@ -277,6 +292,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.spells = spells;
     context.traits = traits.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.augments = augments;
   }
 
   /**
@@ -422,8 +438,6 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
         return rollAspect(this.actor, dataset, !event.shiftKey);
       case 'dice':
         return rollResource(this.actor, dataset, !event.shiftKey);
-      case 'label-chat':
-        return sendToChat(this.actor, target);
     }
 
     // Handle rolls that supply the formula directly.
@@ -437,6 +451,11 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       });
       return roll;
     }
+  }
+  
+  static async _sendToChat(event, target) {
+    event.preventDefault();
+    await sendToChat(this.actor, target);
   }
 
   /** Helper Functions */
@@ -848,5 +867,43 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
         input.disabled = true;
       }
     }
+  }
+
+  /**
+   * CONTEXT MENU
+   */
+
+  /**
+   * Creates the context menu for the items
+   */
+  _contextMenu(html) {
+    ContextMenu.create(this, html, "div.augment", this._getItemContextOptions());
+    ContextMenu.create(this, html, "div.trait", this._getItemContextOptions());
+  }
+
+  _getItemContextOptions() {
+    return [
+      {
+        name: "SIDEBAR.Edit",
+        icon: '<i class="fas fa-edit"></i>',
+        condition: _ => this.actor.isOwner,
+        callback: element => {
+          const itemId = element.data("itemId");
+          const item = this.actor.items.get(itemId);
+          return item.sheet.render(true);
+        },
+      },
+      {
+        name: "SIDEBAR.Delete",
+        icon: '<i class="fas fa-trash"></i>',
+        condition: _ => this.actor.isOwner,
+        callback: element => {
+          const itemId = element.data("itemId");
+          const item = this.actor.items.get(itemId);
+          element.slideUp(200, () => this.render(false));
+          item.delete();
+        },
+      },
+    ];
   }
 }
