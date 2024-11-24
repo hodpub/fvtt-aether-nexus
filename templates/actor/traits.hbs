@@ -1,6 +1,6 @@
 <div name="traits">
   <div class="trait">
-    <input type='text' value="{{kin.system.uniqueTraitName}}" disabled />
+    <label type='text' class="rollable" data-action="roll" data-roll-type='label-chat' data-additional="{{kin.system.uniqueTrait}}">{{kin.system.uniqueTraitName}}</label>
     {{{kin.system.uniqueTrait}}}
   </div>
   {{#each traits as |trait|}}

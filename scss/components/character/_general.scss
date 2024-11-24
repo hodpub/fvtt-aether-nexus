@@ -72,11 +72,11 @@ div[name="kin.nexusSurge"] {
   overflow: auto;
 }
 
-input[name="kin.nexusSurgeName"] {
+label[name="kin.nexusSurgeName"] {
   @extend %bottomInput;
   font-size: large;
-  top: 63px;
-  left: 761px;
+  top: 69px;
+  left: 770px;
   width: 200px;
 }
 

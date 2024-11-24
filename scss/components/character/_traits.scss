@@ -5,6 +5,7 @@ div[name="traits"] {
   width: 256px;
   height: 291px;
   overflow: auto;
+  padding: 0 10px;
 
   div.trait {
     &:not(:last-child) {
@@ -14,14 +15,13 @@ div[name="traits"] {
     }
   }
 
-  input {
+  label {
     @extend %inputEmphasis;
     font-size: large;
     margin-bottom: -10px;
   }
 
   p {
-    padding: 0 10px;
     text-align: justify;
   }
 }

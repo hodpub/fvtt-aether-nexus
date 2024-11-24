@@ -11,7 +11,8 @@
 
   <input type='number' name='system.ap' value='{{system.ap}}' data-dtype='Number' />
 
-  <input type='text' name="kin.nexusSurgeName" value="{{kin.system.nexusSurgeName}}" disabled />
+  <label name="kin.nexusSurgeName" class="rollable" data-action="roll" data-roll-type='label-chat'
+    data-additional="{{kin.system.nexusSurge}}">{{kin.system.nexusSurgeName}}</label>
   <div name="kin.nexusSurge">
     {{{kin.system.nexusSurge}}}
   </div>
