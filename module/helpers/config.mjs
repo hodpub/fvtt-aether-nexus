@@ -1,4 +1,10 @@
-export const AETHER_NEXUS = {};
+import * as DICE from "../configs/dice.mjs";
+import * as EQUIPMENT from "../configs/equipment.mjs";
+
+export const AETHER_NEXUS = {
+  EQUIPMENT,
+  DICE
+};
 
 /**
  * The set of Ability Scores used within the system.
@@ -21,3 +27,5 @@ AETHER_NEXUS.abilityAbbreviations = {
   wis: 'AETHER_NEXUS.Ability.Wis.abbr',
   cha: 'AETHER_NEXUS.Ability.Cha.abbr',
 };
+
+AETHER_NEXUS

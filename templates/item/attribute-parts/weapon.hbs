@@ -1,0 +1,34 @@
+{{! Attributes Tab }}
+<section class='tab attributes {{tab.cssClass}}' data-group='primary' data-tab='attributes'>
+  {{! As you add new fields, add them in here! }}
+
+  <div class='grid grid-3col'>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Weapon.FIELDS.attackType.label'}}</label>
+      {{!-- <input type='number' name='system.aspects.stone' value='{{system.aspects.stone}}' data-dtype='Number' />
+      --}}
+      <select name="system.attackType">
+        {{selectOptions config.EQUIPMENT.ATTACK_TYPE selected=system.attackType localize=true}}
+      </select>
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Weapon.FIELDS.weaponType.label'}}</label>
+      <input type='text' name='system.weaponType' value='{{system.weaponType}}' />
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Weapon.FIELDS.slot.label'}}</label>
+      <input type='number' name='system.slot' value='{{system.slot}}' data-dtype='Number' />
+    </div>
+  </div>
+  <div class="resource">
+    <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Weapon.FIELDS.effect.label'}}</label>
+    {{#if editable}}
+    <prose-mirror name="system.effect" data-document-u-u-i-d="{{item.uuid}}" value="{{system.effect}}"
+      collaborate="true" toggled="true">
+      {{{enrichedEffect}}}
+    </prose-mirror>
+    {{else}} {{{enrichedEffect}}}
+    {{/if}}
+  </div>
+
+</section>

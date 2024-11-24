@@ -62,6 +62,7 @@ Hooks.once('init', function () {
     frame: models.AetherNexusFrame,
     boon: models.AetherNexusBoon,
     augment: models.AetherNexusAugment,
+    weapon: models.AetherNexusWeapon,
   };
 
   // Active Effects are never copied to the Actor,

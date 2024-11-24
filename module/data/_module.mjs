@@ -12,3 +12,4 @@ export { default as AetherNexusKin } from './item-kin.mjs';
 export { default as AetherNexusFrame } from './item-frame.mjs';
 export { default as AetherNexusBoon } from './item-boon.mjs';
 export { default as AetherNexusAugment } from './item-augment.mjs';
+export { default as AetherNexusWeapon } from './item-weapon.mjs';

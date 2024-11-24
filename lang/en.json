@@ -167,6 +167,28 @@
             "label": "Augment Ability"
           }
         }
+      },
+      "Weapon": {
+        "FIELDS": {
+          "attackType": {
+            "label": "Attack Type",
+            "meelee": {
+              "label": "Meelee"
+            },
+            "ranged": {
+              "label": "Ranged"
+            }
+          },
+          "weaponType": {
+            "label": "Weapon Type"
+          },
+          "slot": {
+            "label": "Slots"
+          },
+          "effect": {
+            "label": "Effect"
+          }
+        }
       }
     },
     "Effect": {
@@ -189,7 +211,9 @@
       "kin": "Kin",
       "frame": "Frame",
       "boon": "Boon",
-      "augment": "Augment"
+      "augment": "Augment",
+      "weapon": "Weapon",
+      "shield": "Shield"
     }
   }
 }

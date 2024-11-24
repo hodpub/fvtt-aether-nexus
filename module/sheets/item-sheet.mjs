@@ -66,6 +66,9 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
     abilitiesAugment: {
       template: 'systems/aether-nexus/templates/item/augment-parts/abilities.hbs',
     },
+    attributesWeapon: {
+      template: 'systems/aether-nexus/templates/item/attribute-parts/weapon.hbs',
+    },
     effects: {
       template: 'systems/aether-nexus/templates/item/effects.hbs',
     },
@@ -97,6 +100,9 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'augment':
         options.parts.push('abilitiesAugment');
+        break;
+      case 'weapon':
+        options.parts.push('attributesWeapon');
         break;
     }
   }
@@ -177,6 +183,20 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         );
         context.enrichedFrameAbility2Description = await TextEditor.enrichHTML(
           this.item.system.frameAbility2Description,
+          {
+            // Whether to show secret blocks in the finished html
+            secrets: this.document.isOwner,
+            // Data to fill in for inline rolls
+            rollData: this.item.getRollData(),
+            // Relative UUID resolution
+            relativeTo: this.item,
+          }
+        );
+        break;
+      case 'attributesWeapon':
+        context.tab = context.tabs[partId];
+        context.enrichedEffect = await TextEditor.enrichHTML(
+          this.item.system.effect,
           {
             // Whether to show secret blocks in the finished html
             secrets: this.document.isOwner,
@@ -272,6 +292,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesSpell':
         case 'attributesKin':
         case 'attributesFrame':
+        case 'attributesWeapon':
           tab.id = 'attributes';
           tab.label += 'Attributes';
           break;
