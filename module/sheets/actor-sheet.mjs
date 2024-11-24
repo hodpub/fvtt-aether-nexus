@@ -1,6 +1,7 @@
 import { sendToChat } from '../helpers/chat.mjs';
+import { attack } from '../helpers/combat.mjs';
 import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
-import { rollAspect, rollResource } from '../helpers/rolls.mjs';
+import { rollAspect, rollDamage, rollResource } from '../helpers/rolls.mjs';
 
 const { api, sheets } = foundry.applications;
 
@@ -32,6 +33,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       roll: this._onRoll,
       sendToChat: this._sendToChat,
       respite: this._respite,
+      attack: this._attack,
     },
     // Custom property that's merged into `this.options`
     dragDrop: [{ dragSelector: '[data-drag]', dropSelector: null }],
@@ -72,8 +74,8 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     aspects: {
       template: 'systems/aether-nexus/templates/actor/aspects.hbs',
     },
-    dice: {
-      template: 'systems/aether-nexus/templates/actor/dice.hbs',
+    resources: {
+      template: 'systems/aether-nexus/templates/actor/resources.hbs',
     },
     general: {
       template: 'systems/aether-nexus/templates/actor/general.hbs',
@@ -83,6 +85,9 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     },
     augments: {
       template: 'systems/aether-nexus/templates/actor/augments.hbs',
+    },
+    equipments: {
+      template: 'systems/aether-nexus/templates/actor/equipments.hbs',
     },
     gear: {
       template: 'systems/aether-nexus/templates/actor/gear.hbs',
@@ -99,7 +104,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     // Not all parts always render
-    options.parts = ['biography', 'aspects', 'dice', 'general', 'traits', 'augments'];//['header', 'tabs', 'biography'];
+    options.parts = ['biography', 'aspects', 'resources', 'general', 'traits', 'augments', 'equipments'];
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
     return;
@@ -260,6 +265,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     };
     const traits = [];
     const augments = [];
+    const equipments = [];
 
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
@@ -296,6 +302,10 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
         augments.push(i);
         continue;
       }
+      else if (i.type == "weapon" || i.type == "shield") {
+        equipments.push(i);
+        continue;
+      }
     }
 
     for (const s of Object.values(spells)) {
@@ -308,6 +318,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     context.spells = spells;
     context.traits = traits.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.augments = augments;
+    context.equipments = equipments;
   }
 
   /**
@@ -451,7 +462,9 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
         if (item) return item.roll();
       case 'aspects':
         return rollAspect(this.actor, dataset, !event.shiftKey);
-      case 'dice':
+      case 'damage':
+        return rollDamage(this.actor, dataset, !event.shiftKey);
+      case 'resources':
         return rollResource(this.actor, dataset, !event.shiftKey);
     }
 
@@ -483,6 +496,13 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     });
   }
 
+  static async _attack(event, target) {
+    event.preventDefault();
+    const doc = this._getEmbeddedDocument(target);
+
+    return attack(this.actor, doc);
+  }
+
   /** Helper Functions */
 
   /**
@@ -492,7 +512,9 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
    * @returns {Item | ActiveEffect} The embedded Item or ActiveEffect
    */
   _getEmbeddedDocument(target) {
-    const docRow = target.closest('li[data-document-class]');
+    let docRow = target.closest('li[data-document-class]');
+    if (docRow == undefined)
+      docRow = target.closest('div[data-document-class]');
     if (docRow.dataset.documentClass === 'Item') {
       return this.actor.items.get(docRow.dataset.itemId);
     } else if (docRow.dataset.documentClass === 'ActiveEffect') {

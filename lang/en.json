@@ -1,5 +1,16 @@
 {
   "AETHER_NEXUS": {
+    "Aspect": {
+      "stone": "Stone",
+      "flux": "Flux",
+      "aether": "Aether",
+      "hearth": "Hearth"
+    },
+    "Resource": {
+      "damage": "Damage Die",
+      "nexus": "Nexus Die",
+      "armor": "Armor Die"
+    },
     "Ability": {
       "Str": {
         "long": "Strength",

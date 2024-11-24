@@ -1,0 +1,24 @@
+div[name="equipments"] {
+  @extend %divInfo;
+  // background: rgba($color: #F00, $alpha: 0.5);
+  left: 313px;
+  top: 80px;
+  width: 342px;
+  height: 52px;
+  overflow: auto;
+  padding: 0 10px;
+  color: black;
+
+  div.equipment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+
+    label {
+      @extend %inputEmphasis;
+      flex: 1 1 0;
+      margin-top: 4px;
+    }
+  }
+}

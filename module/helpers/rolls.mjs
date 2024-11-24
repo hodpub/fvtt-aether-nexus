@@ -1,3 +1,5 @@
+import { DICE } from "../configs/dice.mjs";
+
 const RollTemplate = "systems/aether-nexus/templates/chat/roll.hbs";
 
 async function _createRollMessage(actor, data, roll) {
@@ -36,33 +38,58 @@ function _getRollInfo(html, rollType) {
   return [rollType, parseInt(html[0].querySelector("#modifier").value)];
 }
 
-async function _getModifierAndRollType(showDialog, showHindranceFavorButtons = true, modifier = 0) {
+async function _getModifierAndRollType(title, showDialog, buttonList = ["hindrance", "favor"], modifier = 0) {
   if (!showDialog)
     return [0, modifier];
 
   let buttons = {
-    hindrance: {
-      icon: `<i class="fas fa-dice-d20 red"></i>`,
-      label: "Hindrance",
-      callback: async (html) => _getRollInfo(html, -1)
-    },
     normal: {
       icon: `<i class="fas fa-dice-d20"></i>`,
       label: "Normal",
       callback: async (html) => _getRollInfo(html, 0)
-    },
-    favor: {
+    }
+  };
+
+  if (buttonList.indexOf("hindrance") > -1) {
+    buttons = Object.assign(
+      {
+        hindrance:
+        {
+          icon: `<i class="fas fa-dice-d20 red"></i>`,
+          label: "Hindrance",
+          callback: async (html) => _getRollInfo(html, -1)
+        }
+      }, buttons);
+  }
+  if (buttonList.indexOf("unarmed") > -1) {
+    buttons = Object.assign(
+      {
+        unarmed:
+        {
+          icon: `<i class="fas fa-hand-fist red"></i>`,
+          label: "Unarmed",
+          callback: async (html) => _getRollInfo(html, -100)
+        }
+      }, buttons);
+  }
+  if (buttonList.indexOf("favor") > -1) {
+    buttons["favor"] = {
       icon: `<i class="fas fa-dice-d20 green"></i>`,
       label: "Favor",
       callback: async (html) => _getRollInfo(html, 1)
-    }
-  };
-  if (!showHindranceFavorButtons) {
-    delete buttons.hindrance;
-    delete buttons.favor;
+    };
   }
+  if (buttonList.indexOf("critical") > -1) {
+    buttons["critical"] = {
+      icon: `<i class="fas fa-dice-d20 green"></i>`,
+      label: "Critical",
+      callback: async (html) => _getRollInfo(html, 100)
+    };
+  }
+
+  title = game.i18n.localize(`AETHER_NEXUS.${title}`);
   return await Dialog.wait({
-    title: "Roll",
+    title: `Roll ${title}`,
     content: `
 <form class="aether-nexus"><div class="form-group">
   <label>Modifier</label>
@@ -84,12 +111,12 @@ function _getModifierString(modifier) {
     return ` + ${modifier}`;
   else if (modifier < 0)
     return ` - ${Math.abs(modifier)}`;
-  
+
   return "";
 }
 
 export async function rollAspect(actor, dataset, showDialog) {
-  let [rollType, modifier] = await _getModifierAndRollType(showDialog);
+  let [rollType, modifier] = await _getModifierAndRollType(`Aspect.${dataset.aspect}`, showDialog);
 
   let rollTypeText = "";
   let formula = "1d20";
@@ -167,7 +194,7 @@ export async function rollResource(actor, dataset, showDialog) {
     return;
 
   const defaultModifier = getResourceModifier(actor, dataset);
-  let [_, modifier] = await _getModifierAndRollType(showDialog, false, defaultModifier);
+  let [_, modifier] = await _getModifierAndRollType(`Resource.${dataset.dice}`, showDialog, [], defaultModifier);
 
   const maxValue = parseInt(die.substring(1));
   const modString = _getModifierString(modifier);
@@ -197,5 +224,54 @@ export async function rollResource(actor, dataset, showDialog) {
   await _createRollMessage(actor, templateData, roll);
   if (newDie != die)
     await actor.update({ [`system.dice.${dataset.dice}.value`]: newDie });
+  return roll;
+}
+
+export async function rollDamage(actor, dataset, showDialog) {
+  const die = actor.system.dice.damage.value;
+  if (die == "0")
+    return;
+
+  const defaultModifier = getResourceModifier(actor, dataset);
+  let [rollType, modifier] = await _getModifierAndRollType(`Resource.damage`, showDialog, ['unarmed', 'critical'], defaultModifier);
+
+  const maxValue = parseInt(die.substring(1));
+  const modString = _getModifierString(modifier);
+  const multiplier = 1;
+  let formula = `1${die}+ ${modifier}`;
+  let rollTypeText = "";
+  if (rollType == 100) {
+    formula = `(${formula}) * 2`;
+    rollTypeText = "CRITICAL "
+  }
+  else if (rollType == -100) {
+    let diceIndex = DICE.options.indexOf(die) - 1;
+    let newDie = DICE.options[diceIndex];
+    if (newDie == "0") {
+      ui.notifications.error("Cannot do unarmed attack when damage die is d4.");
+      return;
+    }
+    formula = `1${newDie}+ ${modifier}`;
+    rollTypeText = "UNARMED ";
+  }
+  let roll = await new Roll(formula).evaluate();
+  console.log("ROLL DAMAGE", roll);
+  const diceRolled = roll.dice[0].values[0];
+  let cssClass = "";
+  let additional = "";
+
+  if (diceRolled == 1) {
+    cssClass = "failure";
+  }
+  else if (diceRolled == maxValue) {
+    cssClass = "success";
+    additional += getResourceAdditional(actor, dataset);
+  }
+  const templateData = {
+    flavor: `${rollTypeText}${die}${modString} / Damage Die`,
+    cssClass,
+    additional
+  };
+  await _createRollMessage(actor, templateData, roll);
   return roll;
 }

@@ -1,0 +1,22 @@
+{{! Gear Tab }}
+<div name="equipments">
+  {{#each equipments as |item id|}}
+  <div class="equipment" data-item-id='{{item._id}}' data-document-class='Item'>
+    <img src='{{item.img}}' title='{{item.name}}' width='24' height='24' />
+    <label>{{item.name}}</label>
+    {{#if (eq item.type "weapon")}}
+    <a class='item-control item-attack' data-action='attack'>
+      <i class='fas fa-sword'></i>
+    </a>
+    {{/if}}
+    <a class='item-control item-edit' title='{{localize "DOCUMENT.Update" type=' Weapon'}}' data-action='viewDoc'>
+      <i class='fas fa-edit'></i>
+    </a>
+    {{#if @root.editable}}
+    <a class='item-control item-delete' title='{{localize "DOCUMENT.Delete" type=' Weapon'}}' data-action='deleteDoc'>
+      <i class='fas fa-trash'></i>
+    </a>
+    {{/if}}
+  </div>
+  {{/each}}
+</div>
