@@ -1,0 +1,35 @@
+div[name="augments"] {
+  @extend %divInfo;
+  left: 784px;
+  top: 302px;
+  width: 238px;
+  height: 432px;
+  overflow: auto;
+  padding: 0 10px;
+
+  label {
+    @extend %inputEmphasis;
+    font-size: large;
+    position: absolute;
+    width: 85%;
+  }
+
+  div.augment {
+    position: relative;
+    width: 100%;
+    height: 107px;
+    padding: 0 15px;
+
+    label:first-child {
+      top: 10px;
+    }
+
+    label:nth-child(2) {
+      top: 45px;
+    }
+
+    label:nth-child(3) {
+      top: 80px;
+    }
+  }
+}

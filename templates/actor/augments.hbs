@@ -1,0 +1,9 @@
+<div name="augments">
+  {{#each augments as |augment|}}
+  <div class="augment">
+    <label type='text' class="rollable" data-action="sendToChat" data-additional="{{augment.system.description}}">{{augment.name}}</label>
+    <label type='text' class="rollable" data-action="sendToChat" data-additional="{{augment.system.ability1Description}}">{{augment.system.ability1Name}}</label>
+    <label type='text' class="rollable" data-action="sendToChat" data-additional="{{augment.system.ability2Description}}">{{augment.system.ability2Name}}</label>
+  </div>
+  {{/each}}
+</div>

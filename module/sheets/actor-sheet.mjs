@@ -277,7 +277,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
         traits.push(i);
         continue;
       }
-      else if (i.type == "augment"){
+      else if (i.type == "augment") {
         augments.push(i);
         continue;
       }
