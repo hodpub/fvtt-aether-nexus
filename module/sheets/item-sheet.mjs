@@ -63,6 +63,9 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
     abilitiesFrame: {
       template: 'systems/aether-nexus/templates/item/frame-parts/abilities.hbs',
     },
+    abilitiesAugment: {
+      template: 'systems/aether-nexus/templates/item/augment-parts/abilities.hbs',
+    },
     effects: {
       template: 'systems/aether-nexus/templates/item/effects.hbs',
     },
@@ -91,6 +94,9 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'frame':
         options.parts.push('attributesFrame', 'abilitiesFrame');
+        break;
+      case 'augment':
+        options.parts.push('abilitiesAugment');
         break;
     }
   }
@@ -181,6 +187,31 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
           }
         );
         break;
+      case 'abilitiesAugment':
+        context.tab = context.tabs[partId];
+        context.enrichedAbility1Description = await TextEditor.enrichHTML(
+          this.item.system.ability1Description,
+          {
+            // Whether to show secret blocks in the finished html
+            secrets: this.document.isOwner,
+            // Data to fill in for inline rolls
+            rollData: this.item.getRollData(),
+            // Relative UUID resolution
+            relativeTo: this.item,
+          }
+        );
+        context.enrichedAbility2Description = await TextEditor.enrichHTML(
+          this.item.system.ability2Description,
+          {
+            // Whether to show secret blocks in the finished html
+            secrets: this.document.isOwner,
+            // Data to fill in for inline rolls
+            rollData: this.item.getRollData(),
+            // Relative UUID resolution
+            relativeTo: this.item,
+          }
+        );
+        break;
       case 'description':
         context.tab = context.tabs[partId];
         // Enrich description info for display
@@ -245,6 +276,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
           tab.label += 'Attributes';
           break;
         case 'abilitiesFrame':
+        case 'abilitiesAugment':
           tab.id = 'abilities';
           tab.label += 'Abilities';
           break;

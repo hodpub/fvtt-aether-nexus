@@ -160,6 +160,13 @@
             "label": "Frame Ability"
           }
         }
+      },
+      "Augment": {
+        "FIELDS": {
+          "augmentAbility": {
+            "label": "Augment Ability"
+          }
+        }
       }
     },
     "Effect": {
@@ -181,7 +188,8 @@
       "spell": "Spell",
       "kin": "Kin",
       "frame": "Frame",
-      "boon": "Boon"
+      "boon": "Boon",
+      "augment": "Augment"
     }
   }
 }
