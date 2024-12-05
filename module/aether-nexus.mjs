@@ -70,7 +70,7 @@ Hooks.once('init', function () {
     shield: models.AetherNexusShield,
     foeTrait: models.AetherNexusFoeTrait,
     foeAction: models.AetherNexusFoeAction,
-    forStrike: models.AetherNexusFoeStrike,
+    foeStrike: models.AetherNexusFoeStrike,
   };
 
   // Active Effects are never copied to the Actor,

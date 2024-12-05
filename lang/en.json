@@ -1,6 +1,7 @@
 {
   "AETHER_NEXUS": {
     "Aspect": {
+      "label": "Aspect",
       "stone": "Stone",
       "flux": "Flux",
       "aether": "Aether",
@@ -242,6 +243,22 @@
           },
           "chargeUp": {
             "label": "Charge-Up"
+          }
+        }
+      },
+      "FoeStrike": {
+        "FIELDS": {
+          "target": {
+            "label": "Targets"
+          },
+          "damage": {
+            "label": "Damage"
+          },
+          "testAspect": {
+            "label": "Aspect to Test"
+          },
+          "testDescription": {
+            "label": "Test Description"
           }
         }
       }

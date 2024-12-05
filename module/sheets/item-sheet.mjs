@@ -75,6 +75,9 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
     attributesFoeAction: {
       template: 'systems/aether-nexus/templates/item/attribute-parts/foe-action.hbs',
     },
+    attributesFoeStrike: {
+      template: 'systems/aether-nexus/templates/item/attribute-parts/foe-strike.hbs',
+    },
     effects: {
       template: 'systems/aether-nexus/templates/item/effects.hbs',
     },
@@ -115,6 +118,9 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'foeAction':
         options.parts.push('attributesFoeAction');
+        break;
+      case 'foeStrike':
+        options.parts.push('attributesFoeStrike');
         break;
     }
   }
@@ -222,6 +228,20 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
           }
         );
         break;
+      case 'attributesFoeStrike':
+        context.tab = context.tabs[partId];
+        context.enrichedTestDescription = await TextEditor.enrichHTML(
+          this.item.system.testDescription,
+          {
+            // Whether to show secret blocks in the finished html
+            secrets: this.document.isOwner,
+            // Data to fill in for inline rolls
+            rollData: this.item.getRollData(),
+            // Relative UUID resolution
+            relativeTo: this.item,
+          }
+        );
+        break;
       case 'abilitiesAugment':
         context.tab = context.tabs[partId];
         context.enrichedAbility1Description = await TextEditor.enrichHTML(
@@ -310,6 +330,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesWeapon':
         case 'attributesShield':
         case 'attributesFoeAction':
+        case 'attributesFoeStrike':
           tab.id = 'attributes';
           tab.label += 'Attributes';
           break;

@@ -1,0 +1,47 @@
+{{! Attributes Tab }}
+<section class='tab attributes {{tab.cssClass}}' data-group='primary' data-tab='attributes'>
+  {{! As you add new fields, add them in here! }}
+
+  <div class='grid grid-3col'>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Aspect.label'}}</label>
+      <select name="system.aspect">
+        {{selectOptions config.ASPECT.ASPECT selected=system.aspect localize=true}}
+      </select>
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.FoeStrike.FIELDS.target.label'}}</label>
+      <input type='text' name='system.target' value='{{system.target}}' />
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Weapon.FIELDS.attackType.label'}}</label>
+      <select name="system.attackType">
+        {{selectOptions config.EQUIPMENT.ATTACK_TYPE selected=system.attackType localize=true}}
+      </select>
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.FoeStrike.FIELDS.damage.label'}}</label>
+      <select name="system.damage">
+        {{selectOptions config.DICE.DICE.options selected=system.damage }}
+      </select>
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.FoeStrike.FIELDS.testAspect.label'}}</label>
+      <select name="system.testAspect">
+        <option></option>
+        {{selectOptions config.ASPECT.ASPECT selected=system.testAspect localize=true}}
+      </select>
+    </div>
+  </div>
+  <div class="resource">
+    <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.FoeStrike.FIELDS.testDescription.label'}}</label>
+    {{#if editable}}
+    <prose-mirror name="system.testDescription" data-document-u-u-i-d="{{item.uuid}}" value="{{system.testDescription}}"
+      collaborate="true" toggled="true">
+      {{{enrichedTestDescription}}}
+    </prose-mirror>
+    {{else}} {{{enrichedTestDescription}}}
+    {{/if}}
+  </div>
+
+</section>
