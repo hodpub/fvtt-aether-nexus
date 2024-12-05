@@ -549,7 +549,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
    * @returns {Item | ActiveEffect} The embedded Item or ActiveEffect
    */
   _getEmbeddedDocument(target) {
-    if (target.data("itemId"))
+    if (target.data === "function" && target.data("itemId"))
       return this.actor.items.get(target.data("itemId"));
     let docRow = target.closest('li[data-document-class]');
     if (docRow == undefined)
