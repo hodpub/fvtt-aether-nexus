@@ -879,6 +879,12 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   async _onDropAugmentCreate(itemData, event) {
+    const augmentsCount = this.actor.items.filter(it => it.type == "augment").length;
+    if (augmentsCount == 4) {
+      ui.notifications.error("You can only have maximum of four augments.");
+      return;
+    }
+
     const augment = itemData[0];
     const ability = await Dialog.wait({
       title: `Choose augment: ${augment.name}`,
