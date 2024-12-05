@@ -41,4 +41,9 @@ export class AetherNexusActor extends Actor {
   getRollData() {
     return { ...super.getRollData(), ...(this.system.getRollData?.() ?? null) };
   }
+
+  async _preCreate(data, options, user) {
+    await super._preCreate(data, options, user);
+    this.updateSource({ "prototypeToken.actorLink": data.type == "character" });
+  }
 }
