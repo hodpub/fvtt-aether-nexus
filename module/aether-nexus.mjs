@@ -81,15 +81,13 @@ Hooks.once('init', function () {
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
-  Actors.registerSheet('aether-nexus', AetherNexusActorSheet, {
-    makeDefault: true,
-    type: ["character"],
-    label: 'AETHER_NEXUS.SheetLabels.Actor',
-  });
   Actors.registerSheet('aether-nexus', AetherNexusActorNpcSheet, {
-    makeDefault: true,
-    type: ["npc"],
+    types: ["npc"],
     label: 'AETHER_NEXUS.SheetLabels.Npc',
+  });
+  Actors.registerSheet('aether-nexus', AetherNexusActorSheet, {
+    types: ["character"],
+    label: 'AETHER_NEXUS.SheetLabels.Actor',
   });
   Items.unregisterSheet('core', ItemSheet);
   Items.registerSheet('aether-nexus', AetherNexusItemSheet, {

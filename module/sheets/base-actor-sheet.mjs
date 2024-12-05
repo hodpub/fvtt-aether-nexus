@@ -2,7 +2,6 @@ import { sendToChat } from '../helpers/chat.mjs';
 import { attack } from '../helpers/combat.mjs';
 import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import { rollAspect, rollDamage, rollResource } from '../helpers/rolls.mjs';
-import { AetherNexusBaseActorSheet } from './base-actor-sheet.mjs';
 
 const { api, sheets } = foundry.applications;
 
@@ -10,108 +9,12 @@ const { api, sheets } = foundry.applications;
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheetV2}
  */
-export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
+export class AetherNexusBaseActorSheet extends api.HandlebarsApplicationMixin(
+  sheets.ActorSheetV2
+) {
   constructor(options = {}) {
     super(options);
     this.#dragDrop = this.#createDragDropHandlers();
-  }
-
-  /** @override */
-  static DEFAULT_OPTIONS = {
-    classes: ['aether-nexus', 'actor', 'character'],
-    position: {
-      width: 1056,
-      height: 816,
-    },
-    actions: {
-      onEditImage: this._onEditImage,
-      viewDoc: this._viewDoc,
-      createDoc: this._createDoc,
-      deleteDoc: this._deleteDoc,
-      toggleEffect: this._toggleEffect,
-      roll: this._onRoll,
-      sendToChat: this._sendToChat,
-      respite: this._respite,
-      attack: this._attack,
-      changeSheetSize: this._changeSheetSize,
-    },
-    // Custom property that's merged into `this.options`
-    dragDrop: [{ dragSelector: '[data-drag]', dropSelector: null }],
-    form: {
-      submitOnChange: true,
-    },
-    window: {
-      controls: [
-        {
-          icon: "fas fa-maximize",
-          label: "Change Sheet Size",
-          action: "changeSheetSize"
-        },
-        {
-          icon: "fa-solid fa-bed",
-          label: "Respite",
-          action: "respite"
-        },
-        {
-          icon: "control-icon fa-fw fa-solid fa-user-circle",
-          label: "Prototype Token",
-          action: "configurePrototypeToken"
-        }
-      ]
-    }
-  };
-
-  /** @override */
-  static PARTS = {
-    header: {
-      template: 'systems/aether-nexus/templates/actor/header.hbs',
-    },
-    tabs: {
-      // Foundry-provided generic template
-      template: 'templates/generic/tab-navigation.hbs',
-    },
-    features: {
-      template: 'systems/aether-nexus/templates/actor/features.hbs',
-    },
-    biography: {
-      template: 'systems/aether-nexus/templates/actor/biography.hbs',
-    },
-    aspects: {
-      template: 'systems/aether-nexus/templates/actor/aspects.hbs',
-    },
-    resources: {
-      template: 'systems/aether-nexus/templates/actor/resources.hbs',
-    },
-    general: {
-      template: 'systems/aether-nexus/templates/actor/general.hbs',
-    },
-    traits: {
-      template: 'systems/aether-nexus/templates/actor/traits.hbs',
-    },
-    augments: {
-      template: 'systems/aether-nexus/templates/actor/augments.hbs',
-    },
-    equipments: {
-      template: 'systems/aether-nexus/templates/actor/equipments.hbs',
-    },
-    gear: {
-      template: 'systems/aether-nexus/templates/actor/gear.hbs',
-    },
-    spells: {
-      template: 'systems/aether-nexus/templates/actor/spells.hbs',
-    },
-    effects: {
-      template: 'systems/aether-nexus/templates/actor/effects.hbs',
-    },
-  };
-
-  /** @override */
-  _configureRenderOptions(options) {
-    super._configureRenderOptions(options);
-    // Not all parts always render
-    options.parts = ['biography', 'aspects', 'resources', 'general', 'traits', 'augments', 'equipments'];
-    // Don't show the other tabs if only limited view
-    if (this.document.limited) return;
   }
 
   /* -------------------------------------------- */
@@ -140,44 +43,6 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
     // Offloading context prep to a helper function
     this._prepareItems(context);
 
-    return context;
-  }
-
-  /** @override */
-  async _preparePartContext(partId, context) {
-    switch (partId) {
-      case 'features':
-      case 'spells':
-      case 'gear':
-      case 'traits':
-        context.tab = context.tabs[partId];
-        break;
-      case 'biography':
-        context.tab = context.tabs[partId];
-        // Enrich biography info for display
-        // Enrichment turns text like `[[/r 1d20]]` into buttons
-        context.enrichedBiography = await TextEditor.enrichHTML(
-          this.actor.system.biography,
-          {
-            // Whether to show secret blocks in the finished html
-            secrets: this.document.isOwner,
-            // Data to fill in for inline rolls
-            rollData: this.actor.getRollData(),
-            // Relative UUID resolution
-            relativeTo: this.actor,
-          }
-        );
-        break;
-      case 'effects':
-        context.tab = context.tabs[partId];
-        // Prepare active effects
-        context.effects = prepareActiveEffectCategories(
-          // A generator that returns all effects stored on the actor
-          // as well as any items
-          this.actor.allApplicableEffects()
-        );
-        break;
-    }
     return context;
   }
 
@@ -234,87 +99,6 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
     }, {});
   }
 
-  /**
-   * Organize and classify Items for Actor sheets.
-   *
-   * @param {object} context The context object to mutate
-   */
-  _prepareItems(context) {
-    // Initialize containers.
-    // You can just use `this.document.itemTypes` instead
-    // if you don't need to subdivide a given type like
-    // this sheet does with spells
-    const gear = [];
-    const features = [];
-    const spells = {
-      0: [],
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-      6: [],
-      7: [],
-      8: [],
-      9: [],
-    };
-    const traits = [];
-    const augments = [];
-    const equipments = [];
-
-    // Iterate through items, allocating to containers
-    for (let i of this.document.items) {
-      // Append to gear.
-      if (i.type === 'gear') {
-        gear.push(i);
-        continue;
-      }
-      // Append to features.
-      else if (i.type === 'feature') {
-        features.push(i);
-        continue;
-      }
-      // Append to spells.
-      else if (i.type === 'spell') {
-        if (i.system.spellLevel != undefined) {
-          spells[i.system.spellLevel].push(i);
-        }
-        continue;
-      }
-      else if (i.type == "kin") {
-        context.kin = i;
-        continue;
-      }
-      else if (i.type == "frame") {
-        context.frame = i;
-        continue;
-      }
-      else if (i.type == "boon") {
-        traits.push(i);
-        continue;
-      }
-      else if (i.type == "augment") {
-        augments.push(i);
-        continue;
-      }
-      else if (i.type == "weapon" || i.type == "shield") {
-        equipments.push(i);
-        continue;
-      }
-    }
-
-    for (const s of Object.values(spells)) {
-      s.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    }
-
-    // Sort then assign
-    context.gear = gear.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.spells = spells;
-    context.traits = traits.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.augments = augments;
-    context.equipments = equipments;
-  }
 
   /**
    * Actions performed after any render of the Application.
@@ -331,6 +115,17 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
   }
+
+  /**
+   * Attach event listeners to the Application frame.
+   * @protected
+   */
+  _attachFrameListeners() {
+    super._attachFrameListeners();
+
+    this._contextMenu(this.element);
+  }
+
 
   /**************
    *
@@ -487,36 +282,6 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
   static async _sendToChat(event, target) {
     event.preventDefault();
     await sendToChat(this.actor, target);
-  }
-
-  static async _respite(event) {
-    event.preventDefault();
-    await this.actor.update({
-      "system.dice.damage.value": this.actor.system.dice.damage.max,
-      "system.dice.nexus.value": this.actor.system.dice.nexus.max,
-      "system.dice.armor.value": this.actor.system.dice.armor.max,
-      "system.energy.value": this.actor.system.energy.max,
-    });
-    const effects = this.actor.effects;
-    for (const e of effects) {
-      await e.delete();
-    }
-  }
-
-  static async _changeSheetSize(event) {
-    event.preventDefault();
-    this.toggleControls();
-    const newScale = this.position.scale == 1 ? 0.5 : 1;
-    this.setPosition({
-      scale: newScale,
-    });
-  }
-
-  static async _attack(event, target) {
-    event.preventDefault();
-    const doc = this._getEmbeddedDocument(target);
-
-    return attack(this.actor, doc);
   }
 
   /** Helper Functions */
@@ -752,149 +517,6 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
   }
 
   /**
-   * Handle the final creation of dropped Item data on the Actor.
-   * This method is factored out to allow downstream classes the opportunity to override item creation behavior.
-   * @param {object[]|object} itemData      The item data requested for creation
-   * @param {DragEvent} event               The concluding DragEvent which provided the drop data
-   * @returns {Promise<Item[]>}
-   * @private
-   */
-  async _onDropItemCreate(itemData, event) {
-    itemData = itemData instanceof Array ? itemData : [itemData];
-    if (itemData.length == 1 && itemData[0].type == "kin")
-      return this._onDropKinCreate(itemData, event);
-    else if (itemData.length == 1 && itemData[0].type == "frame")
-      return this._onDropFrameCreate(itemData, event);
-    else if (itemData.length == 1 && itemData[0].type == "weapon")
-      return this._onDropEquipmentCreate(itemData, event);
-    else if (itemData.length == 1 && itemData[0].type == "shield")
-      return this._onDropShieldCreate(itemData, event);
-    else if (itemData.length == 1 && itemData[0].type == "augment")
-      return this._onDropAugmentCreate(itemData, event);
-    return this.actor.createEmbeddedDocuments('Item', itemData);
-  }
-
-  async _onDropKinCreate(itemData, event) {
-    let currentKin = this.actor.items.filter(it => it.type == "kin")[0];
-    if (currentKin != undefined) {
-      let confirmation = await Dialog.confirm({
-        title: 'Replace Kin',
-        content: `<p>This actor already has a kin. Do you want to replace it?</p>`,
-      });
-      if (!confirmation)
-        return;
-
-      await currentKin.delete();
-    }
-    return this.actor.createEmbeddedDocuments('Item', itemData);
-  }
-
-  async _onDropFrameCreate(itemData, event) {
-    let currentFrame = this.actor.items.filter(it => it.type == "frame")[0];
-    let aspects = {
-      stone: this.actor.system.aspects.stone,
-      flux: this.actor.system.aspects.flux,
-      aether: this.actor.system.aspects.aether,
-      hearth: this.actor.system.aspects.hearth
-    };
-    if (currentFrame != undefined) {
-      let confirmation = await Dialog.confirm({
-        title: 'Replace Frame',
-        content: `<p>This actor already has a Frame. Do you want to replace it?</p>`,
-      });
-      if (!confirmation)
-        return;
-
-      aspects.stone -= currentFrame.system.aspects.stone;
-      aspects.flux -= currentFrame.system.aspects.flux;
-      aspects.aether -= currentFrame.system.aspects.aether;
-      aspects.hearth -= currentFrame.system.aspects.hearth;
-
-      await currentFrame.delete();
-    }
-    const framesCreated = await this.actor.createEmbeddedDocuments('Item', itemData);
-    const frameCreated = framesCreated[0];
-    console.log(frameCreated);
-
-    await this.actor.update({
-      "system.aspects.stone": aspects.stone + frameCreated.system.aspects.stone,
-      "system.aspects.flux": aspects.flux + frameCreated.system.aspects.flux,
-      "system.aspects.aether": aspects.aether + frameCreated.system.aspects.aether,
-      "system.aspects.hearth": aspects.hearth + frameCreated.system.aspects.hearth,
-      "system.energy.value": frameCreated.system.energy.max,
-      "system.energy.max": frameCreated.system.energy.max,
-      "system.dice.damage.value": frameCreated.system.dice.damage.max,
-      "system.dice.damage.max": frameCreated.system.dice.damage.max,
-      "system.dice.nexus.value": frameCreated.system.dice.nexus.max,
-      "system.dice.nexus.max": frameCreated.system.dice.nexus.max,
-      "system.dice.armor.value": frameCreated.system.dice.armor.max,
-      "system.dice.armor.max": frameCreated.system.dice.armor.max,
-    });
-    return frameCreated;
-  }
-
-  async _onDropEquipmentCreate(itemData, event) {
-    let usedSlots = 0;
-
-    let equipments = this.actor.items.filter(it => it.type == "weapon" || it.type == "shield");
-    for (const e of equipments) {
-      usedSlots += e.system.slot;
-    }
-    if (usedSlots + itemData[0].system.slot > this.actor.system.slots) {
-      ui.notifications.error("You don't have enough slots to store this equipment.");
-      return null;
-    }
-    return await this.actor.createEmbeddedDocuments('Item', itemData);
-  }
-
-  async _onDropShieldCreate(itemData, event) {
-    let shields = this.actor.items.filter(it => it.type == "shield");
-    if (shields.length + 1 > this.actor.system.maxShields) {
-      ui.notifications.error(`You cannot have more than ${this.actor.system.maxShields} shield(s).`);
-      return null;
-    }
-    return await this._onDropEquipmentCreate(itemData, event);
-  }
-
-  async _onDropAugmentCreate(itemData, event) {
-    const augmentsCount = this.actor.items.filter(it => it.type == "augment").length;
-    if (augmentsCount == 4) {
-      ui.notifications.error("You can only have maximum of four augments.");
-      return;
-    }
-
-    const augment = itemData[0];
-    const ability = await Dialog.wait({
-      title: `Choose augment: ${augment.name}`,
-      content: `
-  <form class="aether-nexus"><div>
-
-    <h2>${augment.name}</h2>
-    ${augment.system.description}
-    <h3>${augment.system.ability1Name}</h3>
-    ${augment.system.ability1Description}
-    <h3>${augment.system.ability2Name}</h3>
-    ${augment.system.ability2Description}
-  </div></form>`,
-      buttons: {
-        ability1: {
-          label: augment.system.ability1Name,
-          callback: _ => 1
-        },
-        ability2: {
-          label: augment.system.ability2Name,
-          callback: _ => 2
-        }
-      },
-      default: "normal",
-      // render: (html) => html[0].querySelector("#modifier").focus()
-    }, { width: 400 });
-    let toCreate = itemData[0].toObject();
-    toCreate.system[`ability${ability}Unlocked`] = true;
-    return await this.actor.createEmbeddedDocuments('Item', [toCreate]);
-  }
-
-  /**
    * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings
    * @param {Event} event
    * @param {Item} item
@@ -1001,41 +623,12 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
     }
   }
 
-  /**
-   * CONTEXT MENU
-   */
+  /********************
+   *
+   * Context Menu
+   *
+   ********************/
 
-  /**
-   * Creates the context menu for the items
-   */
   _contextMenu(html) {
-    ContextMenu.create(this, html, "div.augment", this._getItemContextOptions());
-    ContextMenu.create(this, html, "div.trait:not(.no-menu)", this._getItemContextOptions());
-  }
-
-  _getItemContextOptions() {
-    return [
-      {
-        name: "SIDEBAR.Edit",
-        icon: '<i class="fas fa-edit"></i>',
-        condition: _ => this.actor.isOwner,
-        callback: element => {
-          const itemId = element.data("itemId");
-          const item = this.actor.items.get(itemId);
-          return item.sheet.render(true);
-        },
-      },
-      {
-        name: "SIDEBAR.Delete",
-        icon: '<i class="fas fa-trash"></i>',
-        condition: _ => this.actor.isOwner,
-        callback: element => {
-          const itemId = element.data("itemId");
-          const item = this.actor.items.get(itemId);
-          element.slideUp(200, () => this.render(false));
-          item.delete();
-        },
-      },
-    ];
   }
 }

@@ -1,10 +1,10 @@
 <div name="traits">
-  <div class="trait">
+  <div class="trait no-menu">
     <label type='text' class="rollable" data-action="sendToChat" data-additional="{{kin.system.uniqueTrait}}">{{kin.system.uniqueTraitName}}</label>
     {{{kin.system.uniqueTrait}}}
   </div>
   {{#each traits as |trait|}}
-  <div class="trait">
+  <div class="trait" data-item-id="{{trait.id}}">
     <label type='text' class="rollable" data-action="sendToChat" data-additional="{{trait.system.description}}">{{trait.name}}</label>
     {{{trait.system.description}}}
   </div>
