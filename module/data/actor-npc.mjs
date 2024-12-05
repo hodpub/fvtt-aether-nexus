@@ -8,19 +8,19 @@ export default class AetherNexusNPC extends AetherNexusActorBase {
 
   static defineSchema() {
     const fields = foundry.data.fields;
-    const requiredInteger = { required: true, nullable: false, integer: true };
     const schema = super.defineSchema();
 
-    schema.cr = new fields.NumberField({
-      ...requiredInteger,
-      initial: 1,
-      min: 0,
-    });
+    schema.aspects.fields.stone.min = -10;
+    schema.aspects.fields.flux.min = -10;
+    schema.aspects.fields.aether.min = -10;
+    schema.aspects.fields.hearth.min = -10;
+
+    schema.damage = new fields.NumberField({ required: true, integer: true, initial: 0 });
 
     return schema;
   }
 
-  prepareDerivedData() {
-    this.xp = this.cr * this.cr * 100;
-  }
+  // prepareDerivedData() {
+  //   this.xp = this.cr * this.cr * 100
+  // }
 }

@@ -1,0 +1,10 @@
+{{#> FoeList}}
+<div class="flexcol foe-list">
+  {{#each list as |item key| }}
+  <div class="foe-item">
+    <label type='text' class="rollable" data-action="sendToChat" data-additional="{{item.system.description}}">{{item.name}}</label>
+    {{{item.system.description}}}
+  </div>
+  {{/each}}
+</div>
+{{/FoeList}}

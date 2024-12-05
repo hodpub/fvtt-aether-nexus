@@ -3,6 +3,7 @@ import { AetherNexusActor } from './documents/actor.mjs';
 import { AetherNexusItem } from './documents/item.mjs';
 // Import sheet classes.
 import { AetherNexusActorSheet } from './sheets/actor-sheet.mjs';
+import { AetherNexusActorNpcSheet } from './sheets/actor-npc-sheet.mjs';
 import { AetherNexusItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
 import { AETHER_NEXUS } from './helpers/config.mjs';
@@ -82,7 +83,13 @@ Hooks.once('init', function () {
   Actors.unregisterSheet('core', ActorSheet);
   Actors.registerSheet('aether-nexus', AetherNexusActorSheet, {
     makeDefault: true,
+    type: ["character"],
     label: 'AETHER_NEXUS.SheetLabels.Actor',
+  });
+  Actors.registerSheet('aether-nexus', AetherNexusActorNpcSheet, {
+    makeDefault: true,
+    type: ["npc"],
+    label: 'AETHER_NEXUS.SheetLabels.Npc',
   });
   Items.unregisterSheet('core', ItemSheet);
   Items.registerSheet('aether-nexus', AetherNexusItemSheet, {

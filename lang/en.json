@@ -40,6 +40,7 @@
     },
     "SheetLabels": {
       "Actor": "AetherNexus Actor Sheet",
+      "Npc": "AetherNexus Actor NPC Sheet",
       "Item": "AetherNexus Item Sheet"
     },
     "Actor": {
@@ -48,7 +49,11 @@
         "Features": "Features",
         "Gear": "Gear",
         "Spells": "Spells",
-        "Effects": "Effects"
+        "Effects": "Effects",
+        "Traits": "Traits",
+        "Activations": "Activations",
+        "Interactions": "Interactions",
+        "Maneuvers": "Maneuvers"
       },
       "base": {
         "FIELDS": {
@@ -80,14 +85,23 @@
           }
         }
       },
-      "NPC": {
+      "Npc": {
         "FIELDS": {
-          "cr": {
-            "label": "CR"
+          "threat": {
+            "label": "Threat",
+            "minor": {
+              "label": "Minor"
+            },
+            "moderate": {
+              "label": "Moderate"
+            },
+            "major": {
+              "label": "Major"
+            },
+            "mythic": {
+              "label": "Mythic"
+            }
           }
-        },
-        "xp": {
-          "label": "XP"
         }
       }
     },

@@ -12,3 +12,10 @@ export const ACTION_TYPE = {
     label: "AETHER_NEXUS.Item.FoeAction.FIELDS.actionType.maneuver.label"
   }
 }
+
+export const THREAT = {
+  minor: "AETHER_NEXUS.Actor.Npc.FIELDS.threat.minor.label",
+  moderate: "AETHER_NEXUS.Actor.Npc.FIELDS.threat.moderate.label",
+  major: "AETHER_NEXUS.Actor.Npc.FIELDS.threat.major.label",
+  mythic: "AETHER_NEXUS.Actor.Npc.FIELDS.threat.mythic.label",
+}

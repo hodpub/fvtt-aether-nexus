@@ -1,0 +1,30 @@
+&.actor.npc {
+  %inputEmphasis {
+    font-family: 'Bebas';
+    font-weight: bold;
+    border: 0;
+  }
+
+  section.foe-list {
+    padding: 5px 0;
+
+    div.foe-item {
+      &:not(:last-child) {
+        border-bottom: 1px solid var(--color-text-primary);
+        margin-bottom: 10px;
+      }
+
+      label {
+        @extend %inputEmphasis;
+        font-size: large;
+      }
+      desc{
+        font-style: italic;
+        font-weight: bold;
+        font-size: smaller;
+        // text-align: right;
+        float: right;
+      }
+    }
+  }
+}
