@@ -1,4 +1,5 @@
 import { DICE } from "../configs/dice.mjs";
+import { SHIELD_TYPE } from "../configs/equipment.mjs";
 
 const RollTemplate = "systems/aether-nexus/templates/chat/roll.hbs";
 
@@ -167,7 +168,15 @@ async function downgradeDie(actor, maxValue, property) {
 }
 
 function getResourceModifier(actor, dataset) {
-  //TODO: armor can have modifier (shield)
+  if (dataset.dice == "armor") {
+    let bonus = 0;
+    let shields = actor.items.filter(it => it.type == "shield");
+    for (const shield of shields) {
+      bonus += SHIELD_TYPE[shield.system.shieldType].bonus;
+    }
+    console.log("BONUS", bonus);
+    return bonus;
+  }
   return 0;
 }
 

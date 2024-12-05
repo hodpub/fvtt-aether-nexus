@@ -200,6 +200,25 @@
             "label": "Effect"
           }
         }
+      },
+      "Shield": {
+        "FIELDS": {
+          "shieldType": {
+            "label": "Shield Type",
+            "buckler": {
+              "label": "Buckler"
+            },
+            "tower": {
+              "label": "Tower"
+            }
+          },
+          "slot": {
+            "label": "Slots"
+          },
+          "effect": {
+            "label": "Effect"
+          }
+        }
       }
     },
     "Effect": {

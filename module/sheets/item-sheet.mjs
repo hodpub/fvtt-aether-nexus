@@ -69,6 +69,9 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
     attributesWeapon: {
       template: 'systems/aether-nexus/templates/item/attribute-parts/weapon.hbs',
     },
+    attributesShield: {
+      template: 'systems/aether-nexus/templates/item/attribute-parts/shield.hbs',
+    },
     effects: {
       template: 'systems/aether-nexus/templates/item/effects.hbs',
     },
@@ -103,6 +106,9 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'weapon':
         options.parts.push('attributesWeapon');
+        break;
+      case 'shield':
+        options.parts.push('attributesShield');
         break;
     }
   }
@@ -194,6 +200,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         );
         break;
       case 'attributesWeapon':
+      case 'attributesShield':
         context.tab = context.tabs[partId];
         context.enrichedEffect = await TextEditor.enrichHTML(
           this.item.system.effect,
@@ -293,6 +300,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesKin':
         case 'attributesFrame':
         case 'attributesWeapon':
+        case 'attributesShield':
           tab.id = 'attributes';
           tab.label += 'Attributes';
           break;
