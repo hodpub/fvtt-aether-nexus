@@ -9,6 +9,7 @@ import { AETHER_NEXUS } from './helpers/config.mjs';
 // Import DataModel classes
 import * as models from './data/_module.mjs';
 import { STATUS_EFFECTS } from './configs/statusEffects.mjs';
+import registerHandlebarsHelpers from './helpers/handlebars.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -67,6 +68,9 @@ Hooks.once('init', function () {
     augment: models.AetherNexusAugment,
     weapon: models.AetherNexusWeapon,
     shield: models.AetherNexusShield,
+    foeTrait: models.AetherNexusFoeTrait,
+    foeAction: models.AetherNexusFoeAction,
+    forStrike: models.AetherNexusFoeStrike,
   };
 
   // Active Effects are never copied to the Actor,
@@ -95,6 +99,8 @@ Hooks.once('init', function () {
 Handlebars.registerHelper('toLowerCase', function (str) {
   return str.toLowerCase();
 });
+
+registerHandlebarsHelpers();
 
 /* -------------------------------------------- */
 /*  Ready Hook                                  */

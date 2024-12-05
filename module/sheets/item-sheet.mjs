@@ -72,6 +72,9 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
     attributesShield: {
       template: 'systems/aether-nexus/templates/item/attribute-parts/shield.hbs',
     },
+    attributesFoeAction: {
+      template: 'systems/aether-nexus/templates/item/attribute-parts/foe-action.hbs',
+    },
     effects: {
       template: 'systems/aether-nexus/templates/item/effects.hbs',
     },
@@ -110,6 +113,9 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
       case 'shield':
         options.parts.push('attributesShield');
         break;
+      case 'foeAction':
+        options.parts.push('attributesFoeAction');
+        break;
     }
   }
 
@@ -147,6 +153,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
       case 'attributesGear':
       case 'attributesSpell':
       case 'attributesFrame':
+      case 'attributesFoeAction':
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
         break;
@@ -302,6 +309,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesFrame':
         case 'attributesWeapon':
         case 'attributesShield':
+        case 'attributesFoeAction':
           tab.id = 'attributes';
           tab.label += 'Attributes';
           break;

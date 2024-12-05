@@ -14,3 +14,6 @@ export { default as AetherNexusBoon } from './item-boon.mjs';
 export { default as AetherNexusAugment } from './item-augment.mjs';
 export { default as AetherNexusWeapon } from './item-weapon.mjs';
 export { default as AetherNexusShield } from './item-shield.mjs';
+export { default as AetherNexusFoeTrait } from './item-foe-trait.mjs';
+export { default as AetherNexusFoeAction } from './item-foe-action.mjs';
+export { default as AetherNexusFoeStrike } from './item-foe-strike.mjs';

@@ -1,0 +1,27 @@
+{{! Attributes Tab }}
+<section class='tab attributes {{tab.cssClass}}' data-group='primary' data-tab='attributes'>
+  {{! As you add new fields, add them in here! }}
+
+  <div class='grid grid-2col'>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.FoeAction.FIELDS.actionType.label'}}</label>
+      <select name="system.actionType">
+        {{selectOptions config.FOE.ACTION_TYPE selected=system.actionType localize=true}}
+      </select>
+    </div>
+    {{#if isEmbedded}}
+    <div class='grid-span-1'>
+      <input type='checkbox' name='system.charged' {{#if system.charged}}checked{{/if}} disabled /> <label
+      class='resource-label'>{{localize 'AETHER_NEXUS.Item.FoeAction.FIELDS.charged.label'}}</label>
+    </div>
+    {{/if}}
+  </div>
+
+  <div class='resource'>
+    <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.FoeAction.FIELDS.chargeUp.label'}}</label><br>
+    <div class='grid grid-6col'>
+    {{{chargeUp system.chargeUp}}}
+    </div>
+  </div>
+
+</section>

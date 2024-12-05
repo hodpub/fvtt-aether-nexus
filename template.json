@@ -15,7 +15,10 @@
       "boon",
       "augment",
       "weapon",
-      "shield"
+      "shield",
+      "foeTrait",
+      "foeAction",
+      "foeStrike"
     ]
   }
 }

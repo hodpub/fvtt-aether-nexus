@@ -1,7 +1,9 @@
 import * as DICE from "../configs/dice.mjs";
 import * as EQUIPMENT from "../configs/equipment.mjs";
+import * as FOE from "../configs/foe.mjs";
 
 export const AETHER_NEXUS = {
+  FOE,
   EQUIPMENT,
   DICE
 };

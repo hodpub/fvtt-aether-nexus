@@ -222,6 +222,28 @@
             "label": "Effect"
           }
         }
+      },
+      "FoeAction": {
+        "FIELDS": {
+          "actionType": {
+            "label": "Action Type",
+            "maneuver": {
+              "label": "Maneuver"
+            },
+            "interaction": {
+              "label": "Interaction"
+            },
+            "activation": {
+              "label": "Activation"
+            }
+          },
+          "charged": {
+            "label": "Charged"
+          },
+          "chargeUp": {
+            "label": "Charge-Up"
+          }
+        }
       }
     },
     "Effect": {
@@ -256,7 +278,10 @@
       "boon": "Boon",
       "augment": "Augment",
       "weapon": "Weapon",
-      "shield": "Shield"
+      "shield": "Shield",
+      "foeTrait": "Foe's Trait",
+      "foeAction": "Foe's Action",
+      "foeStrike": "Foe's Strike"
     }
   }
 }
