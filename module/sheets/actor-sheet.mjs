@@ -747,6 +747,10 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       return this._onDropKinCreate(itemData, event);
     else if (itemData.length == 1 && itemData[0].type == "frame")
       return this._onDropFrameCreate(itemData, event);
+    else if (itemData.length == 1 && itemData[0].type == "weapon")
+      return this._onDropEquipmentCreate(itemData, event);
+    else if (itemData.length == 1 && itemData[0].type == "shield")
+      return this._onDropShieldCreate(itemData, event);
     return this.actor.createEmbeddedDocuments('Item', itemData);
   }
 
@@ -806,7 +810,30 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       "system.dice.armor.value": frameCreated.system.dice.armor.max,
       "system.dice.armor.max": frameCreated.system.dice.armor.max,
     });
-    return frameCreated
+    return frameCreated;
+  }
+
+  async _onDropEquipmentCreate(itemData, event) {
+    let usedSlots = 0;
+
+    let equipments = this.actor.items.filter(it => it.type == "weapon" || it.type == "shield");
+    for (const e of equipments) {
+      usedSlots += e.system.slot;
+    }
+    if (usedSlots + itemData[0].system.slot > this.actor.system.slots) {
+      ui.notifications.error("You don't have enough slots to store this equipment.");
+      return null;
+    }
+    await this.actor.createEmbeddedDocuments('Item', itemData);
+  }
+
+  async _onDropShieldCreate(itemData, event) {
+    let shields = this.actor.items.filter(it => it.type == "shield");
+    if (shields.length + 1 > this.actor.system.maxShields) {
+      ui.notifications.error(`You cannot have more than ${this.actor.system.maxShields} shield(s).`);
+      return null;
+    }
+    return await this._onDropEquipmentCreate(itemData, event);
   }
 
   /**

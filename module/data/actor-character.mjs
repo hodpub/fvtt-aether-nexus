@@ -17,6 +17,8 @@ export default class AetherNexusCharacter extends AetherNexusActorBase {
     schema.banner = new fields.StringField();
     schema.moniker = new fields.StringField();
     schema.ap = new fields.NumberField({ required: true, nullable: false, integer: true, initial: 0 });
+    schema.slots = new fields.NumberField({ required: true, nullable: false, integer: true, initial: 2 });
+    schema.maxShields = new fields.NumberField({ required: true, nullable: false, integer: true, initial: 1 });
 
     return schema;
   }
