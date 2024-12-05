@@ -8,6 +8,7 @@ import { AetherNexusItemSheet } from './sheets/item-sheet.mjs';
 import { AETHER_NEXUS } from './helpers/config.mjs';
 // Import DataModel classes
 import * as models from './data/_module.mjs';
+import { STATUS_EFFECTS } from './configs/statusEffects.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -42,6 +43,8 @@ Hooks.once('init', function () {
     formula: '1d20 + @abilities.dex.mod',
     decimals: 2,
   };
+
+  CONFIG.statusEffects = STATUS_EFFECTS;
 
   // Define custom Document and DataModel classes
   CONFIG.Actor.documentClass = AetherNexusActor;

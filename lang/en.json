@@ -229,7 +229,17 @@
       "Toggle": "Toggle Effect",
       "Temporary": "Temporary Effects",
       "Passive": "Passive Effects",
-      "Inactive": "Inactive Effects"
+      "Inactive": "Inactive Effects",
+      "Aloft": "Aloft",
+      "Broken": "Broken",
+      "Fallen": "Fallen",
+      "Fortified": "Fortified",
+      "Marked": "Marked",
+      "Plummeting": "Plummeting",
+      "Rooted": "Rooted",
+      "Shaken": "Shaken",
+      "Severed": "Severed",
+      "Staggered": "Staggered"
     }
   },
   "TYPES": {
