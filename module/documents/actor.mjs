@@ -50,7 +50,7 @@ export class AetherNexusActor extends Actor {
   async _preUpdate(data, options, user) {
     super._preUpdate(data, options, user);
 
-    if (data.system.energy.value == 0 && !this.statuses.has("broken")) {
+    if (data.system?.energy?.value == 0 && !this.statuses.has("broken")) {
       let status = await ActiveEffect.fromStatusEffect("broken");
       await this.createEmbeddedDocuments("ActiveEffect", [status]);
     }
