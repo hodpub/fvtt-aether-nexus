@@ -517,6 +517,19 @@ export class AetherNexusBaseActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Handle the final creation of dropped Item data on the Actor.
+   * This method is factored out to allow downstream classes the opportunity to override item creation behavior.
+   * @param {object[]|object} itemData      The item data requested for creation
+   * @param {DragEvent} event               The concluding DragEvent which provided the drop data
+   * @returns {Promise<Item[]>}
+   * @private
+   */
+  async _onDropItemCreate(itemData, event) {
+    itemData = itemData instanceof Array ? itemData : [itemData];
+    return this.actor.createEmbeddedDocuments('Item', itemData);
+  }
+
+  /**
    * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings
    * @param {Event} event
    * @param {Item} item
