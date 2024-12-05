@@ -53,7 +53,8 @@
         "Traits": "Traits",
         "Activations": "Activations",
         "Interactions": "Interactions",
-        "Maneuvers": "Maneuvers"
+        "Maneuvers": "Maneuvers",
+        "Strikes": "Strikes"
       },
       "base": {
         "FIELDS": {
@@ -293,6 +294,11 @@
       "Shaken": "Shaken",
       "Severed": "Severed",
       "Staggered": "Staggered"
+    },
+    "Action":{
+      "rollDamage": "Roll Damage:",
+      "rollAspect": "Roll Defense test:",
+      "rollAdditionalAspect": "Roll Effect test:"
     }
   },
   "TYPES": {

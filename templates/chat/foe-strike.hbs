@@ -1,0 +1,25 @@
+<div class="aether-nexus foe-strike">
+  <div class="dice-roll">
+    {{#if flavor}}
+    <div class="dice-flavor">{{{flavor}}}</div>
+    {{/if}}
+    <div class="dice-result">
+      {{#if additional}}
+      <div class="additional-description">
+        {{{additional}}}
+      </div>
+      {{/if}}
+      <h4 class="dice-total rollable foe-aspect-test" data-aspect="{{aspect}}" data-modifier="{{modifier}}">
+        {{localize "AETHER_NEXUS.Action.rollAspect"}} {{aspect}}{{modifier}}
+      </h4>
+      <h4 class="dice-total rollable foe-damage-roll" data-formula="{{formula}}" data-attack="{{flavor}}">
+        {{localize "AETHER_NEXUS.Action.rollDamage"}} {{formula}}
+      </h4>
+      {{#if additionalTest}}
+      <h4 class="dice-total rollable foe-aspect-test" data-aspect="{{additionalTest}}">
+        {{localize "AETHER_NEXUS.Action.rollAdditionalAspect"}} {{additionalTest}}
+      </h4>
+      {{/if}}
+    </div>
+  </div>
+</div>

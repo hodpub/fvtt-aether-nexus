@@ -11,6 +11,7 @@ import { AETHER_NEXUS } from './helpers/config.mjs';
 import * as models from './data/_module.mjs';
 import { STATUS_EFFECTS } from './configs/statusEffects.mjs';
 import registerHandlebarsHelpers from './helpers/handlebars.mjs';
+import AetherNexussChatMessage from './documents/chat.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -50,6 +51,7 @@ Hooks.once('init', function () {
 
   // Define custom Document and DataModel classes
   CONFIG.Actor.documentClass = AetherNexusActor;
+  CONFIG.ChatMessage.documentClass = AetherNexussChatMessage;
 
   // Note that you don't need to declare a DataModel
   // for the base actor/item classes - they are included

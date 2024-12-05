@@ -1,3 +1,4 @@
+import { createFoeStrikeChatMessage } from '../helpers/chat.mjs';
 import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import { AetherNexusBaseActorSheet } from './base-actor-sheet.mjs';
 
@@ -59,11 +60,8 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
       template: 'systems/aether-nexus/templates/actor/foe-maneuvers.hbs',
       templates: ["systems/aether-nexus/templates/actor/foe-list.hbs"]
     },
-    gear: {
-      template: 'systems/aether-nexus/templates/actor/gear.hbs',
-    },
-    spells: {
-      template: 'systems/aether-nexus/templates/actor/spells.hbs',
+    strikes: {
+      template: 'systems/aether-nexus/templates/actor/foe-strikes.hbs',
     },
     effects: {
       template: 'systems/aether-nexus/templates/actor/effects.hbs',
@@ -74,7 +72,7 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     // Not all parts always render
-    options.parts = ['header', 'tabs', 'biography', 'traits', 'activations', 'interactions', 'maneuvers'];
+    options.parts = ['header', 'tabs', 'biography', 'traits', 'activations', 'interactions', 'maneuvers', 'strikes'];
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
   }
@@ -92,6 +90,7 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
       case 'activations':
       case 'interactions':
       case 'maneuvers':
+      case 'strikes':
         context.tab = context.tabs[partId];
         break;
       case 'biography':
@@ -185,7 +184,10 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
           tab.id = 'maneuvers';
           tab.label += 'Maneuvers';
           break;
-
+        case 'strikes':
+          tab.id = 'strikes';
+          tab.label += 'Strikes';
+          break;
       }
       if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
       tabs[partId] = tab;
@@ -211,45 +213,40 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
 
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
-      // Append to gear.
+      if (i.system.chargeUp?.size > 0) {
+        const values = Array.from(i.system.chargeUp).sort();
+        let chargeUpText = "";
+        let previous = -1;
+        for (const element of values) {
+          if (previous == -1)
+            chargeUpText = `${element}`;
+          else if (element == previous + 1) {
+            if (chargeUpText.endsWith(`-${previous}`))
+              chargeUpText = `${chargeUpText.substring(0, chargeUpText.length - 2)}-${element}`;
+            else
+              chargeUpText = `${chargeUpText}-${element}`;
+          }
+          else
+            chargeUpText = `${chargeUpText}, ${element}`;
+          previous = element;
+        }
+        i.chargeUpText = `(charge-up ${chargeUpText})`;
+        let chargedSquareClass = "fa-regular";
+        if (i.system.charged) {
+          chargedSquareClass = "fa-solid"
+        }
+        i.chargedSquare = `<i class="${chargedSquareClass} fa-square"></i>`
+      }
+
       if (i.type === 'foeTrait') {
         traits.push(i);
         continue;
       }
-      // Append to features.
       else if (i.type === 'foeStrike') {
         strikes.push(i);
         continue;
       }
-      // Append to spells.
       else if (i.type === 'foeAction') {
-        console.log(i);
-
-        if (i.system.chargeUp.size > 0) {
-          const values = Array.from(i.system.chargeUp).sort();
-          let chargeUpText = "";
-          let previous = -1;
-          for (const element of values) {
-            if (previous == -1)
-              chargeUpText = `${element}`;
-            else if (element == previous + 1) {
-              if (chargeUpText.endsWith(`-${previous}`))
-                chargeUpText = `${chargeUpText.substring(0, chargeUpText.length - 2)}-${element}`;
-              else
-                chargeUpText = `${chargeUpText}-${element}`;
-            }
-            else
-              chargeUpText = `${chargeUpText}, ${element}`;
-            previous = element;
-          }
-          i.chargeUpText = `(charge-up ${chargeUpText})`;
-          let chargedSquareClass = "fa-regular";
-          if (i.system.charged) {
-            chargedSquareClass = "fa-solid"
-          }
-          i.chargedSquare = `<i class="${chargedSquareClass} fa-square"></i>`
-        }
-
         if (i.system.actionType === 'activation') {
           activations.push(i);
           continue;
@@ -296,6 +293,9 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
       case 'item':
         const item = this._getEmbeddedDocument(target);
         if (item) return item.roll();
+      case 'foeStrike':
+        const foeStrike = this._getEmbeddedDocument(target);
+        if (foeStrike) return createFoeStrikeChatMessage(this.actor, foeStrike);
     }
 
     // Handle rolls that supply the formula directly.

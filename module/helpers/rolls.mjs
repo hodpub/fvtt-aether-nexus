@@ -104,7 +104,7 @@ async function _getModifierAndRollType(title, showDialog, buttonList = ["hindran
   }, { width: 400 });
 }
 
-function _getModifierString(modifier) {
+export function getModifierString(modifier) {
   if (!modifier)
     return "";
 
@@ -116,8 +116,8 @@ function _getModifierString(modifier) {
   return "";
 }
 
-export async function rollAspect(actor, dataset, showDialog) {
-  let [rollType, modifier] = await _getModifierAndRollType(`Aspect.${dataset.aspect}`, showDialog);
+export async function rollAspect(actor, dataset, showDialog, defaultModifier = 0) {
+  let [rollType, modifier] = await _getModifierAndRollType(`Aspect.${dataset.aspect}`, showDialog, defaultModifier);
 
   let rollTypeText = "";
   let formula = "1d20";
@@ -135,7 +135,7 @@ export async function rollAspect(actor, dataset, showDialog) {
   let success = roll.total < target;
 
 
-  const modString = _getModifierString(modifier);
+  const modString = getModifierString(modifier);
   let rollResult = success ? "success" : "failure";
   const diceRolled = roll.terms[0].values[0];
   const criticalSuccessValue = 1; // Get from actor because of weapons that change that
@@ -205,7 +205,7 @@ export async function rollResource(actor, dataset, showDialog) {
   let [_, modifier] = await _getModifierAndRollType(`Resource.${dataset.dice}`, showDialog, [], defaultModifier);
 
   const maxValue = parseInt(die.substring(1));
-  const modString = _getModifierString(modifier);
+  const modString = getModifierString(modifier);
   let roll = await new Roll(`1${die}+ ${modifier}`).evaluate();
   const diceRolled = roll.terms[0].values[0];
   let cssClass = "";
@@ -249,7 +249,7 @@ export async function rollDamage(actor, dataset, showDialog) {
   let [rollType, modifier] = await _getModifierAndRollType(`Resource.damage`, showDialog, ['unarmed', 'critical'], defaultModifier);
 
   const maxValue = parseInt(die.substring(1));
-  const modString = _getModifierString(modifier);
+  const modString = getModifierString(modifier);
   const multiplier = 1;
   let formula = `1${die}+ ${modifier}`;
   let rollTypeText = "";
@@ -285,6 +285,21 @@ export async function rollDamage(actor, dataset, showDialog) {
     cssClass,
     additional
   };
+  await _createRollMessage(actor, templateData, roll);
+  return roll;
+}
+
+export async function rollFoeDamage(chat, target) {
+  const data = target.dataset;
+
+  let roll = await new Roll(data.formula).evaluate();
+
+  const templateData = {
+    flavor: `${data.attack}<br>Damage: ${data.formula}`
+  };
+  const actor = {
+    id: chat.speaker.actor,
+  }
   await _createRollMessage(actor, templateData, roll);
   return roll;
 }

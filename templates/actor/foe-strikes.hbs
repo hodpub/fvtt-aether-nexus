@@ -1,0 +1,13 @@
+<section class='tab traits foe-list {{tab.cssClass}}' data-group='primary' data-tab='strikes'>
+  {{#each strikes as |item key| }}
+  <div class="foe-item" data-item-id="{{item.id}}" data-document-class="Item">
+    {{{item.chargedSquare}}}
+    <a class='item-control rollable' data-action="roll" data-roll-type="foeStrike">
+      <i class='fas fa-sword'></i>
+      <label type='text' data-additional="{{item.system.description}}">{{item.name}}</label>
+    </a>
+    <desc>{{item.chargeUpText}}</desc>
+    {{{item.system.description}}}
+  </div>
+  {{/each}}
+</section>

@@ -1,3 +1,5 @@
+import { getModifierString } from "./rolls.mjs";
+
 export async function sendToChat(actor, target) {
   const [name, additional] = getText(target);
   const content = `
@@ -44,4 +46,34 @@ function getTextFromInput(target) {
   const name = $(target).value();
   const additional = target.dataset?.tooltip ?? target.dataset.additional;
   return [name, additional];
+}
+
+const FoeStrikeTemplate = "systems/aether-nexus/templates/chat/foe-strike.hbs";
+export async function createFoeStrikeChatMessage(actor, strike) {
+
+  console.log(actor, strike);
+  const damageModifierString = getModifierString(actor.system.damage);
+  const aspectModifierString = getModifierString(actor.system.aspects[strike.system.aspect]);
+  const templateData = {
+    flavor: strike.name,
+    additional: strike.system.description,
+    user: game.user.id,
+    formula: `${strike.system.damage}${damageModifierString}`,
+    actorId: actor.id,
+    aspect: strike.system.aspect,
+    modifier: aspectModifierString,
+    additionalTest: strike.system.testAspect
+  };
+  let content = await renderTemplate(FoeStrikeTemplate, templateData);
+  const chatData = {
+    user: game.user.id,
+    speaker: {
+      actor: actor.id,
+      token: actor.token,
+      alias: actor.name
+    },
+    content
+  };
+
+  await ChatMessage.create(chatData);
 }
