@@ -337,6 +337,35 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     // That you may want to implement yourself.
   }
 
+  /**
+   * Attach event listeners to the Application frame.
+   * @protected
+   */
+  _attachFrameListeners() {
+    super._attachFrameListeners();
+
+    // Adding context menu to items
+    new ContextMenu(this.element, 'div.augment', [
+      {
+        name: "SIDEBAR.Edit",
+        icon: '<i class="fas fa-edit"></i>',
+        condition: _ => this.actor.isOwner,
+        callback: div => {
+          this._viewDoc(null, div);
+        }
+      },
+      {
+        name: "SIDEBAR.Delete",
+        icon: '<i class="fas fa-trash"></i>',
+        condition: _ => this.actor.isOwner,
+        callback: div => {
+          this._deleteDoc(null, div);
+        }
+      }
+    ]);
+
+  }
+
   /**************
    *
    *   ACTIONS
@@ -380,6 +409,10 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   static async _viewDoc(event, target) {
+    this._viewDoc(event, target);
+  }
+
+  async _viewDoc(event, target) {
     const doc = this._getEmbeddedDocument(target);
     doc.sheet.render(true);
   }
@@ -393,6 +426,10 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   static async _deleteDoc(event, target) {
+    return this._deleteDoc(event, target);
+  }
+
+  async _deleteDoc(event, target) {
     const doc = this._getEmbeddedDocument(target);
     await doc.delete();
   }
@@ -512,6 +549,8 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
    * @returns {Item | ActiveEffect} The embedded Item or ActiveEffect
    */
   _getEmbeddedDocument(target) {
+    if (target.data("itemId"))
+      return this.actor.items.get(target.data("itemId"));
     let docRow = target.closest('li[data-document-class]');
     if (docRow == undefined)
       docRow = target.closest('div[data-document-class]');
