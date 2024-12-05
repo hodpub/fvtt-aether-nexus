@@ -568,7 +568,6 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
    * @returns {Item | ActiveEffect} The embedded Item or ActiveEffect
    */
   _getEmbeddedDocument(target) {
-    debugger;
     if (typeof target.data === "function" && target.data("itemId"))
       return this.actor.items.get(target.data("itemId"));
     let docRow = target.closest('li[data-document-class]');
@@ -930,7 +929,6 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       default: "normal",
       // render: (html) => html[0].querySelector("#modifier").focus()
     }, { width: 400 });
-    debugger;
     let toCreate = itemData[0].toObject();
     toCreate.system[`ability${ability}Unlocked`] = true;
     return await this.actor.createEmbeddedDocuments('Item', [toCreate]);

@@ -23,7 +23,6 @@ export async function sendToChat(actor, target) {
 }
 
 function getText(target) {
-  debugger;
   const targetType = target.dataset?.targetType ?? target.tagName.toLowerCase();
   switch (targetType) {
     case "label":
