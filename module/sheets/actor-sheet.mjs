@@ -34,6 +34,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       sendToChat: this._sendToChat,
       respite: this._respite,
       attack: this._attack,
+      changeSheetSize: this._changeSheetSize,
     },
     // Custom property that's merged into `this.options`
     dragDrop: [{ dragSelector: '[data-drag]', dropSelector: null }],
@@ -42,6 +43,11 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     },
     window: {
       controls: [
+        {
+          icon: "fas fa-maximize",
+          label: "Change Sheet Size",
+          action: "changeSheetSize"
+        },
         {
           icon: "fa-solid fa-bed",
           label: "Respite",
@@ -535,6 +541,15 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
     for (const e of effects) {
       await e.delete();
     }
+  }
+
+  static async _changeSheetSize(event) {
+    event.preventDefault();
+    this.toggleControls();
+    const newScale = this.position.scale == 1 ? 0.5 : 1;
+    this.setPosition({
+      scale: newScale,
+    });
   }
 
   static async _attack(event, target) {
