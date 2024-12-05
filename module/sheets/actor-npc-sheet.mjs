@@ -43,14 +43,21 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
     biography: {
       template: 'systems/aether-nexus/templates/actor/biography.hbs',
     },
-    list: {
-      template: 'systems/aether-nexus/templates/actor/foe-list.hbs',
-    },
     traits: {
       template: 'systems/aether-nexus/templates/actor/foe-traits.hbs',
+      templates: ["systems/aether-nexus/templates/actor/foe-list.hbs"]
     },
     activations: {
       template: 'systems/aether-nexus/templates/actor/foe-activations.hbs',
+      templates: ["systems/aether-nexus/templates/actor/foe-list.hbs"]
+    },
+    interactions: {
+      template: 'systems/aether-nexus/templates/actor/foe-interactions.hbs',
+      templates: ["systems/aether-nexus/templates/actor/foe-list.hbs"]
+    },
+    maneuvers: {
+      template: 'systems/aether-nexus/templates/actor/foe-maneuvers.hbs',
+      templates: ["systems/aether-nexus/templates/actor/foe-list.hbs"]
     },
     gear: {
       template: 'systems/aether-nexus/templates/actor/gear.hbs',
@@ -67,14 +74,12 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     // Not all parts always render
-    options.parts = ['header', 'tabs', 'biography', 'list', 'traits', 'activations'];
+    options.parts = ['header', 'tabs', 'biography', 'traits', 'activations', 'interactions', 'maneuvers'];
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
   }
 
   /* -------------------------------------------- */
-
-  
 
   /** @override */
   async _preparePartContext(partId, context) {
@@ -85,6 +90,8 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
       case 'list':
       case 'traits':
       case 'activations':
+      case 'interactions':
+      case 'maneuvers':
         context.tab = context.tabs[partId];
         break;
       case 'biography':
@@ -162,19 +169,21 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
           tab.id = 'effects';
           tab.label += 'Effects';
           break;
-
-        // case 'list':
-        //   tab.id = 'list';
-        //   tab.label += 'List';
-        //   break;
         case 'traits':
           tab.id = 'traits';
           tab.label += 'Traits';
           break;
-
         case 'activations':
           tab.id = 'activations';
           tab.label += 'Activations';
+          break;
+        case 'interactions':
+          tab.id = 'interactions';
+          tab.label += 'Interactions';
+          break;
+        case 'maneuvers':
+          tab.id = 'maneuvers';
+          tab.label += 'Maneuvers';
           break;
 
       }

@@ -1,12 +1,3 @@
-{{!-- {{> FoeList list=traits}} --}}
-
 <section class='tab traits foe-list {{tab.cssClass}}' data-group='primary' data-tab='activations'>
-  {{#each activations as |item key| }}
-  <div class="foe-item" data-item-id="{{item.id}}">
-    {{{item.chargedSquare}}} <label type='text' class="rollable" data-action="sendToChat"
-      data-additional="{{item.system.description}}">{{item.name}}</label> <desc>{{item.chargeUpText}}</desc>
-    {{{item.system.description}}}
-    
-  </div>
-  {{/each}}
+  {{> "systems/aether-nexus/templates/actor/foe-list.hbs" list=activations}}
 </section>

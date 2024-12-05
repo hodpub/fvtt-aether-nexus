@@ -70,7 +70,7 @@ export class AetherNexusItem extends Item {
   }
 
   async _preUpdate(data, options, user) {
-    if (data.system.chargeUp) {
+    if (data?.system?.chargeUp) {
       data.system.chargeUp = new Set(data.system.chargeUp.filter(it => it != null));
     }
   }
