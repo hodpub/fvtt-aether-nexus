@@ -46,4 +46,13 @@ export class AetherNexusActor extends Actor {
     await super._preCreate(data, options, user);
     this.updateSource({ "prototypeToken.actorLink": data.type == "character" });
   }
+
+  async _preUpdate(data, options, user) {
+    super._preUpdate(data, options, user);
+
+    if (data.system.energy.value == 0 && !this.statuses.has("broken")) {
+      let status = await ActiveEffect.fromStatusEffect("broken");
+      await this.createEmbeddedDocuments("ActiveEffect", [status]);
+    }
+  }
 }
