@@ -1,0 +1,30 @@
+{{! Biography Tab }}
+<section class='tab scheme {{tab.cssClass}}' data-group='primary' data-tab='scheme'>
+  <label>{{localize "AETHER_NEXUS.Actor.Nemeses.FIELDS.scheme.label"}}</label>
+  {{! Editors must receive enriched text data from getData to properly handle rolls, UUID links, etc. }}
+  {{#if editable}}
+  <prose-mirror name="system.scheme" data-document-u-u-i-d="{{actor.uuid}}" value="{{system.scheme}}" collaborate="true"
+    toggled="true">
+    {{{enrichedScheme}}}
+  </prose-mirror>
+  {{else}} {{{enrichedScheme}}}
+  {{/if}}
+  <label>{{localize "AETHER_NEXUS.Actor.Nemeses.FIELDS.disposition.label"}}</label>
+  {{! Editors must receive enriched text data from getData to properly handle rolls, UUID links, etc. }}
+  {{#if editable}}
+  <prose-mirror name="system.disposition" data-document-u-u-i-d="{{actor.uuid}}" value="{{system.disposition}}"
+    collaborate="true" toggled="true">
+    {{{enrichedDisposition}}}
+  </prose-mirror>
+  {{else}} {{{enrichedDisposition}}}
+  {{/if}}
+  <label>{{localize "AETHER_NEXUS.Actor.Nemeses.FIELDS.secret.label"}}</label>
+  {{! Editors must receive enriched text data from getData to properly handle rolls, UUID links, etc. }}
+  {{#if editable}}
+  <prose-mirror name="system.secret" data-document-u-u-i-d="{{actor.uuid}}" value="{{system.secret}}" collaborate="true"
+    toggled="true">
+    {{{enrichedSecret}}}
+  </prose-mirror>
+  {{else}} {{{enrichedSecret}}}
+  {{/if}}
+</section>

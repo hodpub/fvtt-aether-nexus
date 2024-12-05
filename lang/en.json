@@ -54,7 +54,9 @@
         "Activations": "Activations",
         "Interactions": "Interactions",
         "Maneuvers": "Maneuvers",
-        "Strikes": "Strikes"
+        "Strikes": "Strikes",
+        "Scheme": "Scheme",
+        "Stratagem": "Stratagem"
       },
       "base": {
         "FIELDS": {
@@ -102,6 +104,25 @@
             "mythic": {
               "label": "Mythic"
             }
+          }
+        }
+      },
+      "Nemeses": {
+        "FIELDS": {
+          "scheme": {
+            "label": "Scheme"
+          },
+          "disposition": {
+            "label": "Disposition"
+          },
+          "secret": {
+            "label": "Secret"
+          },
+          "stratagem": {
+            "label": "Stratagem"
+          },
+          "np": {
+            "label": "NP"
           }
         }
       }
@@ -292,7 +313,7 @@
       "Severed": "Severed",
       "Staggered": "Staggered"
     },
-    "Action":{
+    "Action": {
       "rollDamage": "Roll Damage:",
       "rollAspect": "Roll Defense test:",
       "rollAdditionalAspect": "Roll Effect test:"
@@ -301,7 +322,8 @@
   "TYPES": {
     "Actor": {
       "character": "Character",
-      "npc": "NPC"
+      "npc": "NPC",
+      "nemeses": "Nemeses"
     },
     "Item": {
       "gear": "Gear",

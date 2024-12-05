@@ -42,23 +42,32 @@
           {{localize 'AETHER_NEXUS.Item.Frame.FIELDS.energy.label'}}
         </label>
         <div class='resource-content flexrow flex-center flex-between'>
-          <input type='number' name='system.energy.value' value='{{system.energy.value}}' data-dtype='Number' onfocus="this.select()" />
+          <input type='number' name='system.energy.value' value='{{system.energy.value}}' data-dtype='Number'
+            onfocus="this.select()" />
           <span> / </span>
-          <input type='number' name='system.energy.max' value='{{system.energy.max}}' data-dtype='Number' onfocus="this.select()" />
+          <input type='number' name='system.energy.max' value='{{system.energy.max}}' data-dtype='Number'
+            onfocus="this.select()" />
         </div>
       </div>
 
       <div class='resource flex-group-center'>
         <label for='system.damage' class='resource-label'>{{localize
           'AETHER_NEXUS.Item.FoeStrike.FIELDS.damage.label'}}</label>
-        <input type='number' name='system.damage' value='{{system.damage}}' data-dtype='Number' min="-10" max="18" onfocus="this.select()" />
+        <input type='number' name='system.damage' value='{{system.damage}}' data-dtype='Number' min="-10" max="18"
+          onfocus="this.select()" />
       </div>
 
       <div class='resource flex-group-center'>
+        {{#if (eq actor.type "npc")}}
         <label class='resource-label'>{{localize 'AETHER_NEXUS.Actor.Npc.FIELDS.threat.label'}}</label>
         <select name="system.threat">
           {{selectOptions config.FOE.THREAT selected=system.threat localize=true}}
         </select>
+        {{else}}
+        <label class='resource-label'>{{localize 'AETHER_NEXUS.Actor.Nemeses.FIELDS.np.label'}}</label>
+        <input type='number' name='system.np' value='{{system.np}}' data-dtype='Number' min="0" max="1000"
+          onfocus="this.select()" />
+        {{/if}}
       </div>
     </div>
   </div>
