@@ -6,12 +6,13 @@ export default class AetherNexussChatMessage extends ChatMessage {
 
     html.find(".foe-aspect-test").each((_, bt) => {
       bt.addEventListener("click", async (event) => {
-        console.log(this);
-        if (game.user.character == undefined) {
+        const actor = game.user.character ?? game.canvas.tokens.controlled[0]?.actor;
+        if (actor == undefined) {
           ui.notifications.error("Select a character to roll aspect");
           return;
         }
-        return rollAspect(game.user.character, event.target.dataset, false, event.target.dataset.modifier);
+
+        return rollAspect(actor, event.target.dataset, false, event.target.dataset.modifier);
       });
     });
 
