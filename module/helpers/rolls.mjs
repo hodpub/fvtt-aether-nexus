@@ -163,7 +163,6 @@ async function downgradeDie(actor, maxValue, property) {
   if (newDie == "d2")
     newDie = "0";
 
-
   return newDie;
 }
 
@@ -231,8 +230,13 @@ export async function rollResource(actor, dataset, showDialog) {
     additional
   };
   await _createRollMessage(actor, templateData, roll);
-  if (newDie != die)
+  if (newDie != die) {
     await actor.update({ [`system.dice.${dataset.dice}.value`]: newDie });
+    if (newDie == "0" && !actor.statuses.has("severed")) {
+      let status = await ActiveEffect.fromStatusEffect("severed");
+      await actor.createEmbeddedDocuments("ActiveEffect", [status]);
+    }
+  }
   return roll;
 }
 
