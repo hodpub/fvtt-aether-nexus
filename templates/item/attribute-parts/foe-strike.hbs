@@ -32,16 +32,20 @@
         {{selectOptions config.ASPECT.ASPECT selected=system.testAspect localize=true}}
       </select>
     </div>
-  </div>
-  <div class="resource">
-    <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.FoeStrike.FIELDS.testDescription.label'}}</label>
-    {{#if editable}}
-    <prose-mirror name="system.testDescription" data-document-u-u-i-d="{{item.uuid}}" value="{{system.testDescription}}"
-      collaborate="true" toggled="true">
-      {{{enrichedTestDescription}}}
-    </prose-mirror>
-    {{else}} {{{enrichedTestDescription}}}
+
+    {{#if (and isEmbedded (gt system.chargeUp.size 0))}}
+    <div class='grid-span-1'>
+      <input type='checkbox' name='system.charged' {{#if system.charged}}checked{{/if}} {{#if (not isEmbedded)}}disabled{{/if}} /> <label
+      class='resource-label'>{{localize 'AETHER_NEXUS.Item.FoeAction.FIELDS.charged.label'}}</label>
+    </div>
     {{/if}}
+  </div>
+  
+  <div class='resource'>
+    <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.FoeAction.FIELDS.chargeUp.label'}}</label><br>
+    <div class='grid grid-6col'>
+    {{{chargeUp system.chargeUp}}}
+    </div>
   </div>
 
 </section>

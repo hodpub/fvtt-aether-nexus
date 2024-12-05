@@ -270,10 +270,7 @@
             "label": "Damage"
           },
           "testAspect": {
-            "label": "Aspect to Test"
-          },
-          "testDescription": {
-            "label": "Test Description"
+            "label": "Effect Test"
           }
         }
       }

@@ -10,7 +10,6 @@ export default class AetherNexusFoeStrike extends AetherNexusFoeAction {
     schema.attackType = new fields.StringField({ required: true });
     schema.damage = new fields.StringField({ required: true });
     schema.testAspect = new fields.StringField();
-    schema.testDescription = new fields.HTMLField();
 
     return schema;
   }

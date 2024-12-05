@@ -160,6 +160,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
       case 'attributesSpell':
       case 'attributesFrame':
       case 'attributesFoeAction':
+      case 'attributesFoeStrike':
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
         break;
@@ -218,20 +219,6 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         context.tab = context.tabs[partId];
         context.enrichedEffect = await TextEditor.enrichHTML(
           this.item.system.effect,
-          {
-            // Whether to show secret blocks in the finished html
-            secrets: this.document.isOwner,
-            // Data to fill in for inline rolls
-            rollData: this.item.getRollData(),
-            // Relative UUID resolution
-            relativeTo: this.item,
-          }
-        );
-        break;
-      case 'attributesFoeStrike':
-        context.tab = context.tabs[partId];
-        context.enrichedTestDescription = await TextEditor.enrichHTML(
-          this.item.system.testDescription,
           {
             // Whether to show secret blocks in the finished html
             secrets: this.document.isOwner,

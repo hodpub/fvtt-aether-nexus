@@ -9,7 +9,7 @@
         {{selectOptions config.FOE.ACTION_TYPE selected=system.actionType localize=true}}
       </select>
     </div>
-    {{#if isEmbedded}}
+    {{#if (and isEmbedded (gt system.chargeUp.size 0))}}
     <div class='grid-span-1'>
       <input type='checkbox' name='system.charged' {{#if system.charged}}checked{{/if}} {{#if (not isEmbedded)}}disabled{{/if}} /> <label
       class='resource-label'>{{localize 'AETHER_NEXUS.Item.FoeAction.FIELDS.charged.label'}}</label>

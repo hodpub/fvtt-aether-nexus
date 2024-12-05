@@ -237,6 +237,10 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
         }
         i.chargedSquare = `<i class="${chargedSquareClass} fa-square"></i>`
       }
+      else {
+        i.chargedSquare = "";
+        i.chargeUpText = "";
+      }
 
       if (i.type === 'foeTrait') {
         traits.push(i);
