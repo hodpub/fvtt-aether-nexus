@@ -31,5 +31,9 @@ div[name="augments"] {
     label:nth-child(3) {
       top: 80px;
     }
+
+    label.locked {
+      opacity: 0.35;
+    }
   }
 }

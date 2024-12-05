@@ -2,8 +2,8 @@
   {{#each augments as |augment|}}
   <div class="augment" data-item-id="{{augment.id}}">
     <label type='text' class="rollable" data-action="sendToChat" data-additional="{{augment.system.description}}">{{augment.name}}</label>
-    <label type='text' class="rollable" data-action="sendToChat" data-additional="{{augment.system.ability1Description}}">{{augment.system.ability1Name}}</label>
-    <label type='text' class="rollable" data-action="sendToChat" data-additional="{{augment.system.ability2Description}}">{{augment.system.ability2Name}}</label>
+    <label type='text' {{#if augment.system.ability1Unlocked}}class="rollable" data-action="sendToChat"{{else}}class="locked"{{/if}} data-tooltip="{{augment.system.ability1Description}}">{{augment.system.ability1Name}}</label>
+    <label type='text' {{#if augment.system.ability2Unlocked}}class="rollable" data-action="sendToChat"{{else}}class="locked"{{/if}} data-tooltip="{{augment.system.ability2Description}}">{{augment.system.ability2Name}}</label>
   </div>
   {{/each}}
 </div>

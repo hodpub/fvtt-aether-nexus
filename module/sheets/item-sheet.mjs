@@ -122,6 +122,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
       editable: this.isEditable,
       owner: this.document.isOwner,
       limited: this.document.limited,
+      isEmbedded: this.document.isEmbedded,
       // Add the item document.
       item: this.item,
       // Adding system and flags for easier access

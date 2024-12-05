@@ -12,8 +12,10 @@ export default class AetherNexusAugment extends AetherNexusItemBase {
 
     schema.ability1Name = new fields.StringField({ required: true });
     schema.ability1Description = new fields.HTMLField();
+    schema.ability1Unlocked = new fields.BooleanField({ initial: false });
     schema.ability2Name = new fields.StringField({ required: true });
     schema.ability2Description = new fields.HTMLField();
+    schema.ability2Unlocked = new fields.BooleanField({ initial: false });
 
     return schema;
   }

@@ -176,6 +176,9 @@
         "FIELDS": {
           "augmentAbility": {
             "label": "Augment Ability"
+          },
+          "unlocked": {
+            "label": "Unlocked"
           }
         }
       },

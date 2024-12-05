@@ -790,6 +790,8 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       return this._onDropEquipmentCreate(itemData, event);
     else if (itemData.length == 1 && itemData[0].type == "shield")
       return this._onDropShieldCreate(itemData, event);
+    else if (itemData.length == 1 && itemData[0].type == "augment")
+      return this._onDropAugmentCreate(itemData, event);
     return this.actor.createEmbeddedDocuments('Item', itemData);
   }
 
@@ -863,7 +865,7 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       ui.notifications.error("You don't have enough slots to store this equipment.");
       return null;
     }
-    await this.actor.createEmbeddedDocuments('Item', itemData);
+    return await this.actor.createEmbeddedDocuments('Item', itemData);
   }
 
   async _onDropShieldCreate(itemData, event) {
@@ -873,6 +875,39 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       return null;
     }
     return await this._onDropEquipmentCreate(itemData, event);
+  }
+
+  async _onDropAugmentCreate(itemData, event) {
+    const augment = itemData[0];
+    const ability = await Dialog.wait({
+      title: `Choose augment: ${augment.name}`,
+      content: `
+  <form class="aether-nexus"><div>
+
+    <h2>${augment.name}</h2>
+    ${augment.system.description}
+    <h3>${augment.system.ability1Name}</h3>
+    ${augment.system.ability1Description}
+    <h3>${augment.system.ability2Name}</h3>
+    ${augment.system.ability2Description}
+  </div></form>`,
+      buttons: {
+        ability1: {
+          label: augment.system.ability1Name,
+          callback: _ => 1
+        },
+        ability2: {
+          label: augment.system.ability2Name,
+          callback: _ => 2
+        }
+      },
+      default: "normal",
+      // render: (html) => html[0].querySelector("#modifier").focus()
+    }, { width: 400 });
+    debugger;
+    let toCreate = itemData[0].toObject();
+    toCreate.system[`ability${ability}Unlocked`] = true;
+    return await this.actor.createEmbeddedDocuments('Item', [toCreate]);
   }
 
   /**
