@@ -531,6 +531,10 @@ export class AetherNexusActorSheet extends api.HandlebarsApplicationMixin(
       "system.dice.armor.value": this.actor.system.dice.armor.max,
       "system.energy.value": this.actor.system.energy.max,
     });
+    const effects = this.actor.effects;
+    for (const e of effects) {
+      await e.delete();
+    }
   }
 
   static async _attack(event, target) {
