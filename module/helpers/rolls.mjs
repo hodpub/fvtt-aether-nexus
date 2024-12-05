@@ -39,7 +39,7 @@ function _getRollInfo(html, rollType) {
   return [rollType, parseInt(html[0].querySelector("#modifier").value)];
 }
 
-async function _getModifierAndRollType(title, showDialog, buttonList = ["hindrance", "favor"], modifier = 0) {
+async function _getModifierAndRollType(title, showDialog, modifier = 0, buttonList = ["hindrance", "favor"]) {
   if (!showDialog)
     return [0, modifier];
 
@@ -202,7 +202,7 @@ export async function rollResource(actor, dataset, showDialog) {
     return;
 
   const defaultModifier = getResourceModifier(actor, dataset);
-  let [_, modifier] = await _getModifierAndRollType(`Resource.${dataset.dice}`, showDialog, [], defaultModifier);
+  let [_, modifier] = await _getModifierAndRollType(`Resource.${dataset.dice}`, showDialog, defaultModifier, []);
 
   const maxValue = parseInt(die.substring(1));
   const modString = getModifierString(modifier);
@@ -246,7 +246,7 @@ export async function rollDamage(actor, dataset, showDialog) {
     return;
 
   const defaultModifier = getResourceModifier(actor, dataset);
-  let [rollType, modifier] = await _getModifierAndRollType(`Resource.damage`, showDialog, ['unarmed', 'critical'], defaultModifier);
+  let [rollType, modifier] = await _getModifierAndRollType(`Resource.damage`, showDialog, defaultModifier, ['unarmed', 'critical']);
 
   const maxValue = parseInt(die.substring(1));
   const modString = getModifierString(modifier);

@@ -53,11 +53,13 @@ export async function createFoeStrikeChatMessage(actor, strike) {
 
   console.log(actor, strike);
   const damageModifierString = getModifierString(actor.system.damage);
-  const aspectModifierString = getModifierString(actor.system.aspects[strike.system.aspect]);
+  const aspectModifier = actor.system.aspects[strike.system.aspect]
+  const aspectModifierString = getModifierString(aspectModifier);
   const templateData = {
     flavor: strike.name,
     additional: strike.system.description,
     user: game.user.id,
+    bonus: aspectModifier,
     formula: `${strike.system.damage}${damageModifierString}`,
     actorId: actor.id,
     aspect: strike.system.aspect,

@@ -12,7 +12,7 @@ export default class AetherNexussChatMessage extends ChatMessage {
           return;
         }
 
-        return rollAspect(actor, event.target.dataset, false, event.target.dataset.modifier);
+        return rollAspect(actor, event.target.dataset, !event.shiftKey, event.target.dataset.modifier);
       });
     });
 
