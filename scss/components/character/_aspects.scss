@@ -40,38 +40,36 @@ input[name="system.aspects.hearth"] {
 
 // ROLL SPANS
 
-%spanAspect {
-  background: $inputBackground;
-  display: block;
-  width: 60px;
-  height: 30px;
+%labelAspect {
+  @extend %inputEmphasis;
   position: absolute;
+  font-size: large;
 }
 
-span[name="roll.aspects.stone"] {
-  @extend %spanAspect;
-  top: 445px;
-  left: 311px;
+label[name="roll.aspects.stone"] {
+  @extend %labelAspect;
+  top: 451px;
+  left: 326px;
   rotate: 71deg;
 }
 
-span[name="roll.aspects.flux"] {
-  @extend %spanAspect;
-  top: 565px;
-  left: 416px;
+label[name="roll.aspects.flux"] {
+  @extend %labelAspect;
+  top: 569px;
+  left: 431px;
   rotate: 26deg;
 }
 
-span[name="roll.aspects.aether"] {
-  @extend %spanAspect;
-  top: 568px;
-  left: 584px;
+label[name="roll.aspects.aether"] {
+  @extend %labelAspect;
+  top: 573px;
+  left: 592px;
   rotate: -26deg;
 }
 
-span[name="roll.aspects.hearth"] {
-  @extend %spanAspect;
-  top: 444px;
-  left: 691px;
+label[name="roll.aspects.hearth"] {
+  @extend %labelAspect;
+  top: 451px;
+  left: 697px;
   rotate: -72deg;
 }

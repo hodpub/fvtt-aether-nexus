@@ -56,36 +56,35 @@ input[name="system.dice.armor.max"] {
 
 // Rolls
 
-%spanDice {
-  background: $inputBackground;
-  display: block;
-  width: 60px;
-  height: 30px;
+%labelDice {
+  @extend %inputEmphasis;
   position: absolute;
 }
 
-span[name="roll.dice.damage"] {
-  @extend %spanDice;
-  top: 280px;
-  left: 400px;
-  height: 51px;
+label[name="roll.dice.damage"] {
+  @extend %labelDice;
+  top: 282px;
+  left: 403px;
   width: 77px;
   rotate: -45deg;
+  font-size: x-large;
+  text-align: center;
 }
 
-span[name="roll.dice.nexus"] {
-  @extend %spanDice;
-  top: 222px;
-  left: 494px;
-  height: 25px;
-  width: 77px;
+label[name="roll.dice.nexus"] {
+  @extend %labelDice;
+  top: 227px;
+  left: 503px;
+  font-size: large;
 }
 
-span[name="roll.dice.armor"] {
-  @extend %spanDice;
-  top: 279px;
-  left: 587px;
+label[name="roll.dice.armor"] {
+  @extend %labelDice;
+  top: 282px;
+  left: 583px;
   height: 55px;
   width: 77px;
   rotate: 42deg;
+  font-size: x-large;
+  text-align: center;
 }
