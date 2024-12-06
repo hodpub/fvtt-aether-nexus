@@ -33,3 +33,50 @@ button,
 .application .controls-dropdown .header-control>button {
   justify-content: flex-start;
 }
+
+#pause {
+  background: unset;
+
+  img {
+    display: none;
+  }
+
+  svg {
+    opacity: 1;
+    width: 256px;
+    left: calc(50% - 128px);
+    top: -32px;
+    position: absolute;
+
+    fill: transparent;
+    stroke: #fff;
+    stroke-width: 1;
+    stroke-dasharray: 19000;
+    stroke-dashoffset: 19000;
+
+    animation: pauseAnimation 5s ease-in-out infinite alternate-reverse both;
+
+    &.fa-spin {
+      animation: unset;
+    }
+  }
+
+  figcaption {
+    text-shadow: -1px -1px 0 #645272, 1px -1px 0 #645272, -1px 1px 0 #645272, 1px 1px 0 #645272, red 0 0 10px;
+  }
+}
+
+@keyframes pauseAnimation {
+  0% {
+    stroke-dashoffset: 19000;
+  }
+
+  50% {
+    fill: transparent;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    fill: #645272;
+  }
+}

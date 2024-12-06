@@ -15,6 +15,7 @@ import registerHandlebarsHelpers from './helpers/handlebars.mjs';
 import AetherNexussChatMessage from './documents/chat.mjs';
 import AetherNexusCombatant from './combat/combatant.mjs';
 import AetherNexusCombat, { registerCombatSettings } from './combat/combat.mjs';
+import swapPause from './helpers/pause.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -121,6 +122,8 @@ Hooks.once('ready', function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on('hotbarDrop', (bar, data, slot) => createDocMacro(data, slot));
 });
+
+swapPause();
 
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
