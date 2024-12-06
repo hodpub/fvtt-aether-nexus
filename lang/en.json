@@ -56,7 +56,8 @@
         "Maneuvers": "Maneuvers",
         "Strikes": "Strikes",
         "Scheme": "Scheme",
-        "Stratagem": "Stratagem"
+        "Stratagem": "Stratagem",
+        "Assets": "Nemeses Assets"
       },
       "base": {
         "FIELDS": {
@@ -294,6 +295,13 @@
             "label": "Effect Test"
           }
         }
+      },
+      "NemesesAsset": {
+        "FIELDS": {
+          "cost": {
+            "label": "Cost"
+          }
+        }
       }
     },
     "Effect": {
@@ -337,7 +345,8 @@
       "shield": "Shield",
       "foeTrait": "Foe's Trait",
       "foeAction": "Foe's Action",
-      "foeStrike": "Foe's Strike"
+      "foeStrike": "Foe's Strike",
+      "nemesesAsset": "Nemeses' Asset"
     }
   }
 }

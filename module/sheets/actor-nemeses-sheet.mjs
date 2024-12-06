@@ -69,6 +69,10 @@ export class AetherNexusActorNemesesSheet extends AetherNexusActorNpcSheet {
     stratagem: {
       template: 'systems/aether-nexus/templates/actor/nemeses-stratagem.hbs',
     },
+    assets: {
+      template: 'systems/aether-nexus/templates/actor/nemeses-assets.hbs',
+      templates: ["systems/aether-nexus/templates/actor/foe-list.hbs"]
+    },
     effects: {
       template: 'systems/aether-nexus/templates/actor/effects.hbs',
     },
@@ -78,7 +82,7 @@ export class AetherNexusActorNemesesSheet extends AetherNexusActorNpcSheet {
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     // Not all parts always render
-    options.parts = ['header', 'tabs', 'biography', 'traits', 'activations', 'interactions', 'maneuvers', 'strikes', 'scheme', 'stratagem'];
+    options.parts = ['header', 'tabs', 'biography', 'traits', 'activations', 'interactions', 'maneuvers', 'strikes', 'scheme', 'stratagem', 'assets'];
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
   }
@@ -97,6 +101,7 @@ export class AetherNexusActorNemesesSheet extends AetherNexusActorNpcSheet {
       case 'interactions':
       case 'maneuvers':
       case 'strikes':
+      case 'assets':
         context.tab = context.tabs[partId];
         break;
       case 'biography':
@@ -252,6 +257,10 @@ export class AetherNexusActorNemesesSheet extends AetherNexusActorNpcSheet {
           tab.id = 'stratagem';
           tab.label += 'Stratagem';
           break;
+        case 'assets':
+          tab.id = 'assets';
+          tab.label += 'Assets';
+          break;
       }
       if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
       tabs[partId] = tab;
@@ -274,6 +283,7 @@ export class AetherNexusActorNemesesSheet extends AetherNexusActorNpcSheet {
     const interactions = [];
     const maneuvers = [];
     const strikes = [];
+    const assets = [];
 
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
@@ -328,6 +338,10 @@ export class AetherNexusActorNemesesSheet extends AetherNexusActorNpcSheet {
           continue;
         }
       }
+      else if (i.type == 'nemesesAsset') {
+        assets.push(i);
+        continue;
+      }
     }
 
     // Sort then assign
@@ -336,6 +350,7 @@ export class AetherNexusActorNemesesSheet extends AetherNexusActorNpcSheet {
     context.interactions = interactions.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.maneuvers = maneuvers.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.strikes = strikes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.assets = assets.sort((a, b) => (a.sort || 0) - (b.sort || 0));
   }
 
   /**************

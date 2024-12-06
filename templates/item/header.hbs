@@ -23,5 +23,12 @@
       <input type='text' name='system.frameTitle' value='{{system.frameTitle}}' />
     </div>
     {{/if}}
+
+    {{#if (eq item.type "nemesesAsset")}}
+    <div class='resource'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.NemesesAsset.FIELDS.cost.label'}}</label>
+      <input type='number' name='system.cost' value='{{system.cost}}' data-dtype='Number' min="0" />
+    </div>
+    {{/if}}
   </div>
 </header>
