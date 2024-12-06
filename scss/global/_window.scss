@@ -62,7 +62,10 @@ button,
   }
 
   figcaption {
-    text-shadow: -1px -1px 0 #645272, 1px -1px 0 #645272, -1px 1px 0 #645272, 1px 1px 0 #645272, red 0 0 10px;
+    color: red;
+    $border-color: white;
+    $background-color: #645372;
+    text-shadow: -1px -1px 0 $border-color, 1px -1px 0 $border-color, -1px 1px 0 $border-color, 1px 1px 0 $border-color, $background-color 0 0 5px, $background-color 0 0 10px, $background-color 0 0 15px, $background-color 0 0 20px, $background-color 0 0 25px;
   }
 }
 
