@@ -63,8 +63,8 @@ input[name="system.dice.armor.max"] {
 
 label[name="roll.dice.damage"] {
   @extend %labelDice;
-  top: 282px;
-  left: 403px;
+  top: 283px;
+  left: 400px;
   width: 77px;
   rotate: -45deg;
   font-size: x-large;
@@ -81,7 +81,7 @@ label[name="roll.dice.nexus"] {
 label[name="roll.dice.armor"] {
   @extend %labelDice;
   top: 282px;
-  left: 583px;
+  left: 586px;
   height: 55px;
   width: 77px;
   rotate: 42deg;
