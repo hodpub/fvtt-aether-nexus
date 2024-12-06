@@ -14,6 +14,7 @@ import { STATUS_EFFECTS } from './configs/statusEffects.mjs';
 import registerHandlebarsHelpers from './helpers/handlebars.mjs';
 import AetherNexussChatMessage from './documents/chat.mjs';
 import AetherNexusCombatant from './combat/combatant.mjs';
+import AetherNexusCombat, { registerCombatSettings } from './combat/combat.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -40,21 +41,13 @@ Hooks.once('init', function () {
   // Add custom constants for configuration.
   CONFIG.AETHER_NEXUS = AETHER_NEXUS;
 
-  /**
-   * Set an initiative formula for the system
-   * @type {String}
-   */
-  CONFIG.Combat.initiative = {
-    formula: '1d20 + @abilities.dex.mod',
-    decimals: 2,
-  };
-
   CONFIG.statusEffects = STATUS_EFFECTS;
 
   // Define custom Document and DataModel classes
   CONFIG.Actor.documentClass = AetherNexusActor;
   CONFIG.ChatMessage.documentClass = AetherNexussChatMessage;
   CONFIG.Combatant.documentClass = AetherNexusCombatant;
+  CONFIG.Combat.documentClass = AetherNexusCombat;
 
   // Note that you don't need to declare a DataModel
   // for the base actor/item classes - they are included
@@ -85,6 +78,8 @@ Hooks.once('init', function () {
   // but will still apply to the Actor from within the Item
   // if the transfer property on the Active Effect is true.
   CONFIG.ActiveEffect.legacyTransferral = false;
+
+  registerCombatSettings();
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
