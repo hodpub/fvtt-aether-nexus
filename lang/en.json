@@ -178,9 +178,6 @@
       },
       "Frame": {
         "FIELDS": {
-          "frameTitle": {
-            "label": "Frame Title"
-          },
           "stone": {
             "label": "Stone"
           },

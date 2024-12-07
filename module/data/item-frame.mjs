@@ -20,9 +20,6 @@ export default class AetherNexusFrame extends AetherNexusItemBase {
     schema.frameAbility2Name = new fields.StringField({ required: true });
     schema.frameAbility2Description = new fields.HTMLField();
 
-    schema.biography = new fields.HTMLField();
-    schema.frameTitle = new fields.StringField({ required: true });
-
     return schema;
   }
 }
