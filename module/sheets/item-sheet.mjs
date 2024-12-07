@@ -45,15 +45,6 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
     description: {
       template: 'systems/aether-nexus/templates/item/description.hbs',
     },
-    attributesFeature: {
-      template: 'systems/aether-nexus/templates/item/attribute-parts/feature.hbs',
-    },
-    attributesGear: {
-      template: 'systems/aether-nexus/templates/item/attribute-parts/gear.hbs',
-    },
-    attributesSpell: {
-      template: 'systems/aether-nexus/templates/item/attribute-parts/spell.hbs',
-    },
     attributesKin: {
       template: 'systems/aether-nexus/templates/item/attribute-parts/kin.hbs',
     },
@@ -92,15 +83,6 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
     if (this.document.limited) return;
     // Control which parts show based on document subtype
     switch (this.document.type) {
-      case 'feature':
-        options.parts.push('attributesFeature', 'effects');
-        break;
-      case 'gear':
-        options.parts.push('attributesGear');
-        break;
-      case 'spell':
-        options.parts.push('attributesSpell');
-        break;
       case 'kin':
         options.parts.push('attributesKin');
         break;
@@ -155,9 +137,6 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
   /** @override */
   async _preparePartContext(partId, context) {
     switch (partId) {
-      case 'attributesFeature':
-      case 'attributesGear':
-      case 'attributesSpell':
       case 'attributesFrame':
       case 'attributesFoeAction':
       case 'attributesFoeStrike':
@@ -309,9 +288,6 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
           tab.id = 'description';
           tab.label += 'Description';
           break;
-        case 'attributesFeature':
-        case 'attributesGear':
-        case 'attributesSpell':
         case 'attributesKin':
         case 'attributesFrame':
         case 'attributesWeapon':

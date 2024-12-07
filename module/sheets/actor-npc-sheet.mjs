@@ -82,9 +82,6 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
   /** @override */
   async _preparePartContext(partId, context) {
     switch (partId) {
-      case 'features':
-      case 'spells':
-      case 'gear':
       case 'list':
       case 'traits':
       case 'activations':
@@ -152,18 +149,6 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
           tab.id = 'biography';
           tab.label += 'Biography';
           break;
-        case 'features':
-          tab.id = 'features';
-          tab.label += 'Features';
-          break;
-        case 'gear':
-          tab.id = 'gear';
-          tab.label += 'Gear';
-          break;
-        case 'spells':
-          tab.id = 'spells';
-          tab.label += 'Spells';
-          break;
         case 'effects':
           tab.id = 'effects';
           tab.label += 'Effects';
@@ -201,10 +186,6 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
    * @param {object} context The context object to mutate
    */
   _prepareItems(context) {
-    // Initialize containers.
-    // You can just use `this.document.itemTypes` instead
-    // if you don't need to subdivide a given type like
-    // this sheet does with spells
     const traits = [];
     const activations = [];
     const interactions = [];

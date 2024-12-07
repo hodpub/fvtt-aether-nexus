@@ -76,18 +76,6 @@ export class AetherNexusBaseActorSheet extends api.HandlebarsApplicationMixin(
           tab.id = 'biography';
           tab.label += 'Biography';
           break;
-        case 'features':
-          tab.id = 'features';
-          tab.label += 'Features';
-          break;
-        case 'gear':
-          tab.id = 'gear';
-          tab.label += 'Gear';
-          break;
-        case 'spells':
-          tab.id = 'spells';
-          tab.label += 'Spells';
-          break;
         case 'effects':
           tab.id = 'effects';
           tab.label += 'Effects';

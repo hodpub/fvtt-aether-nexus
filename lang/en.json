@@ -46,9 +46,6 @@
     "Actor": {
       "Tabs": {
         "Biography": "Biography",
-        "Features": "Features",
-        "Gear": "Gear",
-        "Spells": "Spells",
         "Effects": "Effects",
         "Traits": "Traits",
         "Activations": "Activations",
@@ -134,37 +131,6 @@
         "Abilities": "Abilities",
         "Description": "Description",
         "Effects": "Effects"
-      },
-      "Gear": {
-        "FIELDS": {
-          "rollFormula": {
-            "label": "Roll Formula"
-          },
-          "numDice": {
-            "label": "Number of Dice"
-          },
-          "dieSize": {
-            "label": "Die Size"
-          },
-          "rollMod": {
-            "label": "Roll Modifier"
-          },
-          "quantity": {
-            "label": "Quantity"
-          },
-          "weight": {
-            "label": "Weight"
-          }
-        }
-      },
-      "Spell": {
-        "FIELDS": {
-          "level": {
-            "label": "Spell Level"
-          }
-        },
-        "SpellLVL": "Level {level} Spells",
-        "AddLVL": "Add LVL {level}"
       },
       "Kin": {
         "FIELDS": {
@@ -331,9 +297,6 @@
       "nemeses": "Nemeses"
     },
     "Item": {
-      "gear": "Gear",
-      "feature": "Feature",
-      "spell": "Spell",
       "kin": "Kin",
       "frame": "Frame",
       "boon": "Boon",

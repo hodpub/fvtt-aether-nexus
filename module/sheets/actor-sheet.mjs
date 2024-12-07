@@ -70,9 +70,6 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
       // Foundry-provided generic template
       template: 'templates/generic/tab-navigation.hbs',
     },
-    features: {
-      template: 'systems/aether-nexus/templates/actor/features.hbs',
-    },
     biography: {
       template: 'systems/aether-nexus/templates/actor/biography.hbs',
     },
@@ -93,12 +90,6 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
     },
     equipments: {
       template: 'systems/aether-nexus/templates/actor/equipments.hbs',
-    },
-    gear: {
-      template: 'systems/aether-nexus/templates/actor/gear.hbs',
-    },
-    spells: {
-      template: 'systems/aether-nexus/templates/actor/spells.hbs',
     },
     effects: {
       template: 'systems/aether-nexus/templates/actor/effects.hbs',
@@ -146,9 +137,6 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
   /** @override */
   async _preparePartContext(partId, context) {
     switch (partId) {
-      case 'features':
-      case 'spells':
-      case 'gear':
       case 'traits':
         context.tab = context.tabs[partId];
         break;
@@ -211,18 +199,6 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
           tab.id = 'biography';
           tab.label += 'Biography';
           break;
-        case 'features':
-          tab.id = 'features';
-          tab.label += 'Features';
-          break;
-        case 'gear':
-          tab.id = 'gear';
-          tab.label += 'Gear';
-          break;
-        case 'spells':
-          tab.id = 'spells';
-          tab.label += 'Spells';
-          break;
         case 'effects':
           tab.id = 'effects';
           tab.label += 'Effects';
@@ -240,48 +216,13 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
    * @param {object} context The context object to mutate
    */
   _prepareItems(context) {
-    // Initialize containers.
-    // You can just use `this.document.itemTypes` instead
-    // if you don't need to subdivide a given type like
-    // this sheet does with spells
-    const gear = [];
-    const features = [];
-    const spells = {
-      0: [],
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-      6: [],
-      7: [],
-      8: [],
-      9: [],
-    };
     const traits = [];
     const augments = [];
     const equipments = [];
 
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
-      // Append to gear.
-      if (i.type === 'gear') {
-        gear.push(i);
-        continue;
-      }
-      // Append to features.
-      else if (i.type === 'feature') {
-        features.push(i);
-        continue;
-      }
-      // Append to spells.
-      else if (i.type === 'spell') {
-        if (i.system.spellLevel != undefined) {
-          spells[i.system.spellLevel].push(i);
-        }
-        continue;
-      }
-      else if (i.type == "kin") {
+      if (i.type == "kin") {
         context.kin = i;
         continue;
       }
@@ -303,14 +244,7 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
       }
     }
 
-    for (const s of Object.values(spells)) {
-      s.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    }
-
     // Sort then assign
-    context.gear = gear.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.spells = spells;
     context.traits = traits.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.augments = augments;
     context.equipments = equipments;

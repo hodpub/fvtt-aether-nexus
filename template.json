@@ -8,9 +8,6 @@
   },
   "Item": {
     "types": [
-      "gear",
-      "feature",
-      "spell",
       "kin",
       "frame",
       "boon",

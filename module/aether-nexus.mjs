@@ -60,9 +60,6 @@ Hooks.once('init', function () {
   };
   CONFIG.Item.documentClass = AetherNexusItem;
   CONFIG.Item.dataModels = {
-    gear: models.AetherNexusGear,
-    feature: models.AetherNexusFeature,
-    spell: models.AetherNexusSpell,
     kin: models.AetherNexusKin,
     frame: models.AetherNexusFrame,
     boon: models.AetherNexusBoon,
