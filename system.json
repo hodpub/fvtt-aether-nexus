@@ -36,8 +36,8 @@
   "media": [
     {
       "type": "setup",
-      "url": "systems/aether-nexus/assets/anvil-impact.png",
-      "thumbnail": "systems/aether-nexus/assets/anvil-impact.png"
+      "url": "systems/aether-nexus/assets/cover.webp",
+      "thumbnail": "systems/aether-nexus/assets/cover.webp"
     }
   ],
   "compatibility": {
@@ -58,7 +58,7 @@
   "socket": false,
   "manifest": "Replace this with a link to the /latest release system.json so people can receive updates after they've installed the system",
   "download": "This must link to a .zip file of the current version",
-  "background": "systems/aether-nexus/assets/anvil-impact.png",
+  "background": "systems/aether-nexus/assets/cover.webp",
   "grid": {
     "type": 1,
     "distance": 5,
