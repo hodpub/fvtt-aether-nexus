@@ -16,6 +16,7 @@ export default class AetherNexusNPC extends AetherNexusActorBase {
     schema.aspects.fields.hearth.min = -10;
 
     schema.damage = new fields.NumberField({ required: true, integer: true, initial: 0 });
+    schema.threat = new fields.StringField({ required: true, initial: "minor" });
 
     return schema;
   }
