@@ -1,6 +1,7 @@
 // Export Actors
 export { default as AetherNexusActorBase } from './base-actor.mjs';
 export { default as AetherNexusCharacter } from './actor-character.mjs';
+export { default as AetherNexusShip } from './actor-ship.mjs';
 export { default as AetherNexusNPC } from './actor-npc.mjs';
 export { default as AetherNexusNemeses } from './actor-nemeses.mjs';
 

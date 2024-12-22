@@ -197,7 +197,10 @@ function getDoesResourceDowngrade(dataset) {
 }
 
 export async function rollResource(actor, dataset, showDialog) {
-  const die = actor.system.dice[dataset.dice].value;
+  let resourceName = dataset.dice;
+  if (resourceName == "catalyst")
+    resourceName = "nexus";
+  const die = actor.system.dice[resourceName].value;
   if (die == "0")
     return;
 
@@ -213,7 +216,7 @@ export async function rollResource(actor, dataset, showDialog) {
   let newDie = die;
 
   if (getDoesResourceDowngrade(dataset) && (diceRolled == 1 || diceRolled == maxValue)) {
-    newDie = await downgradeDie(actor, maxValue, dataset.dice);
+    newDie = await downgradeDie(actor, maxValue, resourceName);
     additional = `<h4 class="dice-total">Downgrading to ${newDie}</h4>`;
   }
 
@@ -231,7 +234,7 @@ export async function rollResource(actor, dataset, showDialog) {
   };
   await _createRollMessage(actor, templateData, roll);
   if (newDie != die) {
-    await actor.update({ [`system.dice.${dataset.dice}.value`]: newDie });
+    await actor.update({ [`system.dice.${resourceName}.value`]: newDie });
     if (newDie == "0" && !actor.statuses.has("severed")) {
       let status = await ActiveEffect.fromStatusEffect("severed");
       await actor.createEmbeddedDocuments("ActiveEffect", [status]);

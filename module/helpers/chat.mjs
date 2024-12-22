@@ -31,6 +31,8 @@ function getText(target) {
       return getTextFromLabel(target);
     case "input":
       return getTextFromInput(target);
+    case "inputNext":
+      return getTextFromNextInput(target);
     default:
       throw new Error(`Type "${target.type}" not handled.`);
   }
@@ -44,6 +46,12 @@ function getTextFromLabel(target) {
 
 function getTextFromInput(target) {
   const name = $(target).value();
+  const additional = target.dataset?.tooltip ?? target.dataset.additional;
+  return [name, additional];
+}
+
+function getTextFromNextInput(target) {
+  const name = $(target).next("input")[0].value;
   const additional = target.dataset?.tooltip ?? target.dataset.additional;
   return [name, additional];
 }

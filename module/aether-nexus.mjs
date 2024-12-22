@@ -3,6 +3,7 @@ import { AetherNexusActor } from './documents/actor.mjs';
 import { AetherNexusItem } from './documents/item.mjs';
 // Import sheet classes.
 import { AetherNexusActorSheet } from './sheets/actor-sheet.mjs';
+import { AetherNexusActorShipSheet } from './sheets/actor-ship-sheet.mjs';
 import { AetherNexusActorNpcSheet } from './sheets/actor-npc-sheet.mjs';
 import { AetherNexusActorNemesesSheet } from './sheets/actor-nemeses-sheet.mjs';
 import { AetherNexusItemSheet } from './sheets/item-sheet.mjs';
@@ -56,7 +57,8 @@ Hooks.once('init', function () {
   CONFIG.Actor.dataModels = {
     character: models.AetherNexusCharacter,
     npc: models.AetherNexusNPC,
-    nemeses: models.AetherNexusNemeses
+    nemeses: models.AetherNexusNemeses,
+    ship: models.AetherNexusShip,
   };
   CONFIG.Item.documentClass = AetherNexusItem;
   CONFIG.Item.dataModels = {
@@ -88,6 +90,10 @@ Hooks.once('init', function () {
   Actors.registerSheet('aether-nexus', AetherNexusActorNemesesSheet, {
     types: ["nemeses"],
     label: 'AETHER_NEXUS.SheetLabels.Nemeses',
+  });
+  Actors.registerSheet('aether-nexus', AetherNexusActorShipSheet, {
+    types: ["ship"],
+    label: 'AETHER_NEXUS.SheetLabels.Ship',
   });
   Actors.registerSheet('aether-nexus', AetherNexusActorSheet, {
     types: ["character"],

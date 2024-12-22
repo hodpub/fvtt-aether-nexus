@@ -10,7 +10,8 @@
     "Resource": {
       "damage": "Damage Die",
       "nexus": "Nexus Die",
-      "armor": "Armor Die"
+      "armor": "Armor Die",
+      "catalyst": "Catalyst Die"
     },
     "Ability": {
       "Str": {
@@ -121,6 +122,13 @@
           },
           "np": {
             "label": "NP"
+          }
+        }
+      },
+      "Ship": {
+        "FIELDS": {
+          "ability": {
+            "label": "Ability"
           }
         }
       }
@@ -294,7 +302,8 @@
     "Actor": {
       "character": "Character",
       "npc": "NPC",
-      "nemeses": "Nemeses"
+      "nemeses": "Nemeses",
+      "ship": "Ship"
     },
     "Item": {
       "kin": "Kin",

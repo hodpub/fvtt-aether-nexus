@@ -1,0 +1,23 @@
+&.actor.ship {
+  %inputEmphasis {
+    font-family: 'Bebas';
+    font-weight: bold;
+    font-size: large;
+    border: 0;
+  }
+
+  label {
+    @extend %inputEmphasis;
+  }
+
+  input {
+    @extend %inputEmphasis;
+  }
+
+  header.sheet-header {
+
+    span {
+      flex: 0.5;
+    }
+  }
+}

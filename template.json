@@ -3,7 +3,8 @@
     "types": [
       "character",
       "npc",
-      "nemeses"
+      "nemeses",
+      "ship"
     ]
   },
   "Item": {

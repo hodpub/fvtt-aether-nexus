@@ -1,0 +1,30 @@
+{{! Attributes Tab }}
+<section class='tab abilities {{tab.cssClass}}' data-group='primary' data-tab='abilities'>
+  {{log this}}
+  {{! As you add new fields, add them in here! }}
+  <div class='resource'>
+    <label class='resource-label rollable' data-action="sendToChat" data-target-type="inputNext"
+      data-additional="{{enrichedAbility1Description}}">{{localize 'AETHER_NEXUS.Actor.Ship.FIELDS.ability.label'}} 1</label>
+    <input type='text' name='system.ability1Name' value='{{system.ability1Name}}'/>
+    {{#if editable}}
+    <prose-mirror name="system.ability1Description" value="{{system.ability1Description}}" collaborate="true"
+      toggled="true" data-document-u-u-i-d="{{actor.uuid}}">
+      {{{enrichedAbility1Description}}}
+    </prose-mirror>
+    {{else}} {{{enrichedAbility1Description}}}
+    {{/if}}
+  </div>
+  <div class='resource'>
+    <label class='resource-label rollable' data-action="sendToChat" data-target-type="inputNext"
+      data-additional="{{enrichedAbility2Description}}">{{localize 'AETHER_NEXUS.Actor.Ship.FIELDS.ability.label'}}
+      2</label>
+    <input type='text' name='system.ability2Name' value='{{system.ability2Name}}' />
+    {{#if editable}}
+    <prose-mirror name="system.ability2Description" value="{{system.ability2Description}}" collaborate="true"
+      toggled="true" data-document-u-u-i-d="{{actor.uuid}}">
+      {{{enrichedAbility2Description}}}
+    </prose-mirror>
+    {{else}} {{{enrichedAbility2Description}}}
+    {{/if}}
+  </div>
+</section>
