@@ -72,6 +72,8 @@ Hooks.once('init', function () {
     foeAction: models.AetherNexusFoeAction,
     foeStrike: models.AetherNexusFoeStrike,
     nemesesAsset: models.AetherNexusNemesesAsset,
+    shipCrew: models.AetherNexusShipCrew,
+    shipComponent: models.AetherNexusShipComponent
   };
 
   // Active Effects are never copied to the Actor,

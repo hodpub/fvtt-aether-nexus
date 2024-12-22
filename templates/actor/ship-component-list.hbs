@@ -1,0 +1,9 @@
+<section class='tab components {{tab.cssClass}}' data-group='primary' data-tab='component'>
+  {{#each components as |item key| }}
+  <div class="component-item" data-item-id="{{item.id}}">
+    <h2 type='text' class="rollable" data-target-type="label" data-action="sendToChat"
+      data-additional="{{item.system.description}}">{{item.name}}</h2>
+    {{{item.system.description}}}
+  </div>
+  {{/each}}
+</section>

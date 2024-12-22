@@ -1,0 +1,17 @@
+<section class='tab crew {{tab.cssClass}}' data-group='primary' data-tab='crew'>
+  {{#each crew as |item key| }}
+  <div class="crew-item {{ifThen item.available " unlocked" "" }}" data-item-id="{{item.id}}">
+    <h2 type='text'>{{item.name}}</h2>
+    {{{item.system.description}}}
+    <h3 type='text' class="{{ifThen item.system.ability1Unlocked " rollable" "" }}" data-target-type="label" data-action="sendToChat"
+      data-additional="{{item.system.ability1Description}}">{{item.system.ability1Name}}</h2>
+      {{{item.system.ability1Description}}}
+    <h3 type='text' class="{{ifThen item.system.ability2Unlocked " rollable" "" }}" data-target-type="label" data-action="sendToChat"
+      data-additional="{{item.system.ability2Description}}">{{item.system.ability2Name}}</h2>
+      {{{item.system.ability2Description}}}
+    <h3 type='text' class="{{ifThen item.system.ability3Unlocked " rollable" "" }}" data-target-type="label" data-action="sendToChat"
+      data-additional="{{item.system.ability3Description}}">{{item.system.ability3Name}}</h2>
+      {{{item.system.ability3Description}}}
+  </div>
+  {{/each}}
+</section>

@@ -315,7 +315,9 @@
       "foeTrait": "Foe's Trait",
       "foeAction": "Foe's Action",
       "foeStrike": "Foe's Strike",
-      "nemesesAsset": "Nemeses' Asset"
+      "nemesesAsset": "Nemeses' Asset",
+      "shipCrew": "Ship's Crew",
+      "shipComponent": "Ship's Component"
     }
   }
 }

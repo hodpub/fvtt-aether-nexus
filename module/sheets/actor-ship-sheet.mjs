@@ -76,23 +76,11 @@ export class AetherNexusActorShipSheet extends AetherNexusBaseActorSheet {
     abilities: {
       template: 'systems/aether-nexus/templates/actor/ship-abilities.hbs',
     },
-    aspects: {
-      template: 'systems/aether-nexus/templates/actor/aspects.hbs',
+    crew: {
+      template: 'systems/aether-nexus/templates/actor/ship-crew-list.hbs',
     },
-    resources: {
-      template: 'systems/aether-nexus/templates/actor/resources.hbs',
-    },
-    general: {
-      template: 'systems/aether-nexus/templates/actor/general.hbs',
-    },
-    traits: {
-      template: 'systems/aether-nexus/templates/actor/traits.hbs',
-    },
-    augments: {
-      template: 'systems/aether-nexus/templates/actor/augments.hbs',
-    },
-    equipments: {
-      template: 'systems/aether-nexus/templates/actor/equipments.hbs',
+    components: {
+      template: 'systems/aether-nexus/templates/actor/ship-component-list.hbs',
     },
     effects: {
       template: 'systems/aether-nexus/templates/actor/effects.hbs',
@@ -103,7 +91,7 @@ export class AetherNexusActorShipSheet extends AetherNexusBaseActorSheet {
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     // Not all parts always render
-    options.parts = ['header', 'tabs', 'biography', 'abilities'];// 'aspects', 'resources', 'general', 'traits', 'augments', 'equipments'];
+    options.parts = ['header', 'tabs', 'biography', 'abilities', 'crew', 'components'];
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
   }
@@ -238,38 +226,24 @@ export class AetherNexusActorShipSheet extends AetherNexusBaseActorSheet {
    * @param {object} context The context object to mutate
    */
   _prepareItems(context) {
-    const traits = [];
-    const augments = [];
-    const equipments = [];
+    const crew = [];
+    const components = [];
 
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
-      if (i.type == "kin") {
-        context.kin = i;
+      if (i.type == "shipCrew") {
+        crew.push(i);
         continue;
       }
-      else if (i.type == "frame") {
-        context.frame = i;
-        continue;
-      }
-      else if (i.type == "boon") {
-        traits.push(i);
-        continue;
-      }
-      else if (i.type == "augment") {
-        augments.push(i);
-        continue;
-      }
-      else if (i.type == "weapon" || i.type == "shield") {
-        equipments.push(i);
+      if (i.type == "shipComponent") {
+        components.push(i);
         continue;
       }
     }
 
     // Sort then assign
-    context.traits = traits.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.augments = augments;
-    context.equipments = equipments;
+    context.crew = crew.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.components = components.sort((a, b) => (a.sort || 0) - (b.sort || 0))
   }
 
   /**
@@ -717,129 +691,39 @@ export class AetherNexusActorShipSheet extends AetherNexusBaseActorSheet {
    */
   async _onDropItemCreate(itemData, event) {
     itemData = itemData instanceof Array ? itemData : [itemData];
-    if (itemData.length == 1 && itemData[0].type == "kin")
-      return this._onDropKinCreate(itemData, event);
-    else if (itemData.length == 1 && itemData[0].type == "frame")
-      return this._onDropFrameCreate(itemData, event);
-    else if (itemData.length == 1 && itemData[0].type == "weapon")
-      return this._onDropEquipmentCreate(itemData, event);
-    else if (itemData.length == 1 && itemData[0].type == "shield")
-      return this._onDropShieldCreate(itemData, event);
-    else if (itemData.length == 1 && itemData[0].type == "augment")
-      return this._onDropAugmentCreate(itemData, event);
+    if (itemData.length == 1 && itemData[0].type == "shipCrew")
+      return this._onDropShipCrewCreate(itemData, event);
     return this.actor.createEmbeddedDocuments('Item', itemData);
   }
 
-  async _onDropKinCreate(itemData, event) {
-    let currentKin = this.actor.items.filter(it => it.type == "kin")[0];
-    if (currentKin != undefined) {
-      let confirmation = await Dialog.confirm({
-        title: 'Replace Kin',
-        content: `<p>This actor already has a kin. Do you want to replace it?</p>`,
-      });
-      if (!confirmation)
-        return;
-
-      await currentKin.delete();
-    }
-    return this.actor.createEmbeddedDocuments('Item', itemData);
-  }
-
-  async _onDropFrameCreate(itemData, event) {
-    let currentFrame = this.actor.items.filter(it => it.type == "frame")[0];
-    let aspects = {
-      stone: this.actor.system.aspects.stone,
-      flux: this.actor.system.aspects.flux,
-      aether: this.actor.system.aspects.aether,
-      hearth: this.actor.system.aspects.hearth
-    };
-    if (currentFrame != undefined) {
-      let confirmation = await Dialog.confirm({
-        title: 'Replace Frame',
-        content: `<p>This actor already has a Frame. Do you want to replace it?</p>`,
-      });
-      if (!confirmation)
-        return;
-
-      aspects.stone -= currentFrame.system.aspects.stone;
-      aspects.flux -= currentFrame.system.aspects.flux;
-      aspects.aether -= currentFrame.system.aspects.aether;
-      aspects.hearth -= currentFrame.system.aspects.hearth;
-
-      await currentFrame.delete();
-    }
-    const framesCreated = await this.actor.createEmbeddedDocuments('Item', itemData);
-    const frameCreated = framesCreated[0];
-    console.log(frameCreated);
-
-    await this.actor.update({
-      "system.aspects.stone": aspects.stone + frameCreated.system.aspects.stone,
-      "system.aspects.flux": aspects.flux + frameCreated.system.aspects.flux,
-      "system.aspects.aether": aspects.aether + frameCreated.system.aspects.aether,
-      "system.aspects.hearth": aspects.hearth + frameCreated.system.aspects.hearth,
-      "system.energy.value": frameCreated.system.energy.max,
-      "system.energy.max": frameCreated.system.energy.max,
-      "system.dice.damage.value": frameCreated.system.dice.damage.max,
-      "system.dice.damage.max": frameCreated.system.dice.damage.max,
-      "system.dice.nexus.value": frameCreated.system.dice.nexus.max,
-      "system.dice.nexus.max": frameCreated.system.dice.nexus.max,
-      "system.dice.armor.value": frameCreated.system.dice.armor.max,
-      "system.dice.armor.max": frameCreated.system.dice.armor.max,
-    });
-    return frameCreated;
-  }
-
-  async _onDropEquipmentCreate(itemData, event) {
-    let usedSlots = 0;
-
-    let equipments = this.actor.items.filter(it => it.type == "weapon" || it.type == "shield");
-    for (const e of equipments) {
-      usedSlots += e.system.slot;
-    }
-    if (usedSlots + itemData[0].system.slot > this.actor.system.slots) {
-      ui.notifications.error("You don't have enough slots to store this equipment.");
-      return null;
-    }
-    return await this.actor.createEmbeddedDocuments('Item', itemData);
-  }
-
-  async _onDropShieldCreate(itemData, event) {
-    let shields = this.actor.items.filter(it => it.type == "shield");
-    if (shields.length + 1 > this.actor.system.maxShields) {
-      ui.notifications.error(`You cannot have more than ${this.actor.system.maxShields} shield(s).`);
-      return null;
-    }
-    return await this._onDropEquipmentCreate(itemData, event);
-  }
-
-  async _onDropAugmentCreate(itemData, event) {
-    const augmentsCount = this.actor.items.filter(it => it.type == "augment").length;
-    if (augmentsCount == 4) {
-      ui.notifications.error("You can only have maximum of four augments.");
-      return;
-    }
-
-    const augment = itemData[0];
+  async _onDropShipCrewCreate(itemData, event) {
+    const crew = itemData[0];
     const ability = await Dialog.wait({
-      title: `Choose augment: ${augment.name}`,
+      title: `Choose crew ability: ${crew.name}`,
       content: `
   <form class="aether-nexus"><div>
 
-    <h2>${augment.name}</h2>
-    ${augment.system.description}
-    <h3>${augment.system.ability1Name}</h3>
-    ${augment.system.ability1Description}
-    <h3>${augment.system.ability2Name}</h3>
-    ${augment.system.ability2Description}
+    <h2>${crew.name}</h2>
+    ${crew.system.description}
+    <h3>${crew.system.ability1Name}</h3>
+    ${crew.system.ability1Description}
+    <h3>${crew.system.ability2Name}</h3>
+    ${crew.system.ability2Description}
+    <h3>${crew.system.ability3Name}</h3>
+    ${crew.system.ability3Description}
   </div></form>`,
       buttons: {
         ability1: {
-          label: augment.system.ability1Name,
+          label: crew.system.ability1Name,
           callback: _ => 1
         },
         ability2: {
-          label: augment.system.ability2Name,
+          label: crew.system.ability2Name,
           callback: _ => 2
+        },
+        ability3: {
+          label: crew.system.ability3Name,
+          callback: _ => 3
         }
       },
       default: "normal",
@@ -965,7 +849,7 @@ export class AetherNexusActorShipSheet extends AetherNexusBaseActorSheet {
    * Creates the context menu for the items
    */
   _contextMenu(html) {
-    ContextMenu.create(this, html, "div.augment", this._getItemContextOptions());
+    ContextMenu.create(this, html, "div.crew-item", this._getItemContextOptions());
     ContextMenu.create(this, html, "div.trait:not(.no-menu)", this._getItemContextOptions());
   }
 

@@ -18,7 +18,9 @@
       "foeTrait",
       "foeAction",
       "foeStrike",
-      "nemesesAsset"
+      "nemesesAsset",
+      "shipCrew",
+      "shipComponent"
     ]
   }
 }

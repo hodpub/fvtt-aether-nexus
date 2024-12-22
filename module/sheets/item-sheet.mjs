@@ -69,6 +69,9 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
     attributesFoeStrike: {
       template: 'systems/aether-nexus/templates/item/attribute-parts/foe-strike.hbs',
     },
+    abilitiesShipCrew: {
+      template: 'systems/aether-nexus/templates/item/attribute-parts/ship-crew-abilities.hbs',
+    },
     effects: {
       template: 'systems/aether-nexus/templates/item/effects.hbs',
     },
@@ -103,6 +106,12 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'foeStrike':
         options.parts.push('attributesFoeStrike');
+        break;
+      case 'shipCrew':
+        options.parts.push('abilitiesShipCrew', 'effects');
+        break;
+      case 'shipComponent':
+        options.parts.push('effects');
         break;
     }
   }
@@ -233,6 +242,42 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
           }
         );
         break;
+      case 'abilitiesShipCrew':
+        context.tab = context.tabs[partId];
+        context.enrichedAbility1Description = await TextEditor.enrichHTML(
+          this.item.system.ability1Description,
+          {
+            // Whether to show secret blocks in the finished html
+            secrets: this.document.isOwner,
+            // Data to fill in for inline rolls
+            rollData: this.item.getRollData(),
+            // Relative UUID resolution
+            relativeTo: this.item,
+          }
+        );
+        context.enrichedAbility2Description = await TextEditor.enrichHTML(
+          this.item.system.ability2Description,
+          {
+            // Whether to show secret blocks in the finished html
+            secrets: this.document.isOwner,
+            // Data to fill in for inline rolls
+            rollData: this.item.getRollData(),
+            // Relative UUID resolution
+            relativeTo: this.item,
+          }
+        );
+        context.enrichedAbility3Description = await TextEditor.enrichHTML(
+          this.item.system.ability3Description,
+          {
+            // Whether to show secret blocks in the finished html
+            secrets: this.document.isOwner,
+            // Data to fill in for inline rolls
+            rollData: this.item.getRollData(),
+            // Relative UUID resolution
+            relativeTo: this.item,
+          }
+        );
+        break;
       case 'description':
         context.tab = context.tabs[partId];
         // Enrich description info for display
@@ -299,6 +344,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
           break;
         case 'abilitiesFrame':
         case 'abilitiesAugment':
+        case 'abilitiesShipCrew':
           tab.id = 'abilities';
           tab.label += 'Abilities';
           break;

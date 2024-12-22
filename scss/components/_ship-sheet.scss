@@ -20,4 +20,41 @@
       flex: 0.5;
     }
   }
+
+  .tab {
+    overflow: auto;
+    max-height: 513px;
+  }
+
+  section.crew,
+  section.components {
+    padding-top: 0.3em;
+
+    .crew-item:not(:last-child),
+    .component-item:not(:last-child) {
+
+      border-bottom: var(--color-light-1) 2px solid;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      @extend %inputEmphasis;
+      font-size: xx-large;
+      margin-bottom: 0.1em;
+    }
+
+    h3 {
+      @extend %inputEmphasis;
+      margin-top: 1em;
+      margin-bottom: 0.3em;
+
+      &:not(.rollable) {
+        opacity: 0.3;
+      }
+    }
+
+    p {
+      margin-top: 0px;
+    }
+  }
 }

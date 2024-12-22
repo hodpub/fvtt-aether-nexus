@@ -17,3 +17,5 @@ export { default as AetherNexusFoeTrait } from './item-foe-trait.mjs';
 export { default as AetherNexusFoeAction } from './item-foe-action.mjs';
 export { default as AetherNexusFoeStrike } from './item-foe-strike.mjs';
 export { default as AetherNexusNemesesAsset } from './item-nemeses-asset.mjs';
+export { default as AetherNexusShipCrew } from './item-ship-crew.mjs';
+export { default as AetherNexusShipComponent } from './item-ship-component.mjs';
