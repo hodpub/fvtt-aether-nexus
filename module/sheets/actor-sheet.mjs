@@ -34,6 +34,7 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
       respite: this._respite,
       attack: this._attack,
       changeSheetSize: this._changeSheetSize,
+      toggleEditPlayMode: this._toggleEditPlayMode,
     },
     // Custom property that's merged into `this.options`
     dragDrop: [{ dragSelector: '[data-drag]', dropSelector: null }],
@@ -42,6 +43,11 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
     },
     window: {
       controls: [
+        {
+          icon: "fas fa-play-pause",
+          label: "Toggle Edit/Play mode",
+          action: "toggleEditPlayMode"
+        },
         {
           icon: "fas fa-maximize",
           label: "Change Sheet Size",
@@ -261,6 +267,7 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
   _onRender(context, options) {
     this.#dragDrop.forEach((d) => d.bind(this.element));
     this.#disableOverrides();
+    this._checkEditPlayMode(context, options);
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
@@ -444,6 +451,27 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
     this.setPosition({
       scale: newScale,
     });
+  }
+
+  async _checkEditPlayMode(context, options) {
+    if (context.system.aspects.stone == 0 ||
+      context.system.aspects.flux == 0 ||
+      context.system.aspects.aether == 0 ||
+      context.system.aspects.hearth == 0 ||
+      context.system.dice.armor.max == 0 ||
+      context.system.dice.nexus.max == 0 ||
+      context.system.dice.damage.max == 0 ||
+      context.system.energy.max == 0
+    )
+      this.element.classList.add("edit-mode");
+    else
+      this.element.classList.remove("edit-mode");
+  }
+
+  static async _toggleEditPlayMode(event) {
+    event.preventDefault();
+    this.toggleControls();
+    this.element.classList.toggle("edit-mode");
   }
 
   static async _attack(event, target) {

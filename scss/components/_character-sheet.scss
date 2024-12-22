@@ -5,6 +5,12 @@
   $inputBackground: rgba(121, 112, 126, 0.5);
   $inputBackground: unset;
 
+  &.edit-mode {
+    input {
+      border: 1px solid black !important;
+    }
+  }
+
   %divInfo {
     background: $inputBackground;
     position: absolute;
