@@ -92,13 +92,14 @@ button,
   .editor-content {
     background: rgba(0, 0, 0, 0.1);
     border: 1px solid var(--color-dark-6);
+    margin-top: 5px;
   }
 }
 
 .theme-dark {
   .editor-content {
     background-color: var(--color-cool-4);
-    ;
+    margin-top: 5px;
   }
 
   .journal-entry-page {
