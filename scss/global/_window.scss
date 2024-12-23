@@ -87,3 +87,24 @@ button,
 #logo {
   content: url("../assets/art/logo.svg");
 }
+
+.theme-light {
+  .editor-content {
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--color-dark-6);
+  }
+}
+
+.theme-dark {
+  .editor-content {
+    background-color: var(--color-cool-4);
+    ;
+  }
+
+  .journal-entry-page {
+    .editor-content {
+      background-color: unset;
+      ;
+    }
+  }
+}
