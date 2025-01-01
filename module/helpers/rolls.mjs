@@ -172,6 +172,9 @@ function getResourceModifier(actor, dataset) {
     let shields = actor.items.filter(it => it.type == "shield");
     for (const shield of shields) {
       bonus += SHIELD_TYPE[shield.system.shieldType].bonus;
+      for (const quality of shield.qualities) {
+        bonus += quality.system.damageBonus;
+      }
     }
     console.log("BONUS", bonus);
     return bonus;

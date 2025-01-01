@@ -35,6 +35,7 @@
     <div class='grid-span-1'>
       <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Shield.FIELDS.shieldType.label'}}</label>
       <select name="system.shieldType">
+        <option>{{localize "AETHER_NEXUS.Item.Quality.FIELDS.attackTypeAll"}}</option>
         {{selectOptions config.EQUIPMENT.SHIELD_TYPE selected=system.shieldType localize=true}}
       </select>
     </div>
