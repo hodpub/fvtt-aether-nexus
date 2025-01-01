@@ -1,0 +1,24 @@
+<div class="aether-nexus foe-strike">
+  <div class="dice-roll">
+    <div class="dice-flavor"><i class='fas fa-sword'></i> {{{item.name}}}</div>
+    <div class="dice-result">
+      <div class="additional-description">
+        {{{item.system.description}}}
+      </div>
+      {{#each item.qualities as |quality key| }}
+      <div class="quality-item">
+        <h2 type='text'>{{quality.name}}</h2>
+        <div class="additional-description">
+          {{{quality.system.description}}}
+        </div>
+      </div>
+      {{/each}}
+      <h4 class="dice-total rollable character-aspect-test" data-aspect="{{aspect}}">
+        {{localize "AETHER_NEXUS.Action.rollAttackAspect"}} {{aspect}}
+      </h4>
+      <h4 class="dice-total rollable character-damage-roll" data-dice="damage" data-bonus="{{bonus}}">
+        {{localize "AETHER_NEXUS.Action.rollDamage"}} {{bonusString}}
+      </h4>
+    </div>
+  </div>
+</div>

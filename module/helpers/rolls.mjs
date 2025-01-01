@@ -176,6 +176,9 @@ function getResourceModifier(actor, dataset) {
     console.log("BONUS", bonus);
     return bonus;
   }
+  if (dataset.bonus != undefined)
+    return dataset.bonus;
+
   return 0;
 }
 

@@ -1,3 +1,4 @@
+import { ATTACK_TYPE } from "../configs/equipment.mjs";
 import { getModifierString } from "./rolls.mjs";
 
 export async function sendToChat(actor, target) {
@@ -75,6 +76,36 @@ export async function createFoeStrikeChatMessage(actor, strike) {
     additionalTest: strike.system.testAspect
   };
   let content = await renderTemplate(FoeStrikeTemplate, templateData);
+  const chatData = {
+    user: game.user.id,
+    speaker: {
+      actor: actor.id,
+      token: actor.token,
+      alias: actor.name
+    },
+    content
+  };
+
+  await ChatMessage.create(chatData);
+}
+
+const CharacterAttackTemplate = "systems/aether-nexus/templates/chat/character-attack.hbs";
+export async function createCharacterAttackChatMessage(actor, weapon) {
+
+  console.log(actor, weapon);
+  const damageModifierString = getModifierString(weapon.bonus);
+  // const aspectModifier = actor.system.aspects[strike.system.aspect]
+  // const aspectModifierString = getModifierString(aspectModifier);
+  const aspect = ATTACK_TYPE[weapon.system.attackType].aspect;
+  const templateData = {
+    item: weapon,
+    user: game.user.id,
+    actorId: actor.id,
+    aspect: aspect,
+    bonus: weapon.bonus,
+    bonusString: damageModifierString
+  };
+  let content = await renderTemplate(CharacterAttackTemplate, templateData);
   const chatData = {
     user: game.user.id,
     speaker: {

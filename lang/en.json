@@ -313,6 +313,7 @@
     "Action": {
       "rollDamage": "Roll Damage:",
       "rollAspect": "Roll Defense test:",
+      "rollAttackAspect": "Roll Attack test:",
       "rollAdditionalAspect": "Roll Effect test:"
     }
   },

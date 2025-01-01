@@ -1,4 +1,4 @@
-import { sendToChat } from '../helpers/chat.mjs';
+import { createCharacterAttackChatMessage, sendToChat } from '../helpers/chat.mjs';
 import { attack } from '../helpers/combat.mjs';
 import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import { rollAspect, rollDamage, rollResource } from '../helpers/rolls.mjs';
@@ -496,7 +496,8 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
     event.preventDefault();
     const doc = this._getEmbeddedDocument(target);
 
-    return attack(this.actor, doc);
+    return createCharacterAttackChatMessage(this.actor, doc);
+    // return attack(this.actor, doc);
   }
 
   /** Helper Functions */
