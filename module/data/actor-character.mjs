@@ -43,4 +43,25 @@ export default class AetherNexusCharacter extends AetherNexusActorBase {
 
     return data;
   }
+
+  async createEquipment(itemData) {
+    let usedSlots = 0;
+    const currentSlot = itemData.system.slot || itemData.system.slotModification;
+
+    const actor = this.parent;
+    let equipments = actor.items.filter(it => it.type == "weapon" || it.type == "shield");
+    for (const e of equipments) {
+      usedSlots += e.system.slot;
+    }
+    let qualities = actor.items.filter(it => it.type == "quality");
+    for (const quality of qualities) {
+      usedSlots += quality.system.slotModification;
+    }
+    console.log(usedSlots, actor.system.slots, itemData);
+    if (usedSlots + currentSlot > actor.system.slots) {
+      ui.notifications.error("You don't have enough slots to store this equipment.");
+      return null;
+    }
+    return await actor.createEmbeddedDocuments('Item', [itemData]);
+  }
 }

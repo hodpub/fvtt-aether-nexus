@@ -686,7 +686,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
 
   async _onDropQuality(event, data) {
     data.system.associated = this.item.id;
-    await this.item.parent.createEmbeddedDocuments('Item', [data]);
+    await this.item.parent.system.createEquipment(data);
     this.render();
   }
 

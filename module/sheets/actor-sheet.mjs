@@ -260,11 +260,8 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
       const currentQualities = qualities.filter(x => x.system.associated == equipment.id);
       equipment.qualities = currentQualities;
 
-      console.log(equipment);
       for (const quality of currentQualities) {
-        equipment.system.slot += quality.system.slotModification;
         equipment.bonus += quality.system.damageBonus;
-        console.log(equipment, quality);
       }
     }
 
@@ -357,6 +354,10 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
   async _deleteDoc(event, target) {
     const doc = this._getEmbeddedDocument(target);
     await doc.delete();
+    for (const quality of doc.qualities) {
+      const q = this.actor.items.get(quality.id);
+      await q.delete();
+    }
   }
 
   /**
@@ -752,6 +753,8 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
       return this._onDropShieldCreate(itemData, event);
     else if (itemData.length == 1 && itemData[0].type == "augment")
       return this._onDropAugmentCreate(itemData, event);
+    else if (itemData.length == 1 && itemData[0].type == "quality")
+      return undefined;
     return this.actor.createEmbeddedDocuments('Item', itemData);
   }
 
@@ -815,17 +818,7 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
   }
 
   async _onDropEquipmentCreate(itemData, event) {
-    let usedSlots = 0;
-
-    let equipments = this.actor.items.filter(it => it.type == "weapon" || it.type == "shield");
-    for (const e of equipments) {
-      usedSlots += e.system.slot;
-    }
-    if (usedSlots + itemData[0].system.slot > this.actor.system.slots) {
-      ui.notifications.error("You don't have enough slots to store this equipment.");
-      return null;
-    }
-    return await this.actor.createEmbeddedDocuments('Item', itemData);
+    return this.actor.system.createEquipment(itemData[0]);
   }
 
   async _onDropShieldCreate(itemData, event) {
