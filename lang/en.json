@@ -138,6 +138,7 @@
         "Attributes": "Attributes",
         "Abilities": "Abilities",
         "Description": "Description",
+        "Qualities": "Qualities",
         "Effects": "Effects"
       },
       "Kin": {
@@ -273,6 +274,23 @@
             "label": "Cost"
           }
         }
+      },
+      "Quality": {
+        "FIELDS": {
+          "equipmentType": {
+            "label": "Equipment Type"
+          },
+          "attackType": {
+            "label": "Attack Type"
+          },
+          "slotModification": {
+            "label": "Slot Modification"
+          },
+          "damageBonus": {
+            "label": "Damage/Armor Bonus"
+          },
+          "attackTypeAll": "All"
+        }
       }
     },
     "Effect": {
@@ -312,6 +330,7 @@
       "augment": "Augment",
       "weapon": "Weapon",
       "shield": "Shield",
+      "quality": "Quality",
       "foeTrait": "Foe's Trait",
       "foeAction": "Foe's Action",
       "foeStrike": "Foe's Strike",

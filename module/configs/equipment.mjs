@@ -1,3 +1,14 @@
+export const EQUIPMENT_TYPE = {
+  weapon: {
+    id: "weapon",
+    label: "TYPES.Item.weapon"
+  },
+  shield: {
+    id: "shield",
+    label: "TYPES.Item.shield"
+  }
+}
+
 export const ATTACK_TYPE = {
   meelee: {
     id: "meelee",

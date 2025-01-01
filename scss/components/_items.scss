@@ -138,3 +138,26 @@
     max-height: 200px;
   }
 }
+
+section.active {
+  min-height: 150px;
+}
+
+
+section.quality-list {
+  padding: 5px 0;
+
+  div.quality-item {
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--color-text-primary);
+      margin-bottom: 10px;
+    }
+
+    label {
+      font-family: 'Bebas';
+      font-weight: bold;
+      border: 0;
+      font-size: large;
+    }
+  }
+}

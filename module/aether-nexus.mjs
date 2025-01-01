@@ -68,6 +68,7 @@ Hooks.once('init', function () {
     augment: models.AetherNexusAugment,
     weapon: models.AetherNexusWeapon,
     shield: models.AetherNexusShield,
+    quality: models.AetherNexusQuality,
     foeTrait: models.AetherNexusFoeTrait,
     foeAction: models.AetherNexusFoeAction,
     foeStrike: models.AetherNexusFoeStrike,

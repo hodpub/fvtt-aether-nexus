@@ -72,6 +72,12 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
     abilitiesShipCrew: {
       template: 'systems/aether-nexus/templates/item/attribute-parts/ship-crew-abilities.hbs',
     },
+    attributesQuality: {
+      template: 'systems/aether-nexus/templates/item/attribute-parts/quality.hbs',
+    },
+    attributesQualityList: {
+      template: 'systems/aether-nexus/templates/item/attribute-parts/quality-list.hbs',
+    },
     effects: {
       template: 'systems/aether-nexus/templates/item/effects.hbs',
     },
@@ -97,9 +103,13 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'weapon':
         options.parts.push('attributesWeapon');
+        if (this.document.isEmbedded)
+          options.parts.push('attributesQualityList');
         break;
       case 'shield':
         options.parts.push('attributesShield');
+        if (this.document.isEmbedded)
+          options.parts.push('attributesQualityList');
         break;
       case 'foeAction':
         options.parts.push('attributesFoeAction');
@@ -112,6 +122,9 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'shipComponent':
         options.parts.push('effects');
+        break;
+      case 'quality':
+        options.parts.push('attributesQuality', 'effects');
         break;
     }
   }
@@ -149,6 +162,8 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
       case 'attributesFrame':
       case 'attributesFoeAction':
       case 'attributesFoeStrike':
+      case 'attributesQuality':
+      case 'attributesQualityList':
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
         break;
@@ -339,6 +354,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesShield':
         case 'attributesFoeAction':
         case 'attributesFoeStrike':
+        case 'attributesQuality':
           tab.id = 'attributes';
           tab.label += 'Attributes';
           break;
@@ -347,6 +363,10 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         case 'abilitiesShipCrew':
           tab.id = 'abilities';
           tab.label += 'Abilities';
+          break;
+        case 'attributesQualityList':
+          tab.id = 'quality-list';
+          tab.label += 'Qualities';
           break;
         case 'effects':
           tab.id = 'effects';
@@ -368,6 +388,8 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
    */
   _onRender(context, options) {
     this.#dragDrop.forEach((d) => d.bind(this.element));
+    if (options.isFirstRender)
+      this._contextMenu(this.element);
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
@@ -657,6 +679,15 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
    */
   async _onDropItem(event, data) {
     if (!this.item.isOwner) return false;
+    let itemData = (await fromUuid(data.uuid)).toObject();
+    if (this.item.isEmbedded && (this.item.type == "weapon" || this.item.type == "shield") && itemData.type == "quality")
+      return this._onDropQuality(event, itemData);
+  }
+
+  async _onDropQuality(event, data) {
+    data.system.associated = this.item.id;
+    await this.item.parent.createEmbeddedDocuments('Item', [data]);
+    this.render();
   }
 
   /* -------------------------------------------- */
@@ -705,5 +736,55 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
       };
       return new DragDrop(d);
     });
+  }
+
+  /**
+   * CONTEXT MENU
+   */
+
+  /**
+   * Creates the context menu for the items
+   */
+  _contextMenu(html) {
+    ContextMenu.create(this, html, "div.quality-item", this._getItemContextOptions());
+  }
+
+  _getItemContextOptions() {
+    return [
+      {
+        name: "SIDEBAR.Edit",
+        icon: '<i class="fas fa-edit"></i>',
+        condition: _ => this.actor.isOwner,
+        callback: element => {
+          const itemId = element.data("itemId");
+          const item = this.actor.items.get(itemId);
+          return item.sheet.render(true);
+        },
+      },
+      {
+        name: "SIDEBAR.Delete",
+        icon: '<i class="fas fa-trash"></i>',
+        condition: _ => this.actor.isOwner,
+        callback: element => {
+          const itemId = element.data("itemId");
+          const item = this.actor.items.get(itemId);
+          element.slideUp(200, () => this.render(false));
+          item.delete();
+        },
+      },
+    ];
+  }
+
+  /**
+   * CLOSE HANDLER
+   */
+
+  _onClose(options) {
+    super._onClose(options);
+    const doc = this.document;
+    if (!doc.isEmbedded || doc.type != "quality")
+      return;
+
+    doc.actor.items.get(doc.system.associated).sheet.render();
   }
 }

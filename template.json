@@ -20,7 +20,8 @@
       "foeStrike",
       "nemesesAsset",
       "shipCrew",
-      "shipComponent"
+      "shipComponent",
+      "quality"
     ]
   }
 }

@@ -40,6 +40,10 @@
     width: 248px;
     height: 240px;
     color: black;
+
+    .editor-content {
+      background-color: #EEE;
+    }
   }
 
   @import 'character/aspects';

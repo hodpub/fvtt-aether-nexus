@@ -225,6 +225,7 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
     const traits = [];
     const augments = [];
     const equipments = [];
+    const qualities = [];
 
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
@@ -245,8 +246,25 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
         continue;
       }
       else if (i.type == "weapon" || i.type == "shield") {
+        i.bonus = 0;
         equipments.push(i);
         continue;
+      }
+      else if (i.type == "quality") {
+        qualities.push(i);
+        continue;
+      }
+    }
+
+    for (const equipment of equipments) {
+      const currentQualities = qualities.filter(x => x.system.associated == equipment.id);
+      equipment.qualities = currentQualities;
+
+      console.log(equipment);
+      for (const quality of currentQualities) {
+        equipment.system.slot += quality.system.slotModification;
+        equipment.bonus += quality.system.damageBonus;
+        console.log(equipment, quality);
       }
     }
 

@@ -1,0 +1,44 @@
+{{! Attributes Tab }}
+<section class='tab attributes {{tab.cssClass}}' data-group='primary' data-tab='attributes'>
+  {{! As you add new fields, add them in here! }}
+
+  <div class='grid grid-2col'>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Quality.FIELDS.slotModification.label'}}</label>
+      <input type='number' name='system.slotModification' value='{{system.slotModification}}' data-dtype='Number'
+        onfocus="this.select()" />
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Quality.FIELDS.damageBonus.label'}}</label>
+      <input type='number' name='system.damageBonus' value='{{system.damageBonus}}' data-dtype='Number'
+        onfocus="this.select()" />
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Quality.FIELDS.equipmentType.label'}}</label>
+      <select name="system.equipmentType">
+        {{selectOptions config.EQUIPMENT.EQUIPMENT_TYPE selected=system.equipmentType localize=true}}
+      </select>
+    </div>
+    {{#if (eq system.equipmentType "weapon")}}
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Weapon.FIELDS.attackType.label'}}</label>
+      <select name="system.attackType">
+        <option>{{localize "AETHER_NEXUS.Item.Quality.FIELDS.attackTypeAll"}}</option>
+        {{selectOptions config.EQUIPMENT.ATTACK_TYPE selected=system.attackType localize=true}}
+      </select>
+    </div>
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Weapon.FIELDS.weaponType.label'}}</label>
+      <input type='text' name='system.weaponType' value='{{system.weaponType}}' />
+    </div>
+    {{else}}
+    <div class='grid-span-1'>
+      <label class='resource-label'>{{localize 'AETHER_NEXUS.Item.Shield.FIELDS.shieldType.label'}}</label>
+      <select name="system.shieldType">
+        {{selectOptions config.EQUIPMENT.SHIELD_TYPE selected=system.shieldType localize=true}}
+      </select>
+    </div>
+    {{/if}}
+  </div>
+
+</section>
