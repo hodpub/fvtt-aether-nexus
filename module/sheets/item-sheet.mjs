@@ -680,11 +680,26 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
   async _onDropItem(event, data) {
     if (!this.item.isOwner) return false;
     let itemData = (await fromUuid(data.uuid)).toObject();
-    if (this.item.isEmbedded && (this.item.type == "weapon" || this.item.type == "shield") && itemData.type == "quality")
+    if (this.item.isEmbedded && itemData.type == "quality")
       return this._onDropQuality(event, itemData);
   }
 
   async _onDropQuality(event, data) {
+    if (data.system.equipmentType != this.item.type)
+      return ui.notifications.error(`This quality is for ${data.system.equipmentType}, but this item is a ${this.item.type}.`);
+    if (data.system.equipmentType == "weapon" && data.system.attackType && data.system.attackType != this.item.attackType)
+      return ui.notifications.error(`This quality is for ${data.system.attackType} attacks, but this item is has ${this.item.system.attackType} attack.`);
+    if (data.system.equipmentType == "weapon" && data.system.weaponType && data.system.weaponType.toLower() != this.item.weaponType.toLower())
+      return ui.notifications.error(`This quality is for ${data.system.weaponType} weapons, but this item is a ${this.item.system.weaponType} weapon.`);
+    if (data.system.equipmentType == "shield" && data.system.shieldType && data.system.shieldType != this.item.shieldType)
+      return ui.notifications.error(`This quality is for ${data.system.shieldType} shields, but this item is a ${this.item.system.shieldType} shield.`);
+
+    let qualitiesAssocited = this.item.parent.items.filter(it => it.type == "quality" && it.system.associated == this.item.id);
+    if (qualitiesAssocited.length == 2)
+      return ui.notifications.error(`Equipments cannot have more than two qualities.`);
+    if (qualitiesAssocited.filter(it => it.name == data.name).length > 0)
+      return ui.notifications.error(`The item already has this quality associated.`);
+
     data.system.associated = this.item.id;
     await this.item.parent.system.createEquipment(data);
     this.render();
