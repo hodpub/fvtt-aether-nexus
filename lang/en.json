@@ -196,8 +196,8 @@
         "FIELDS": {
           "attackType": {
             "label": "Attack Type",
-            "meelee": {
-              "label": "Meelee"
+            "melee": {
+              "label": "Melee"
             },
             "ranged": {
               "label": "Ranged"

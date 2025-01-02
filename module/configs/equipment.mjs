@@ -10,9 +10,9 @@ export const EQUIPMENT_TYPE = {
 }
 
 export const ATTACK_TYPE = {
-  meelee: {
-    id: "meelee",
-    label: "AETHER_NEXUS.Item.Weapon.FIELDS.attackType.meelee.label",
+  melee: {
+    id: "melee",
+    label: "AETHER_NEXUS.Item.Weapon.FIELDS.attackType.melee.label",
     aspect: "stone"
   },
   ranged: {
