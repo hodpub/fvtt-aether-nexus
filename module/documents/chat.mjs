@@ -1,4 +1,4 @@
-import { rollAspect, rollFoeDamage, rollResource } from "../helpers/rolls.mjs";
+import { rollAspect, rollDamage, rollFoeDamage } from "../helpers/rolls.mjs";
 
 export default class AetherNexussChatMessage extends ChatMessage {
   async getHTML(...args) {
@@ -36,7 +36,7 @@ export default class AetherNexussChatMessage extends ChatMessage {
           return;
         }
         console.log(this);
-        return rollResource(actor, event.target.dataset, !event.shiftKey,);
+        return rollDamage(actor, event.target.dataset, !event.shiftKey);
       });
     });
 
