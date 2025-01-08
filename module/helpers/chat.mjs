@@ -102,6 +102,7 @@ export async function createCharacterAttackChatMessage(actor, weapon) {
     user: game.user.id,
     actorId: actor.id,
     aspect: aspect,
+    damage: actor.system.dice.damage.value,
     bonus: weapon.bonus,
     bonusString: damageModifierString
   };
