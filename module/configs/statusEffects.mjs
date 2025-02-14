@@ -7,51 +7,51 @@ export const STATUS_EFFECTS = [
   {
     "id": "aloft",
     "name": "AETHER_NEXUS.Effect.Aloft",
-    "img": "icons/creatures/abilities/wing-batlike-white-blue.webp"
+    "img": "systems/aether-nexus/assets/icons/spiky-wing.svg"
   },
   {
     "id": "broken",
     "name": "AETHER_NEXUS.Effect.Broken",
-    "img": "icons/skills/wounds/bone-broken-marrow-red.webp"
+    "img": "systems/aether-nexus/assets/icons/broken-shield.svg"
   },
   {
     "id": "fallen",
     "name": "AETHER_NEXUS.Effect.Fallen",
-    "img": "icons/svg/sleep.svg"
+    "img": "systems/aether-nexus/assets/icons/skull-crack.svg"
   },
   {
     "id": "fortified",
     "name": "AETHER_NEXUS.Effect.Fortified",
-    "img": "icons/svg/daze.svg"
+    "img": "systems/aether-nexus/assets/icons/stone-wall.svg"
   },
   {
     "id": "marked",
     "name": "AETHER_NEXUS.Effect.Marked",
-    "img": "icons/svg/falling.svg"
+    "img": "systems/aether-nexus/assets/icons/crosshair-arrow.svg"
   },
   {
     "id": "plummeting",
     "name": "AETHER_NEXUS.Effect.Plummeting",
-    "img": "icons/svg/net.svg"
+    "img": "systems/aether-nexus/assets/icons/falling-boulder.svg"
   },
   {
     "id": "rooted",
     "name": "AETHER_NEXUS.Effect.Rooted",
-    "img": "icons/svg/paralysis.svg"
+    "img": "systems/aether-nexus/assets/icons/interlaced-tentacles.svg"
   },
   {
     "id": "shaken",
     "name": "AETHER_NEXUS.Effect.Shaken",
-    "img": "icons/svg/wing.svg"
+    "img": "systems/aether-nexus/assets/icons/bleeding-eye.svg"
   },
   {
     "id": "severed",
     "name": "AETHER_NEXUS.Effect.Severed",
-    "img": "icons/svg/blind.svg"
+    "img": "systems/aether-nexus/assets/icons/oppression.svg"
   },
   {
     "id": "staggered",
     "name": "AETHER_NEXUS.Effect.Staggered",
-    "img": "icons/svg/deaf.svg"
+    "img": "systems/aether-nexus/assets/icons/drop-weapon.svg"
   }
 ];
