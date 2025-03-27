@@ -361,6 +361,9 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
   async _deleteDoc(event, target) {
     const doc = this._getEmbeddedDocument(target);
     await doc.delete();
+    if (!doc.qualities)
+      return;
+
     for (const quality of doc.qualities) {
       const q = this.actor.items.get(quality.id);
       await q.delete();
