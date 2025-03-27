@@ -46,6 +46,45 @@
     }
   }
 
+
+  .effects {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.5rem;
+    max-height: 0;
+    margin-bottom: -20px;
+    width: 400px;
+    overflow: hidden;
+    background: #EEE;
+    border: solid black;
+    border-width: 2px 0 0 2px;
+    transition-duration: 1s;
+    transition-delay: 0s, 0.4s;
+    transition-property: max-height, margin-bottom;
+
+    img.effect-image {
+      filter: invert(1);
+    }
+
+
+    label,
+    div,
+    i {
+      color: black;
+      font-size: 12px;
+    }
+
+    a {
+      text-align: right;
+    }
+  }
+
+  &.showConditions .effects {
+    max-height: 400px;
+    margin-bottom: 0;
+  }
+
   @import 'character/aspects';
   @import 'character/resources';
   @import 'character/general';

@@ -35,6 +35,8 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
       attack: this._attack,
       changeSheetSize: this._changeSheetSize,
       toggleEditPlayMode: this._toggleEditPlayMode,
+      toggleShowConditions: this._toggleShowConditions,
+      closeShowConditions: this._closeShowConditions,
     },
     // Custom property that's merged into `this.options`
     dragDrop: [{ dragSelector: '[data-drag]', dropSelector: null }],
@@ -44,6 +46,16 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
     window: {
       controls: [
         {
+          icon: "fa-solid fa-bed",
+          label: "Respite",
+          action: "respite"
+        },
+        {
+          icon: "fa-solid fa-viruses",
+          label: "Show Conditions",
+          action: "toggleShowConditions"
+        },
+        {
           icon: "fas fa-play-pause",
           label: "Toggle Edit/Play mode",
           action: "toggleEditPlayMode"
@@ -52,11 +64,6 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
           icon: "fas fa-maximize",
           label: "Change Sheet Size",
           action: "changeSheetSize"
-        },
-        {
-          icon: "fa-solid fa-bed",
-          label: "Respite",
-          action: "respite"
         },
         {
           icon: "control-icon fa-fw fa-solid fa-user-circle",
@@ -106,7 +113,7 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     // Not all parts always render
-    options.parts = ['biography', 'aspects', 'resources', 'general', 'traits', 'augments', 'equipments'];
+    options.parts = ['biography', 'aspects', 'resources', 'general', 'traits', 'augments', 'equipments', 'effects'];
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
   }
@@ -491,6 +498,17 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
     event.preventDefault();
     this.toggleControls();
     this.element.classList.toggle("edit-mode");
+  }
+
+  static async _toggleShowConditions(event) {
+    event.preventDefault();
+    this.toggleControls();
+    this.element.classList.add("showConditions");
+  }
+
+  static async _closeShowConditions(event) {
+    event.preventDefault();
+    this.element.classList.remove("showConditions");
   }
 
   static async _attack(event, target) {
