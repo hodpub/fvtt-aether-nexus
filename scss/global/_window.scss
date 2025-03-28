@@ -86,6 +86,12 @@ button,
 
 #logo {
   content: url("../assets/art/logo.svg");
+  width: 200px;
+}
+
+#ui-top.offset{
+  margin-left: 0;
+  margin-top: 5px;
 }
 
 .theme-light {
