@@ -1,6 +1,20 @@
-export default function swapPause() {
+export function registerPauseSettings() {
+  game.settings.register("aether-nexus", "disablePauseAnimation", {
+    name: "Disable Pause Animation",
+    hint: "Disable the pause animation if you have issues for rendering.",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false
+  });
+}
 
+export default async function swapPause() {
   Hooks.on('renderPause', (app, html, data) => {
+    const disable = game.settings.get("aether-nexus", "disablePauseAnimation");
+    if (disable)
+      return;
+
     // Mess with the `html` jQuery object that's being rendered here
     html.children("img").remove();
 
@@ -21,9 +35,9 @@ export default function swapPause() {
   </svg>`;
 
     html.prepend(mechaLogo);
-    
+
   });
-    
+
 }
 
 

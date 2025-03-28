@@ -16,7 +16,7 @@ import registerHandlebarsHelpers from './helpers/handlebars.mjs';
 import AetherNexussChatMessage from './documents/chat.mjs';
 import AetherNexusCombatant from './combat/combatant.mjs';
 import AetherNexusCombat, { registerCombatSettings } from './combat/combat.mjs';
-import swapPause from './helpers/pause.mjs';
+import swapPause, { registerPauseSettings } from './helpers/pause.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -83,6 +83,7 @@ Hooks.once('init', function () {
   CONFIG.ActiveEffect.legacyTransferral = false;
 
   registerCombatSettings();
+  registerPauseSettings();
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
