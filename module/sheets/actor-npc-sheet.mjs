@@ -24,12 +24,23 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
       toggleEffect: this._toggleEffect,
       roll: this._onRoll,
       sendToChat: this._sendToChat,
+      chargeUp: this._chargeUp,
     },
     // Custom property that's merged into `this.options`
     dragDrop: [{ dragSelector: '[data-drag]', dropSelector: null }],
     form: {
       submitOnChange: true,
     },
+    window: {
+      controls: [
+        {
+          icon: "fa-solid fa-bolt",
+          label: "Charge-up",
+          action: "chargeUp"
+        },
+        ...super.DEFAULT_OPTIONS.window.controls,
+      ]
+    }
   };
 
   /** @override */
@@ -294,6 +305,33 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
       });
       return roll;
     }
+  }
+
+  static async _chargeUp(event, target) {
+    event.preventDefault();
+    this.toggleControls();
+
+    const itemsChargeUp = this.actor.items.filter(it => it.system.chargeUp?.size > 0);
+    if (itemsChargeUp.length == 0)
+      return;
+
+    for (const ability of itemsChargeUp) {
+      await ability.update({ "system.charged": false });
+    }
+
+    let label = "Charge-up";
+    let roll = await new Roll("1d6", this.actor.getRollData()).roll();
+    const chargedAbility = itemsChargeUp.filter(it => it.system.chargeUp.has(roll.total))[0];
+    if (chargedAbility) {
+      await chargedAbility.update({ "system.charged": true });
+      label += `: ${chargedAbility.name}`;
+    }
+
+    await roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      flavor: label,
+      rollMode: game.settings.get('core', 'rollMode'),
+    });
   }
 
   /**
