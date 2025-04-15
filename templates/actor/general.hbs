@@ -1,4 +1,8 @@
 <div>
+  
+  <img class='profile-img {{ifThen (eq actor.img "icons/svg/mystery-man.svg") "hide" ""}}' src='{{actor.img}}' data-edit='img' data-action='onEditImage' title='{{actor.name}}'
+    height='212' width='212' />
+  <img class="character-border {{ifThen (eq actor.img "icons/svg/mystery-man.svg") "hide" ""}}" src="systems/aether-nexus/assets/art/character-border.webp" />
   <input type='text' name="name" value="{{actor.name}}" data-tooltip="{{actor.name}}" />
   <input type='text' name="kin.name" disabled value="{{kin.name}}" data-tooltip="{{kin.name}}" />
   <input type='text' name="system.moniker" value="{{system.moniker}}" data-tooltip="{{system.moniker}}" />

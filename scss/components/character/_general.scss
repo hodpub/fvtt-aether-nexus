@@ -109,3 +109,26 @@ input[name="system.ap"] {
   top: 131px;
   left: 335px;
 }
+
+img.character-border {
+  border: 0;
+  width: 212px;
+  position: absolute;
+  top: 306px;
+  left: 427px;
+  pointer-events: none;
+}
+
+img.profile-img {
+  background-color: #8c7d8e;
+  border: 0;
+  width: 212px;
+  position: absolute;
+  top: 306px;
+  left: 427px;
+  border-radius: 50%;
+}
+
+img.hide{
+  opacity: 0;
+}
