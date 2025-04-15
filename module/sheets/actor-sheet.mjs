@@ -835,6 +835,13 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
       "system.dice.armor.value": frameCreated.system.dice.armor.max,
       "system.dice.armor.max": frameCreated.system.dice.armor.max,
     });
+
+    if (this.actor.img == "icons/svg/mystery-man.svg") {
+      await this.actor.update({
+        "img": frameCreated.img
+      });
+    }
+
     return frameCreated;
   }
 
