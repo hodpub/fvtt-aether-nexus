@@ -1,7 +1,27 @@
-.chat-message:has(.aether-nexus) {
+.chat-message {
 
   background: white;
   font-family: "Bebas";
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Bebas";
+    margin-bottom: 0;
+  }
+
+  .quality-item {
+    margin-bottom: $font-size;
+
+    h4 {
+      font-size: calc($font-size*1.25);
+    }
+
+    .additional-description p {
+      margin: 0;
+    }
+  }
 
   .dice-roll {
 
