@@ -10,13 +10,13 @@ export function registerPauseSettings() {
 }
 
 export default async function swapPause() {
-  Hooks.on('renderPause', (app, html, data) => {
+  Hooks.on('renderGamePause', (app, html, data, options) => {
     const disable = game.settings.get("aether-nexus", "disablePauseAnimation");
     if (disable)
       return;
 
     // Mess with the `html` jQuery object that's being rendered here
-    html.children("img").remove();
+    $(html).children("img").remove();
 
     const mechaLogo = `<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1414.71 817.16">
     <defs>
@@ -34,7 +34,7 @@ export default async function swapPause() {
     </g>
   </svg>`;
 
-    html.prepend(mechaLogo);
+    $(html).prepend(mechaLogo);
 
   });
 
