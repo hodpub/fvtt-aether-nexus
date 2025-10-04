@@ -352,7 +352,7 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
         icon: '<i class="fas fa-edit"></i>',
         condition: _ => this.actor.isOwner,
         callback: element => {
-          const itemId = element.data("itemId");
+          const itemId = element.dataset.itemId;
           const item = this.actor.items.get(itemId);
           return item.sheet.render(true);
         },
@@ -362,7 +362,7 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
         icon: '<i class="fas fa-trash"></i>',
         condition: _ => this.actor.isOwner,
         callback: element => {
-          const itemId = element.data("itemId");
+          const itemId = element.dataset.itemId;
           const item = this.actor.items.get(itemId);
           element.slideUp(200, () => this.render(false));
           item.delete();

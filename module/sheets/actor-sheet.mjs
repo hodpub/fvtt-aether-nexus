@@ -531,8 +531,8 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
    * @returns {Item | ActiveEffect} The embedded Item or ActiveEffect
    */
   _getEmbeddedDocument(target) {
-    if (typeof target.data === "function" && target.data("itemId"))
-      return this.actor.items.get(target.data("itemId"));
+    if (typeof target.data === "function" && target.dataset.itemId)
+      return this.actor.items.get(target.dataset.itemId);
     let docRow = target.closest('li[data-document-class]');
     if (docRow == undefined)
       docRow = target.closest('div[data-document-class]');
@@ -1022,7 +1022,7 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
         icon: '<i class="fas fa-edit"></i>',
         condition: _ => this.actor.isOwner,
         callback: element => {
-          const itemId = element.data("itemId");
+          const itemId = element.dataset.itemId;
           const item = this.actor.items.get(itemId);
           return item.sheet.render(true);
         },
@@ -1032,7 +1032,7 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
         icon: '<i class="fas fa-trash"></i>',
         condition: _ => this.actor.isOwner,
         callback: element => {
-          const itemId = element.data("itemId");
+          const itemId = element.dataset.itemId;
           const item = this.actor.items.get(itemId);
           element.slideUp(200, () => this.render(false));
           item.delete();
