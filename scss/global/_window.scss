@@ -3,7 +3,7 @@ button,
 #tooltip,
 .window-app {
   &:not(.fa-solid, .fas) {
-  font-family: $font-primary;
+    font-family: $font-primary;
   }
 }
 
@@ -17,7 +17,7 @@ button,
   }
 }
 
-.dialog .window-content {
+.dialog:has(form.aether-nexus) .window-content {
   background: white;
 
   .fa-dice-d20 {
@@ -91,7 +91,7 @@ button,
   width: 200px;
 }
 
-#ui-top.offset{
+#ui-top.offset {
   margin-left: 0;
   margin-top: 5px;
 }
