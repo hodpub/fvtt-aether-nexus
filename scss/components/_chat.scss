@@ -1,7 +1,7 @@
 .chat-message {
 
   background: white;
-  font-family: "Bebas";
+  font-family: "Montserrat";
 
   h1,
   h2,
@@ -31,7 +31,7 @@
       font-size: calc($font-size*1.5);
       font-weight: bold;
       padding-top: 5px;
-
+      font-family: "Bebas";
     }
 
     .dice-tooltip {
