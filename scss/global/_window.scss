@@ -2,7 +2,9 @@ body,
 button,
 #tooltip,
 .window-app {
+  &:not(.fa-solid, .fas) {
   font-family: $font-primary;
+  }
 }
 
 .rollable {
