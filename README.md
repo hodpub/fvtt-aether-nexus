@@ -7,7 +7,7 @@ The **official** system for Aether Nexus, from [Absolute Tabletop](https://absol
 
 <p align="center">
   <a href="https://hodpub.com" target="_blank">
-    <img src="assets/hod-publishing.webp" style="margin: 0 auto; width: 200px;" >
+    <img src="assets/hod-publishing.webp" style="margin: 0 auto; width: 300px;" >
   </a>
 </p>
 
