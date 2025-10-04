@@ -1011,8 +1011,8 @@ export class AetherNexusActorSheet extends AetherNexusBaseActorSheet {
    * Creates the context menu for the items
    */
   _contextMenu(html) {
-    ContextMenu.create(this, html, "div.augment", this._getItemContextOptions());
-    ContextMenu.create(this, html, "div.trait:not(.no-menu)", this._getItemContextOptions());
+    this._createContextMenu(this._getItemContextOptions, "div.augment");
+    this._createContextMenu(this._getItemContextOptions, "div.trait:not(.no-menu)");
   }
 
   _getItemContextOptions() {

@@ -761,7 +761,7 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
    * Creates the context menu for the items
    */
   _contextMenu(html) {
-    ContextMenu.create(this, html, "div.quality-item", this._getItemContextOptions());
+    this._createContextMenu(this._getItemContextOptions, "div.quality-item");
   }
 
   _getItemContextOptions() {

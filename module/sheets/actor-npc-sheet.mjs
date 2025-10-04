@@ -342,7 +342,7 @@ export class AetherNexusActorNpcSheet extends AetherNexusBaseActorSheet {
    * Creates the context menu for the items
    */
   _contextMenu(html) {
-    ContextMenu.create(this, html, "div.foe-item", this._getItemContextOptions());
+    this._createContextMenu(this._getItemContextOptions, "div.foe-item");
   }
 
   _getItemContextOptions() {
