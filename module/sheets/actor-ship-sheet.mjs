@@ -872,7 +872,6 @@ export class AetherNexusActorShipSheet extends AetherNexusBaseActorSheet {
         callback: element => {
           const itemId = element.dataset.itemId;
           const item = this.actor.items.get(itemId);
-          element.slideUp(200, () => this.render(false));
           item.delete();
         },
       },
