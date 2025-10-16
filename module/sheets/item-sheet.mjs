@@ -780,10 +780,11 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
         name: "SIDEBAR.Delete",
         icon: '<i class="fas fa-trash"></i>',
         condition: _ => this.actor.isOwner,
-        callback: element => {
+        callback: async element => {
           const itemId = element.dataset.itemId;
           const item = this.actor.items.get(itemId);
-          item.delete();
+          await item.delete();
+          this.render();
         },
       },
     ];
