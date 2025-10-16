@@ -687,11 +687,11 @@ export class AetherNexusItemSheet extends api.HandlebarsApplicationMixin(
   async _onDropQuality(event, data) {
     if (data.system.equipmentType != this.item.type)
       return ui.notifications.error(`This quality is for ${data.system.equipmentType}, but this item is a ${this.item.type}.`);
-    if (data.system.equipmentType == "weapon" && data.system.attackType && data.system.attackType != this.item.attackType)
+    if (data.system.equipmentType == "weapon" && data.system.attackType && data.system.attackType != this.item.system.attackType)
       return ui.notifications.error(`This quality is for ${data.system.attackType} attacks, but this item is has ${this.item.system.attackType} attack.`);
-    if (data.system.equipmentType == "weapon" && data.system.weaponType && data.system.weaponType.toLower() != this.item.weaponType.toLower())
+    if (data.system.equipmentType == "weapon" && data.system.weaponType && data.system.weaponType.toLowerCase() != this.item.system.weaponType.toLowerCase())
       return ui.notifications.error(`This quality is for ${data.system.weaponType} weapons, but this item is a ${this.item.system.weaponType} weapon.`);
-    if (data.system.equipmentType == "shield" && data.system.shieldType && data.system.shieldType != this.item.shieldType)
+    if (data.system.equipmentType == "shield" && data.system.shieldType && data.system.shieldType != this.item.system.shieldType)
       return ui.notifications.error(`This quality is for ${data.system.shieldType} shields, but this item is a ${this.item.system.shieldType} shield.`);
 
     let qualitiesAssocited = this.item.parent.items.filter(it => it.type == "quality" && it.system.associated == this.item.id);
