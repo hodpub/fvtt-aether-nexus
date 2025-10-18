@@ -849,8 +849,8 @@ export class AetherNexusActorShipSheet extends AetherNexusBaseActorSheet {
    * Creates the context menu for the items
    */
   _contextMenu(html) {
-    ContextMenu.create(this, html, "div.crew-item", this._getItemContextOptions());
-    ContextMenu.create(this, html, "div.component-item", this._getItemContextOptions());
+    this._createContextMenu(this._getItemContextOptions, "div.augmendiv.crew-item");
+    this._createContextMenu(this._getItemContextOptions, "div.component-item");
   }
 
   _getItemContextOptions() {

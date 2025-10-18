@@ -13,7 +13,7 @@ export class AetherNexusActorNemesesSheet extends AetherNexusActorNpcSheet {
   static DEFAULT_OPTIONS = {
     classes: ['aether-nexus', 'actor', 'npc', 'nemeses'],
     position: {
-      width: 600,
+      width: 800,
       height: 600,
     },
     actions: {
@@ -383,7 +383,7 @@ export class AetherNexusActorNemesesSheet extends AetherNexusActorNpcSheet {
    * Creates the context menu for the items
    */
   _contextMenu(html) {
-    ContextMenu.create(this, html, "div.foe-item", this._getItemContextOptions());
+    this._createContextMenu(this._getItemContextOptions, "div.foe-item");
   }
 
   _getItemContextOptions() {
